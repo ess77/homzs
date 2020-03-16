@@ -6,6 +6,7 @@ import THButton from './THButton';
 import RemoteSubmitButton from './RemoteSubmitButton';
 import { CONTACT_FORM } from '../constants/FormNames';
 import THTextInputForm from './THTextInputForm';
+import UselessTextInput from './TestInput';
 
 const required = values => { if(values === undefined) { return 'requis'; }} ;
   
@@ -18,12 +19,19 @@ const nameTooSimple = values => { // values = username
   if(values === 'coco' || values === 'fifi' || values === 'dede' || values === 'roro') { return 'Vous pouvez faire mieux que ça, n\'est ce pas!' }
 };
 
+const format = (value, name) => {
+  let enteredValue = new String(value);
+
+  return value + " : ";
+  // return enteredValue.replace('\w', '*');
+}
 const submit = values => {
   console.log('Validation OK! : ', values);
 }
 
-const onSubmitSuccess = () => {
-    console.log('onSubmitSuccess....');
+const onSubmitSuccess = props => {
+  // decomp = { navigation } = props;
+    console.log('onSubmitSuccess....', props);
 }
   
 const onSubmitFail = errors => {
@@ -32,21 +40,9 @@ const onSubmitFail = errors => {
   
 }
 
-const renderField = ({ label, keyboardType, meta: {touched, error, warning}, input: {onChange, ...restInput} }) => {
-  return (
-      <View style={THStyles.THIFmainContainer}>
-          <View style={THStyles.renderField}>
-              <Text style={THStyles.THIFlabelContainer}>{label}</Text>
-              <TextInput style={THStyles.THIFinputDefault} keyboardType={keyboardType} onChangeText={onChange} {...restInput} ></TextInput>
-          </View>
-          {touched && ((error && <Text style={{color: 'red'}}>{error}</Text> ) || warning && <Text style={{color: 'orange'}}>{warning}</Text>)}
-      </View>
-  );
-}
-
 class SignInField extends Component {
   render() {
-    decomp = { handleSubmit, navigation } = this.props;
+    const decomp = { handleSubmit, navigation } = this.props;
     return (
         <View style={THStyles.filterComponent}>
             <View style={THStyles.userSignInForm}>
@@ -54,12 +50,15 @@ class SignInField extends Component {
                   <Text>Test Form : </Text>
                   <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[required, nameMax20]} warn={[nameTooSimple]} />
                   <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
-                  <Field keyboardType="numeric" label="Password" component={THTextInputForm} name="password" validate={[required]} />
+                  <Field keyboardType="default" label="Password" component={THTextInputForm} name="password" validate={[required]} format={() => format()} />
                 </View>
                 <View style={THStyles.buttonGroup2}>
-                    <THButton text="Annuler" onPress={() => {decomp.navigation.goBack()}} theme="cancel" outline size="small"/>
-                    <THButton text="Connexion" onPress={decomp.handleSubmit(submit)} theme="validate" outline size="small"/>
-                    <RemoteSubmitButton />
+                  <THButton text="Annuler" onPress={() => {decomp.navigation.goBack()}} theme="cancel" outline size="small"/>
+                  <THButton text="Connexion" onPress={decomp.handleSubmit(submit)} theme="validate" outline size="small"/>
+                  <RemoteSubmitButton />
+                </View>
+                <View>
+                  <UselessTextInput />
                 </View>
             </View>
             <View style={THStyles.buttonContainerSignIn}>
@@ -74,7 +73,7 @@ class SignInField extends Component {
 
 export const SignInForm = reduxForm({
     form: CONTACT_FORM,
+    onSubmit: submit,
     onSubmitSuccess,
     onSubmitFail,
-    onSubmit: submit,
   })(SignInField);
