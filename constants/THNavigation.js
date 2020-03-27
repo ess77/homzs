@@ -13,6 +13,7 @@ import HomeScreenUser from '../components/HomeScreenUser';
 import HomeScreenFacade from '../components/HomeScreenFacade';
 import TestFormScreen from '../components/TestFormScreen';
 import SignInScreenNDB from '../components/SignInScreenNDB';
+import MyNewForm from '../components/MyNewForm';
 
 export const  TinderHousesScreen = (props) => {
     return (
@@ -59,6 +60,7 @@ export const AppNavigator = createStackNavigator(
       DrawerNav: TinderHousesScreen,
       Favorite: FavoriteHousesScreen,
       SignIn: SignInScreen,
+      MyNewForm: MyNewForm,
       SignInNDB: SignInScreenNDB,
       SignUp: SignUpScreen,
       TestFlex: TestFlex,
