@@ -9,7 +9,7 @@ export default class THTextInputForm extends Component {
                 <View style={THStyles.THIFmainContainer}>
                     <View style={THStyles.renderField}>
                         <Text style={THStyles.THIFlabelContainer}>{label}</Text>
-                        <TextInput style={THStyles.THIFinputDefault} keyboardType={keyboardType} onChangeText={onChange} autoFocus={true} {...restInput} ></TextInput>
+                        <TextInput style={THStyles.THIFinputDefault} keyboardType={keyboardType} onChangeText={onChange} ></TextInput>
                     </View>
                     {touched && ((error && <Text style={{color: 'green'}}>{error}</Text> ) || warning && <Text style={{color: 'orange'}}>{warning}</Text>)}
                 </View>

@@ -10,10 +10,12 @@ import UserLocation from '../components/UserLocation';
 import SignUpPartTime from '../components/SignUpPartTime';
 import SignUpThirdPart from '../components/SignUpThirdPart';
 import HomeScreenUser from '../components/HomeScreenUser';
-import HomeScreenFacade from '../components/HomeScreenFacade';
+// import HomeScreenFacade from '../components/HomeScreenFacade';
+import HomeScreenFacade2 from '../components/HomeScreenFacade2';
 import TestFormScreen from '../components/TestFormScreen';
 import SignInScreenNDB from '../components/SignInScreenNDB';
 import MyNewForm from '../components/MyNewForm';
+import SendPassword from '../components/SendPassword';
 
 export const  TinderHousesScreen = (props) => {
     return (
@@ -26,7 +28,7 @@ export const  TinderHousesScreen = (props) => {
 export const AppNavigator = createStackNavigator(
     {
       Home: {
-        screen: HomeScreenFacade,
+        screen: HomeScreenFacade2,
       },
       HomeUser: {
         screen: HomeScreenUser,
@@ -41,6 +43,7 @@ export const AppNavigator = createStackNavigator(
       SignUp: {
         screen: SignUpScreen,
       },
+      SendPass: SendPassword,
       TestFlex: TestFlex,
       LocateUser: UserLocation,
       SignUpPT: SignUpPartTime,
@@ -54,7 +57,8 @@ export const AppNavigator = createStackNavigator(
   
   export const AppDrawerNavigator = createDrawerNavigator(
     {
-      Home: HomeScreenFacade,
+      // Home: HomeScreenFacade,
+      Home: HomeScreenFacade2,
       HomeUser: HomeScreenUser,
       TinderHouses: TinderHouses,
       DrawerNav: TinderHousesScreen,

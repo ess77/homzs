@@ -25,6 +25,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "https://expo.io/@molpet17/Tinder_Houzze"
   }
 }

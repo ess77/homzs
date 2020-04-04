@@ -3,10 +3,10 @@ import { Text, View, TextInput } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 import THStyles from '../constants/THStyles';
 import THButton from './THButton';
-import RemoteSubmitButton from './RemoteSubmitButton';
 import { CONTACT_FORM } from '../constants/FormNames';
 import THTextInputForm from './THTextInputForm';
-import UselessTextInput from './TestInput';
+import * as firebase from 'firebase';
+
 
 const required = values => { if(values === undefined) { return 'requis'; }} ;
   
@@ -25,9 +25,26 @@ const format = (value, name) => {
   return value + " : ";
   // return enteredValue.replace('\w', '*');
 }
+
+const signInWithEmailAndPasswordHandler = (event,email, password) => {
+  // event.preventDefault();
+  console.log('signInWithEmailAndPasswordHandler : success : ' + email);
+  firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+    console.log('authenticated.');
+    
+  })
+    .catch(error => {
+          setError('Erreur lors du sign in par email et password.');
+          console.error('Erreur lors du sign in par email et password.' +error);
+  });
+};
+
 const submit = values => {
+  const { event, email, password, username } = values;
   console.log('Validation OK! : ', values);
+  signInWithEmailAndPasswordHandler(event, email, password);s
 }
+
 
 const onSubmitSuccess = props => {
   // decomp = { navigation } = props;
@@ -39,6 +56,8 @@ const onSubmitFail = errors => {
   console.log('Ne vous acharnez pas, ça ne marchera pas!!!\n', errors);
   
 }
+
+
 
 class SignInField extends Component {
   render() {
@@ -54,11 +73,7 @@ class SignInField extends Component {
                 </View>
                 <View style={THStyles.buttonGroup2}>
                   <THButton text="Annuler" onPress={() => {decomp.navigation.goBack()}} theme="cancel" outline size="small"/>
-                  <THButton text="Connexion" onPress={decomp.handleSubmit(submit)} theme="validate" outline size="small"/>
-                  <RemoteSubmitButton />
-                </View>
-                <View>
-                  <UselessTextInput />
+                  <THButton type="submit" text="Connexion" onPress={decomp.handleSubmit(submit)} theme="validate" outline size="small"/>
                 </View>
             </View>
             <View style={THStyles.buttonContainerSignIn}>
@@ -72,8 +87,8 @@ class SignInField extends Component {
 };
 
 export const SignInForm = reduxForm({
-    form: CONTACT_FORM,
-    onSubmit: submit,
-    onSubmitSuccess,
-    onSubmitFail,
-  })(SignInField);
+  form: CONTACT_FORM,
+  onSubmit: submit,
+  onSubmitSuccess,
+  onSubmitFail,
+})(SignInField);

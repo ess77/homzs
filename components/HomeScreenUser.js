@@ -4,6 +4,7 @@ import Colors from '../constants/Colors';
 import THButton from './THButton';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
+import Copyright from './Copyright';
 
 
 export default class HomeScreenUser extends Component {
@@ -56,9 +57,7 @@ export default class HomeScreenUser extends Component {
                     <THButton text='Transactions' onPress={() => this.props.navigation.navigate('TestFlex')} theme="homeBottom" outline size="small"/>
                 </View>
               </View>
-              <View style={THStyles.copyrightContainer}>
-                <Text style={THStyles.copyrightText}>{THConstants.copyrightText}</Text>
-              </View>
+              <Copyright />
             </ImageBackground>
           </View>
     )

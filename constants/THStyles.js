@@ -81,6 +81,21 @@ export default THStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  topScreen: {
+    flex: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  middleScreen: {
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bottomScreen: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   filterComponent: {
     flex: 1,
     backgroundColor: Colors.whitePurpled,
@@ -92,6 +107,7 @@ export default THStyles = StyleSheet.create({
     resizeMode: 'cover',
   },
   imageContainer: {
+    display: 'flex', /* default value */
     opacity: .8,
     alignItems: 'center',
     justifyContent: 'space-around',

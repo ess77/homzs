@@ -8,9 +8,8 @@ import THButton from './THButton';
 import THConstants from '../constants/THConstants';
 
 import THStyles from '../constants/THStyles';
-import Copyright from './Copyright';
 
-export default class HomeScreenFacade extends Component {
+export default class HomeScreenFacade2 extends Component {
     HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
     CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');
     
@@ -47,12 +46,15 @@ export default class HomeScreenFacade extends Component {
       return (
           <View style={THStyles.screen}>
             <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
-              <View style={THStyles.filterComponent}>
+            <View style={THStyles.filterComponent}>
+              <View style={THStyles.topScreen}>
                 <View style={THStyles.imageContainer} >
-                    <Image  source={this.CentraleHomeScreenImageUri} style={THStyles.centralImage}></Image>
-                    <Text style={THStyles.logoTitle}>TinderHouse</Text>
-                    <Text style={THStyles.middleLeitmotive}>Vente Rapide  -  Achat Rapide</Text>
+                  <Image  source={this.CentraleHomeScreenImageUri} style={THStyles.centralImage}></Image>
+                  <Text style={THStyles.logoTitle}>TinderHouse</Text>
+                  <Text style={THStyles.middleLeitmotive}>Vente Rapide  -  Achat Rapide</Text>
                 </View>
+              </View>
+              <View style={THStyles.middleScreen}>
                 <View style={THStyles.startActionUserButtonContainer}>
                   <View style={THStyles.startActionUserSignUp}>
                       <THButton text="Inscription" onPress={() => {this.props.navigation.navigate('SignUp', this.connectionParams)}} theme="homeStart" outline size="default"/>
@@ -62,13 +64,20 @@ export default class HomeScreenFacade extends Component {
                       <THButton text="ConnexionNDB" onPress={() => {this.props.navigation.navigate('SignInNDB', this.connectionParams)}} theme="homeStart" outline size="small"/>
                   </View>
                 </View>
-                <View style={THStyles.buttonContainer}>
-                    <THButton text="Recherche" onPress={() => {this.props.navigation.navigate('LocateUser')}} theme="homeBottom" outline size="small"/>
-                    <THButton text="Selection" onPress={() => {this.props.navigation.navigate('TinderHouses')}} theme="homeBottom" outline size="small"/>
-                    <THButton text='Transactions' onPress={() => this.props.navigation.navigate('TestFlex')} theme="homeBottom" outline size="small"/>
+              </View>
+              <View style={THStyles.bottomScreen}>
+                <View>
+                  <View style={THStyles.buttonContainer}>
+                      <THButton text="Recherche" onPress={() => {this.props.navigation.navigate('LocateUser')}} theme="homeBottom" outline size="small"/>
+                      <THButton text="Selection" onPress={() => {this.props.navigation.navigate('TinderHouses')}} theme="homeBottom" outline size="small"/>
+                      <THButton text='Transactions' onPress={() => this.props.navigation.navigate('TestFlex')} theme="homeBottom" outline size="small"/>
+                  </View>
+                </View>
+                <View>
+                  <Text style={THStyles.copyrightText}>{THConstants.copyrightText}</Text>
                 </View>
               </View>
-              <Copyright />
+            </View>
             </ImageBackground>
           </View>
         );

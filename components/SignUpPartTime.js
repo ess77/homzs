@@ -3,6 +3,7 @@ import { Text, View, TextInput, TouchableOpacity, ImageBackground } from 'react-
 import Colors from '../constants/Colors';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
+import Copyright from './Copyright';
 
 export default class SignUpPartTime extends Component {
     HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
@@ -30,9 +31,7 @@ export default class SignUpPartTime extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={THStyles.copyrightContainer}>
-                    <Text style={THStyles.copyrightText}>{THConstants.copyrightText}</Text>
-                </View>
+                <Copyright />
             </ImageBackground>
             );
         }

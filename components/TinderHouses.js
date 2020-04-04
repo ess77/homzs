@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import { StyleSheet, View, Button, Dimensions, Animated, Image, Modal, PanResponder, Text } from 'react-native';
 import Colors from '../constants/Colors';
 import Slide from '../constants/Slide';
+import Copyright from './Copyright';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -168,6 +169,7 @@ export default class TinderHouses extends Component {
                             <Button title="Reset" onPress={this.resetTinderHouzze} color="green" ></Button>
                         </View>
                     </View>
+                    <Copyright />
                 </View>
              );
          }

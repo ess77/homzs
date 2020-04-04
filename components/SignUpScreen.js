@@ -5,6 +5,7 @@ import THButton from './THButton';
 import THTextInput from './THTextInput';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
+import Copyright from './Copyright';
 
 
 export default class SignUpScreen extends Component {
@@ -30,6 +31,20 @@ export default class SignUpScreen extends Component {
     return ({ headerStyle, headerTitleStyle, headerTitle, headerRight, headerBackTitle });
   }
 
+  createUserWithEmailAndPasswordHandler = (event, email, password) => {
+    event.preventDefault();
+    console.log('test signup');
+    try {
+      const {user} =  auth.createUserWithEmailAndPassword(email, password);
+      generateUserDocument(user, {displayName});
+    } catch(error) {
+      setError('Erreur lors du sign up par email et password' + error, error);
+    };
+
+    setEmail("");
+    setPassword("");
+    setDisplayName("");
+  };
 
   _onConnection() { 
     console.log('Connecté : ', this.props.navigation.state.params.connected);
@@ -56,7 +71,7 @@ export default class SignUpScreen extends Component {
                 <View style={THStyles.buttonGroup2}>
                     <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" size="small"/>
                     <THButton text="PartTime" onPress={() => {this.props.navigation.navigate('SignUpPT')}} theme="validate" size="small"/>
-                    <THButton text="Valider" onPress={() => {this.props.navigation.navigate('SignIn')}} theme="validate" outline size="small"/>
+                    <THButton text="Valider" onPress={() => {(event) => this.createUserWithEmailAndPasswordHandler(event, email, password)}} theme="validate" outline size="small"/>
                 </View>
               </View>
               <View style={THStyles.buttonContainerSignUp}>
@@ -65,9 +80,7 @@ export default class SignUpScreen extends Component {
                 <THButton text='Transactions' onPress={() => this.props.navigation.navigate('TestFlex')} theme="homeBottom" outline size="small"/>
             </View>
           </View>
-          <View style={THStyles.copyrightContainer}>
-            <Text style={THStyles.copyrightText}>{THConstants.copyrightText}</Text>
-          </View>
+          <Copyright />
         </ImageBackground>
         </View>
         );

@@ -5,6 +5,7 @@ import THButton from './THButton';
 import THTextInput from './THTextInput';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
+import Copyright from './Copyright';
 
 export default class SignInScreenNDB extends Component {
     HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
@@ -61,9 +62,7 @@ export default class SignInScreenNDB extends Component {
                     <THButton text='Transactions' onPress={() => this.props.navigation.navigate('TestFlex')} theme="homeBottom" outline size="small"/>
                 </View>
             </View>
-            <View style={THStyles.copyrightContainer}>
-                <Text style={THStyles.copyrightText}>{THConstants.copyrightText}</Text>
-            </View>
+            <Copyright />
         </ImageBackground>
         );
     }

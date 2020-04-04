@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
 import MapView from 'react-native-maps'
 import FetchLocation from './FetchLocation'
+import Copyright from './Copyright'
 
 export default class UserLocation extends Component {
    
@@ -40,6 +41,7 @@ export default class UserLocation extends Component {
             <View style={styles.container}>
                 <FetchLocation onGetLocation={this.getUserLocation} />
                 <UsersMap userLocation={this.state.userLocation} ></UsersMap>
+                <Copyright />
             </View>
         )
     }

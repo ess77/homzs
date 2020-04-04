@@ -5,6 +5,7 @@ import THButton from './THButton';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import { SignInForm } from './SignInForm';
+import Copyright from './Copyright';
   
 
 
@@ -33,13 +34,13 @@ export default class SignInScreen extends Component {
 
     _onConnection() { 
       this.props.navigation.setParams({ connected: true });
-      console.log('Connecté : ', this.props.navigation.state.params.connected);
+      console.log('Connecté1 : ', this.props.navigation.state.params.connected);
      }
 
 
     componentDidMount() {
       // this.props.navigation.setParams({ onConnection: this._onConnection.bind(this) });
-      console.log('Connecté : ', this.props.navigation);
+      console.log('Connecté2 : ', this.props.navigation);
     }
   
 
@@ -47,9 +48,7 @@ export default class SignInScreen extends Component {
       return (
         <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
             <SignInForm navigation={this.props.navigation} />
-            <View style={THStyles.copyrightContainer}>
-                <Text style={THStyles.copyrightText}>{THConstants.copyrightText}</Text>
-            </View>
+            <Copyright />
         </ImageBackground>
         );
     }

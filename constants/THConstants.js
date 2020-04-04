@@ -1,5 +1,5 @@
  export default THConstants = {
-    copyrightText: 'Copyright ©TinderHouzze 2019',
+    copyrightText: 'Copyright ©TinderHouzze 2020',
     notConnected: 'Non Connecté',
     connected: 'Connecté',
     submit: 'Valider',
