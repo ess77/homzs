@@ -5,9 +5,15 @@ import THButton from './THButton';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
+import UserConnectedPad from './sessionManagement/UserConnectedPad';
 
 
 export default class HomeScreenUser extends Component {
+  constructor(props) {
+    super(props);
+    console.log('this.props.userCredentials : ' + this.props.userCredentials);
+    
+  }
   HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
   CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');
   
@@ -32,7 +38,7 @@ export default class HomeScreenUser extends Component {
   }
 
 
-  _onConnection() { 
+  _onConnection() {
     console.log('Connecté : ', this.props.navigation.state.params.connected);
    }
 
@@ -45,8 +51,9 @@ export default class HomeScreenUser extends Component {
     return (
       <View style={THStyles.screen}>
             <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
-              <View style={THStyles.filterComponent}>
-                <View style={THStyles.imageContainer} >
+            <View style={THStyles.filterComponent}>
+            <View style={THStyles.imageContainer} >
+            <UserConnectedPad user={this.props.userCredentials} />
                     <Image  source={this.CentraleHomeScreenImageUri} style={THStyles.centralImage}></Image>
                     <Text style={THStyles.logoTitle}>TinderHouse</Text>
                     <Text style={THStyles.middleLeitmotive}>Vente Rapide  -  Achat Rapide</Text>

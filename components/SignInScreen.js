@@ -40,7 +40,7 @@ export default class SignInScreen extends Component {
 
     componentDidMount() {
       // this.props.navigation.setParams({ onConnection: this._onConnection.bind(this) });
-      console.log('Connecté2 : ', this.props.navigation);
+      // console.log('Connecté2 : ', this.props.navigation);
     }
   
 

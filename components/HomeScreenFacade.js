@@ -8,7 +8,6 @@ import THButton from './THButton';
 import THConstants from '../constants/THConstants';
 
 import THStyles from '../constants/THStyles';
-import Copyright from './Copyright';
 
 export default class HomeScreenFacade extends Component {
     HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');

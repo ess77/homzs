@@ -20,6 +20,7 @@ export default class App extends Component {
             isLoadingComplete: false,
             isAuthenticationReady:  false,
             isAuthenticated: false,
+            user: null,
         };
 
         //initialse firebase
@@ -30,13 +31,15 @@ export default class App extends Component {
         firebase.auth().onAuthStateChanged(this.onAuthStateChangedLocal); 
     }
 
-    onAuthStateChangedLocal = (user) => {
-        console.log('onAuthStateChanged');
+    onAuthStateChangedLocal = async (user) => {
+        // console.log('onAuthStateChanged : user : ' + user.email);
         this.setState({isAuthenticationReady: true});
         this.setState({isAuthenticated: !!user});
+        this.setState({user: user});
     }
     render() {
             if(!this.state.isLoadingComplete && !this.state.isAuthenticationReady && !this.props.skipLoadingScreen) {
+                {console.log('App:render : this.state.user 1 : ' + this.state.user)}
                 return ( 
                     <AppLoading 
                             startAsync={this._loadResourcesAsync}
@@ -44,11 +47,18 @@ export default class App extends Component {
                             onFinish={this._handleFinishLoading} 
                     />);
             } else {
-                return (
-                <Provider store={store} >
-                    {(this.isAuthenticated)? <HomeScreenUser /> : <AppContainer />}
-                </Provider>
-                );
+                if(this.state.user) {
+                    console.log('App:render : this.state.user 2 : ' + this.state.user.uid);
+                    return (
+                    <Provider store={store} >
+                        {(this.state.isAuthenticated)? <HomeScreenUser userCredentials={this.state.user} /> : <AppContainer />}
+                    </Provider>
+                );} else {
+                    return (
+                        <Provider store={store} >
+                          <AppContainer />
+                        </Provider>)
+                }
             }
     }
 };

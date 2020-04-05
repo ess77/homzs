@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, AppRegistry } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Colors from '../constants/Colors';
                                                                     
 export default class MyJs extends Component {

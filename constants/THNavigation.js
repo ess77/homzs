@@ -16,6 +16,7 @@ import TestFormScreen from '../components/TestFormScreen';
 import SignInScreenNDB from '../components/SignInScreenNDB';
 import MyNewForm from '../components/MyNewForm';
 import SendPassword from '../components/SendPassword';
+import UserConnectedPad from '../components/sessionManagement/UserConnectedPad';
 
 export const  TinderHousesScreen = (props) => {
     return (
@@ -60,6 +61,7 @@ export const AppNavigator = createStackNavigator(
       // Home: HomeScreenFacade,
       Home: HomeScreenFacade2,
       HomeUser: HomeScreenUser,
+      UserConnectedPad: UserConnectedPad,
       TinderHouses: TinderHouses,
       DrawerNav: TinderHousesScreen,
       Favorite: FavoriteHousesScreen,
