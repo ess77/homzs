@@ -13,6 +13,7 @@ export default Colors = {
     PRIMARY_COLOR: 'rgba(0,123,255,0.5)', //Bleue Pastel
     SECONDARY_COLOR: 'rgba(130,192,56,0.5)', //Vert très light
     TH_HOME_COLOR: 'rgba(70,44,8,.5)', //Marron verdâtre
+    TH_POPUP: 'rgba(70,44,8,.8)', //Marron verdâtre
     VALIDATE_COLOR: 'rgba(50,173,35,.5)', //Vert light
     CANCEL_COLOR: 'rgba(206,40,35,.5)', //Rouge-Bordeaux
 }

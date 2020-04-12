@@ -78,7 +78,7 @@ class SignInField extends Component {
                   <THButton type="submit" text="Connexion" onPress={decomp.handleSubmit(submitval)} theme="validate" outline size="small"/>
                 </View>
               </View>
-              <THBaseButtons style={THStyles.buttonContainerSignIn} />
+              <THBaseButtons style={THStyles.buttonContainer} fromTop='210' />
         </View>
     );
   }

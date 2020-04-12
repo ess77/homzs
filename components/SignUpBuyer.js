@@ -9,7 +9,7 @@ import Copyright from './Copyright';
 import THBaseButtons from './THBaseButtons';
 
 
-export default class SignUpScreen extends Component {
+export default class SignUpBuyer extends Component {
   HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
   CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');
   
@@ -32,12 +32,13 @@ export default class SignUpScreen extends Component {
     return ({ headerStyle, headerTitleStyle, headerTitle, headerRight, headerBackTitle });
   }
 
-  createUserWithEmailAndPasswordHandler = (event, email, password) => {
-    event.preventDefault();
-    console.log('test signup');
+  createUserWithEmailAndPasswordHandler = (email, password) => {
+    // event.preventDefault();
+    console.log('test signup Buyer');
     try {
       const {user} =  auth.createUserWithEmailAndPassword(email, password);
       generateUserDocument(user, {displayName});
+      this.props.navigation.navigate('SignIn', this.connectionParams);
     } catch(error) {
       setError('Erreur lors du sign up par email et password' + error, error);
     };
@@ -54,7 +55,7 @@ export default class SignUpScreen extends Component {
   componentDidMount() {
     // this.props.navigation.setParams({ onConnection: this._onConnection.bind(this) });
   }
-
+  connectionParams = {  onConnection: this._onConnection.bind(this), connected: false };
   render() {
     return (
       <View style={THStyles.screen}>
@@ -71,11 +72,10 @@ export default class SignUpScreen extends Component {
                 </View>
                 <View style={THStyles.buttonGroup2}>
                     <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" size="small"/>
-                    <THButton text="PartTime" onPress={() => {this.props.navigation.navigate('SignUpPT')}} theme="validate" size="small"/>
-                    <THButton text="Valider" onPress={() => {(event) => this.createUserWithEmailAndPasswordHandler(event, email, password)}} theme="validate" outline size="small"/>
+                    <THButton text="Valider" onPress={() => this.createUserWithEmailAndPasswordHandler(email, password)} theme="validate" outline size="small"/>
                 </View>
               </View>
-              <THBaseButtons style={THStyles.buttonContainerSignUp} />
+              <THBaseButtons style={THStyles.buttonContainer} fromTop='170' />
           </View>
           <Copyright />
         </ImageBackground>

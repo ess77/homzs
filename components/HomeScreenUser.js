@@ -59,7 +59,7 @@ export default class HomeScreenUser extends Component {
                     <Text style={THStyles.logoTitle}>TinderHouse</Text>
                     <Text style={THStyles.middleLeitmotive}>Vente Rapide  -  Achat Rapide</Text>
                 </View>
-                <THBaseButtons style={THStyles.buttonContainerUser} />
+                <THBaseButtons style={THStyles.buttonContainer} fromTop='235'  />
               </View>
               <Copyright />
             </ImageBackground>

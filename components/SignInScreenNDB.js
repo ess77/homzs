@@ -57,7 +57,7 @@ export default class SignInScreenNDB extends Component {
                         <THButton text="Connexion" onPress={() => {this.props.navigation.navigate('HomeUser')}} theme="validate" outline size="small"/>
                     </View>
                 </View>
-                <THBaseButtons style={THStyles.buttonContainerSignIn} />
+                <THBaseButtons style={THStyles.buttonContainer} fromTop='210' />
             </View>
             <Copyright />
         </ImageBackground>

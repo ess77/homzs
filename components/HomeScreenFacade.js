@@ -62,8 +62,8 @@ export default class HomeScreenFacade extends Component {
                       <THButton text="ConnexionNDB" onPress={() => {this.props.navigation.navigate('SignInNDB', this.connectionParams)}} theme="homeStart" outline size="small"/>
                   </View>
                 </View>
-                <THBaseButtons style={THStyles.buttonContainer} />
-              </View>
+                </View>
+                <THBaseButtons style={THStyles.buttonContainer} fromTop='35' />
               <Copyright />
             </ImageBackground>
           </View>

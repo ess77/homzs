@@ -9,7 +9,7 @@ import Copyright from './Copyright';
 import THBaseButtons from './THBaseButtons';
 
 
-export default class SignUpPartTime extends Component {
+export default class SignUpSeller extends Component {
   HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
   CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');
   
@@ -34,7 +34,7 @@ export default class SignUpPartTime extends Component {
 
   createUserWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault();
-    console.log('test signup Part time');
+    console.log('test signup Seller');
     try {
       const {user} =  auth.createUserWithEmailAndPassword(email, password);
       generateUserDocument(user, {displayName});
@@ -65,19 +65,14 @@ export default class SignUpPartTime extends Component {
                 <View style={THStyles.startActionUserSignIn}>
                   <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Prenom : " />
                   <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Nom : " />
-                  <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Date de Naissance : " />
                   <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Pseudo : " />
                   <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Mail : " />
                   <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Tél. Port. : " />
                   <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Tél. Fixe : " />
-                  <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Niveau d'étude : " />
-                  <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Diplôme Préparée : " />
-                  <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Université : " />
-                  <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Diplôme Préparée : " />
                 </View>
                 <View style={THStyles.buttonGroup2}>
                     <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" size="small"/>
-                    <THButton text="Valider" onPress={() => {(event) => this.createUserWithEmailAndPasswordHandler(event, email, password)}} theme="validate" outline size="small"/>
+                    <THButton text="Valider" onPress={(event) => this.createUserWithEmailAndPasswordHandler(event, email, password)} theme="validate" outline size="small"/>
                 </View>
               </View>
               <THBaseButtons style={THStyles.buttonContainer} fromTop='170' />

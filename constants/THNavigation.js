@@ -4,7 +4,8 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import TinderHouses from '../components/TinderHouses';
 import SignInScreen from '../components/SignInScreen';
 import FavoriteHousesScreen from '../components/FavoriteHousesScreen';
-import SignUpScreen from '../components/SignUpScreen';
+import SignUpBuyer from '../components/SignUpBuyer';
+import SignUpChoice from '../components/SignUpChoice';
 import TestFlex from '../components/TestFlex';
 import UserLocation from '../components/UserLocation';
 import SignUpPartTime from '../components/SignUpPartTime';
@@ -17,6 +18,8 @@ import SignInScreenNDB from '../components/SignInScreenNDB';
 import MyNewForm from '../components/MyNewForm';
 import SendPassword from '../components/SendPassword';
 import UserConnectedPad from '../components/sessionManagement/UserConnectedPad';
+import SignUpSeller from '../components/SignUpSeller';
+import SignUpMediator from '../components/SignUpMediator';
 
 export const  TinderHousesScreen = (props) => {
     return (
@@ -42,7 +45,7 @@ export const AppNavigator = createStackNavigator(
         screen: SignInScreen,
       },
       SignUp: {
-        screen: SignUpScreen,
+        screen: SignUpBuyer,
       },
       SendPass: SendPassword,
       TestFlex: TestFlex,
@@ -68,7 +71,11 @@ export const AppNavigator = createStackNavigator(
       SignIn: SignInScreen,
       MyNewForm: MyNewForm,
       SignInNDB: SignInScreenNDB,
-      SignUp: SignUpScreen,
+      SignUpChoice: SignUpChoice,
+      SignUpBuyer: SignUpBuyer,
+      SignUpSeller: SignUpSeller,
+      SignUpMediator: SignUpMediator,
+      SignUpPT: SignUpPartTime,
       TestFlex: TestFlex,
       LocateUser: UserLocation,
       SignUpPT: SignUpPartTime,

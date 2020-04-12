@@ -7,9 +7,10 @@ import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
 import THBaseButtons from './THBaseButtons';
+import { TextInput } from 'react-native-gesture-handler';
 
 
-export default class SignUpPartTime extends Component {
+export default class SignUpMediator extends Component {
   HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
   CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');
   
@@ -34,7 +35,7 @@ export default class SignUpPartTime extends Component {
 
   createUserWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault();
-    console.log('test signup Part time');
+    console.log('test signup Mediator');
     try {
       const {user} =  auth.createUserWithEmailAndPassword(email, password);
       generateUserDocument(user, {displayName});
@@ -65,15 +66,13 @@ export default class SignUpPartTime extends Component {
                 <View style={THStyles.startActionUserSignIn}>
                   <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Prenom : " />
                   <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Nom : " />
-                  <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Date de Naissance : " />
                   <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Pseudo : " />
                   <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Mail : " />
+                  <TextInput style={THStyles.inputBox} placeholder="Agence/SIRET " placeholderTextColor={Colors.button} />
+                  <TextInput style={THStyles.inputBox} placeholder="N°RSCAC-Agent " placeholderTextColor={Colors.button} />
+                  <TextInput style={THStyles.inputBox} placeholder="Adresse" placeholderTextColor={Colors.button} />
                   <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Tél. Port. : " />
                   <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Tél. Fixe : " />
-                  <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Niveau d'étude : " />
-                  <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Diplôme Préparée : " />
-                  <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Université : " />
-                  <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Diplôme Préparée : " />
                 </View>
                 <View style={THStyles.buttonGroup2}>
                     <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" size="small"/>

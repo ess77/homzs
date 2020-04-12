@@ -11,13 +11,12 @@ import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
 import THBaseButtons from './THBaseButtons';
 
-export default class HomeScreenFacade2 extends Component {
+export default class StandardGenericComponent extends Component {
     HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
-    CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');
     
     static  navigationOptions = ({ navigation }) => {
       const { params = {} } = navigation.state;
-      let headerTitle = 'Home';
+      let headerTitle = 'Generic';
       let headerTitleStyle = {
         color: 'white',
       };
@@ -49,24 +48,9 @@ export default class HomeScreenFacade2 extends Component {
           <View style={THStyles.screen}>
             <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
             <View style={THStyles.filterComponent}>
-              <View style={THStyles.imageContainer} >
-                <Image  source={this.CentraleHomeScreenImageUri} style={THStyles.centralImage}></Image>
-                <Text style={THStyles.logoTitle}>TinderHouse</Text>
-                <Text style={THStyles.middleLeitmotive}>Vente Rapide  -  Achat Rapide</Text>
-              </View>
-              <View style={THStyles.middleScreen}>
-                <View style={THStyles.startActionUserButtonContainer}>
-                  <View style={THStyles.startActionUserSignUp}>
-                      <THButton text="Inscription" onPress={() => {this.props.navigation.navigate('SignUpChoice', this.connectionParams)}} theme="homeStart" outline size="default"/>
-                  </View>
-                  <View style={THStyles.startActionUserSignIn}>
-                      <THButton text="Connexion" onPress={() => {this.props.navigation.navigate('SignIn', this.connectionParams)}} theme="homeStart" outline size="small"/>
-                      <THButton text="ConnexionNDB" onPress={() => {this.props.navigation.navigate('SignInNDB', this.connectionParams)}} theme="homeStart" outline size="small"/>
-                  </View>
-                </View>
-              </View>
-              <THBaseButtons style={THStyles.buttonContainer} fromTop='35' navigation={this.props.navigation} />
-              <Copyright />
+                //**insert custom items here */
+                <THBaseButtons style={THStyles.buttonContainer} fromTop='35' />
+                <Copyright />
             </View>
             </ImageBackground>
           </View>

@@ -10,7 +10,6 @@ export default THStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     width: '100%',
-    marginTop: 35,
   },
   buttonContainerSignIn: {
     flexDirection: 'row',
@@ -24,7 +23,7 @@ export default THStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     width: '100%',
-    marginTop: 85,
+    marginTop: 170,
   },
   buttonContainerUser: {
     flexDirection: 'row',

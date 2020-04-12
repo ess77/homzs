@@ -97,7 +97,7 @@ class SignInField extends Component {
                         <THButton text="Connexion" onPress={handleSubmit(submit)} theme="validate" outline size="small"/>
                     </View>
                 </View>
-                <THBaseButtons style={THStyles.buttonContainerSignIn} />
+                <THBaseButtons style={THStyles.buttonContainer} fromTop='210' />
             </View>
             <Copyright />
         </ImageBackground>
