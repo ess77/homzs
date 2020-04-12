@@ -32,6 +32,14 @@ export default class SignUpBuyer extends Component {
     return ({ headerStyle, headerTitleStyle, headerTitle, headerRight, headerBackTitle });
   }
 
+  constructor() {
+    super();
+    console.log('SignUpBuyer : constructor');
+    this.state = {
+      currentIndex: 0
+    }
+  }
+
   createUserWithEmailAndPasswordHandler = (email, password) => {
     // event.preventDefault();
     console.log('test signup Buyer');

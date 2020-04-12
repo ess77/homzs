@@ -8,7 +8,6 @@ import { SignInForm } from './SignInForm';
 import Copyright from './Copyright';
   
 
-
 export default class SignInScreen extends Component {
     HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
     CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');

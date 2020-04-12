@@ -65,20 +65,19 @@ class SignInField extends Component {
     const decomp = { handleSubmit, navigation } = this.props;
     return (
         <View style={THStyles.filterComponent}>
-           
-              <View style={THStyles.userSignInForm}>
-                <View style={THStyles.userSignInField}>
-                  <Text>Test Form : </Text>
-                  <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[nameMax20]} warn={[nameTooSimple]} />
-                  <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
-                  <Field keyboardType="default" label="Password" type="password" component={THTextInputForm} name="password" validate={[required]} format={() => format()} />
-                </View>
-                <View style={THStyles.buttonGroup2}>
-                  <THButton text="Annuler" onPress={() => {decomp.navigation.goBack()}} theme="cancel" outline size="small"/>
-                  <THButton type="submit" text="Connexion" onPress={decomp.handleSubmit(submitval)} theme="validate" outline size="small"/>
-                </View>
-              </View>
-              <THBaseButtons style={THStyles.buttonContainer} fromTop='210' />
+          <View style={THStyles.userSignInForm}>
+            <View style={THStyles.userSignInField}>
+              <Text>Test Form : </Text>
+              <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[nameMax20]} warn={[nameTooSimple]} />
+              <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
+              <Field keyboardType="default" label="Password" type="password" component={THTextInputForm} name="password" validate={[required]} format={() => format()} />
+            </View>
+            <View style={THStyles.buttonGroup2}>
+              <THButton text="Annuler" onPress={() => {decomp.navigation.goBack()}} theme="cancel" outline size="small"/>
+              <THButton type="submit" text="Connexion" onPress={decomp.handleSubmit(submitval)} theme="validate" outline size="small"/>
+            </View>
+          </View>
+          <THBaseButtons style={THStyles.buttonContainer} fromTop='210' />
         </View>
     );
   }
