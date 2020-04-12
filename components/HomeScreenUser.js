@@ -6,6 +6,7 @@ import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
 import UserConnectedPad from './sessionManagement/UserConnectedPad';
+import THBaseButtons from './THBaseButtons';
 
 
 export default class HomeScreenUser extends Component {
@@ -52,17 +53,13 @@ export default class HomeScreenUser extends Component {
       <View style={THStyles.screen}>
             <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
             <View style={THStyles.filterComponent}>
-            <View style={THStyles.imageContainer} >
-            <UserConnectedPad user={this.props.userCredentials} />
+                <View style={THStyles.imageContainer} >
+                    <UserConnectedPad user={this.props.userCredentials} />
                     <Image  source={this.CentraleHomeScreenImageUri} style={THStyles.centralImage}></Image>
                     <Text style={THStyles.logoTitle}>TinderHouse</Text>
                     <Text style={THStyles.middleLeitmotive}>Vente Rapide  -  Achat Rapide</Text>
                 </View>
-                <View style={THStyles.buttonContainerUser}>
-                    <THButton text="Recherche" onPress={() => {this.props.navigation.navigate('LocateUser')}} theme="homeBottom" outline size="small"/>
-                    <THButton text="Selection" onPress={() => {this.props.navigation.navigate('TinderHouses')}} theme="homeBottom" outline size="small"/>
-                    <THButton text='Transactions' onPress={() => this.props.navigation.navigate('TestFlex')} theme="homeBottom" outline size="small"/>
-                </View>
+                <THBaseButtons style={THStyles.buttonContainerUser} />
               </View>
               <Copyright />
             </ImageBackground>

@@ -8,6 +8,8 @@ import THButton from './THButton';
 import THConstants from '../constants/THConstants';
 
 import THStyles from '../constants/THStyles';
+import Copyright from './Copyright';
+import THBaseButtons from './THBaseButtons';
 
 export default class HomeScreenFacade2 extends Component {
     HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
@@ -67,15 +69,9 @@ export default class HomeScreenFacade2 extends Component {
               </View>
               <View style={THStyles.bottomScreen}>
                 <View>
-                  <View style={THStyles.buttonContainer}>
-                      <THButton text="Recherche" onPress={() => {this.props.navigation.navigate('LocateUser')}} theme="homeBottom" outline size="small"/>
-                      <THButton text="Selection" onPress={() => {this.props.navigation.navigate('TinderHouses')}} theme="homeBottom" outline size="small"/>
-                      <THButton text='Transactions' onPress={() => this.props.navigation.navigate('TestFlex')} theme="homeBottom" outline size="small"/>
-                  </View>
+                  <THBaseButtons style={THStyles.buttonContainer} />
                 </View>
-                <View>
-                  <Text style={THStyles.copyrightText}>{THConstants.copyrightText}</Text>
-                </View>
+                <Copyright />
               </View>
             </View>
             </ImageBackground>

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Text, View, TextInput } from 'react-native';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, Form } from 'redux-form';
 import THStyles from '../constants/THStyles';
 import THButton from './THButton';
 import { CONTACT_FORM } from '../constants/FormNames';
 import THTextInputForm from './THTextInputForm';
 import * as firebase from 'firebase';
+import THBaseButtons from './THBaseButtons';
 
 
 const required = values => { if(values === undefined) { return 'requis'; }} ;
@@ -46,14 +47,14 @@ const submitval = values => {
 }
 
 
-const onSubmitSuccess = props => {
+const submitSuccess = props => {
   // decomp = { navigation } = props;
-    console.log('onSubmitSuccess....', props);
+    console.log('submitSuccess : ', props);
 }
   
-const onSubmitFail = errors => {
+const submitFail = errors => {
   // this.props.navigation.navigate('HomeUser');
-  console.log('Ne vous acharnez pas, ça ne marchera pas!!!\n', errors);
+  console.log('submitFail : Ne vous acharnez pas, ça ne marchera pas!!!\n', errors);
   
 }
 
@@ -64,8 +65,9 @@ class SignInField extends Component {
     const decomp = { handleSubmit, navigation } = this.props;
     return (
         <View style={THStyles.filterComponent}>
-            <View style={THStyles.userSignInForm}>
-              <View style={THStyles.userSignInField}>
+           
+              <View style={THStyles.userSignInForm}>
+                <View style={THStyles.userSignInField}>
                   <Text>Test Form : </Text>
                   <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[nameMax20]} warn={[nameTooSimple]} />
                   <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
@@ -75,12 +77,8 @@ class SignInField extends Component {
                   <THButton text="Annuler" onPress={() => {decomp.navigation.goBack()}} theme="cancel" outline size="small"/>
                   <THButton type="submit" text="Connexion" onPress={decomp.handleSubmit(submitval)} theme="validate" outline size="small"/>
                 </View>
-            </View>
-            <View style={THStyles.buttonContainerSignIn}>
-                <THButton text="Recherche" onPress={() => {navigation.navigate('LocateUser')}} theme="homeBottom" outline size="small"/>
-                <THButton text="Selection" onPress={() => {navigation.navigate('TinderHouses')}} theme="homeBottom" outline size="small"/>
-                <THButton text='Transactions' onPress={() => navigation.navigate('TestFlex')} theme="homeBottom" outline size="small"/>
-            </View>
+              </View>
+              <THBaseButtons style={THStyles.buttonContainerSignIn} />
         </View>
     );
   }
@@ -88,7 +86,7 @@ class SignInField extends Component {
 
 export const SignInForm = reduxForm({
   form: CONTACT_FORM,
-  onSubmit: submitval,
-  onSubmitSuccess,
-  onSubmitFail,
+  // onSubmit: submitval,
+  onSubmitSuccess: submitSuccess,
+  onSubmitFail : submitFail,
 })(SignInField);

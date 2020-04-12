@@ -97,11 +97,7 @@ class SignInField extends Component {
                         <THButton text="Connexion" onPress={handleSubmit(submit)} theme="validate" outline size="small"/>
                     </View>
                 </View>
-                <View style={THStyles.buttonContainerSignIn}>
-                    <THButton text="Recherche" onPress={() => {this.props.navigation.navigate('LocateUser')}} theme="homeBottom" outline size="small"/>
-                    <THButton text="Selection" onPress={() => {this.props.navigation.navigate('TinderHouses')}} theme="homeBottom" outline size="small"/>
-                    <THButton text='Transactions' onPress={() => this.props.navigation.navigate('TestFlex')} theme="homeBottom" outline size="small"/>
-                </View>
+                <THBaseButtons style={THStyles.buttonContainerSignIn} />
             </View>
             <Copyright />
         </ImageBackground>

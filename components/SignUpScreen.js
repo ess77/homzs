@@ -6,6 +6,7 @@ import THTextInput from './THTextInput';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
+import THBaseButtons from './THBaseButtons';
 
 
 export default class SignUpScreen extends Component {
@@ -74,11 +75,7 @@ export default class SignUpScreen extends Component {
                     <THButton text="Valider" onPress={() => {(event) => this.createUserWithEmailAndPasswordHandler(event, email, password)}} theme="validate" outline size="small"/>
                 </View>
               </View>
-              <View style={THStyles.buttonContainerSignUp}>
-                <THButton text="Recherche" onPress={() => {this.props.navigation.navigate('LocateUser')}} theme="homeBottom" outline size="small"/>
-                <THButton text="Selection" onPress={() => {this.props.navigation.navigate('TinderHouses')}} theme="homeBottom" outline size="small"/>
-                <THButton text='Transactions' onPress={() => this.props.navigation.navigate('TestFlex')} theme="homeBottom" outline size="small"/>
-            </View>
+              <THBaseButtons style={THStyles.buttonContainerSignUp} />
           </View>
           <Copyright />
         </ImageBackground>
