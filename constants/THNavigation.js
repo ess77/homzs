@@ -4,11 +4,13 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import TinderHouses from '../components/TinderHouses';
 import SignInScreen from '../components/SignInScreen';
 import FavoriteHousesScreen from '../components/FavoriteHousesScreen';
-import SignUpBuyer from '../components/SignUpBuyer';
 import SignUpChoice from '../components/SignUpChoice';
+import SignUpBuyerWrapper from '../components/SignUpBuyerWrapper';
+import SignUpPartTimeWrapper from '../components/SignUpPartTimeWrapper';
+import SignUpSellerWrapper from '../components/SignUpSellerWrapper';
+import SignUpMediatorWrapper from '../components/SignUpMediatorWrapper';
 import TestFlex from '../components/TestFlex';
 import UserLocation from '../components/UserLocation';
-import SignUpPartTime from '../components/SignUpPartTime';
 import SignUpThirdPart from '../components/SignUpThirdPart';
 import HomeScreenUser from '../components/HomeScreenUser';
 // import HomeScreenFacade from '../components/HomeScreenFacade';
@@ -18,8 +20,7 @@ import SignInScreenNDB from '../components/SignInScreenNDB';
 import MyNewForm from '../components/MyNewForm';
 import SendPassword from '../components/SendPassword';
 import UserConnectedPad from '../components/sessionManagement/UserConnectedPad';
-import SignUpSeller from '../components/SignUpSeller';
-import SignUpMediator from '../components/SignUpMediator';
+import THTextInputForm from '../components/THTextInputForm';
 
 export const  TinderHousesScreen = (props) => {
     return (
@@ -44,13 +45,13 @@ export const AppNavigator = createStackNavigator(
       SignIn: {
         screen: SignInScreen,
       },
-      SignUp: {
-        screen: SignUpBuyer,
+      SignUpChoice: {
+        screen: SignUpChoice,
       },
       SendPass: SendPassword,
       TestFlex: TestFlex,
       LocateUser: UserLocation,
-      SignUpPT: SignUpPartTime,
+      SignUpPT: SignUpPartTimeWrapper,
       SignUpTP: SignUpThirdPart,
       TestForm: TestFormScreen,
       },
@@ -72,14 +73,14 @@ export const AppNavigator = createStackNavigator(
       MyNewForm: MyNewForm,
       SignInNDB: SignInScreenNDB,
       SignUpChoice: SignUpChoice,
-      SignUpBuyer: SignUpBuyer,
-      SignUpSeller: SignUpSeller,
-      SignUpMediator: SignUpMediator,
-      SignUpPT: SignUpPartTime,
+      SignUpBuyer: SignUpBuyerWrapper,
+      SignUpSeller: SignUpSellerWrapper,
+      SignUpMediator: SignUpMediatorWrapper,
+      SignUpPT: SignUpPartTimeWrapper,
       TestFlex: TestFlex,
       LocateUser: UserLocation,
-      SignUpPT: SignUpPartTime,
       SignUpTP: SignUpThirdPart,
+      SignUpTest: THTextInputForm,
     },
     {
       unmountInactiveRoutes: true,
