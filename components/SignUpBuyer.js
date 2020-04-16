@@ -3,13 +3,13 @@ import { View, ImageBackground, Text } from 'react-native';
 import { Field, reduxForm, Form } from 'redux-form';
 import Colors from '../constants/Colors';
 import THButton from './THButton';
-import THTextInput from './THTextInput';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
 import THBaseButtons from './THBaseButtons';
 import THTextInputForm from './THTextInputForm';
 import { SIGNUP_BUYER_FORM } from '../constants/FormNames';
+import { authLocal, generateUserDocument } from './sessionManagement/firebase';
 
 
 const required = values => { if(values === undefined) { return 'requis'; }} ;
@@ -26,19 +26,23 @@ const nameTooSimple = values => { // values = username
 const format = (value, name) => {
   let enteredValue = new String(value);
 
-  return value + " : ";
-  // return enteredValue.replace('\w', '*');
+  // return value + " : ";
+  return enteredValue.replace('\w', '*');
 }
 
-const createUserWithEmailAndPasswordHandler = (email, password) => {
-  // event.preventDefault();
-  console.log('test signup Buyer');
+ const createUserWithEmailAndPasswordHandler = (email, password, rest) => {
+   const { username } = rest;
+  console.log('createUserWithEmailAndPasswordHandler : test signup Buyer', username);
   try {
-    const {user} =  auth.createUserWithEmailAndPassword(email, password);
-    generateUserDocument(user, {displayName});
+      // authLocal.createUserWithEmailAndPassword(email, password).then(async (result) => {
+      authLocal.createUserWithEmailAndPassword('nono@gmail.com', 'jam176').then(async (result) => {
+        const userInfo = ['Buyer', username, 'https://res.cloudinary.com/dqcsk8rsc/image/upload/v1577268053/avatar-1-bitmoji_upgwhc.png'];
+      await generateUserDocument(result.user, userInfo, '');
+      console.log('createUserWithEmailAndPasswordHandler : user Buyer created with mail : ' + result.user.email);
+    });
     this.props.navigation.navigate('SignIn', this.connectionParams);
   } catch(error) {
-    setError('Erreur lors du sign up par email et password' + error, error);
+    console.log('Erreur lors du sign up par email et password : error = ', error);
   };
 
   setEmail("");
@@ -47,9 +51,9 @@ const createUserWithEmailAndPasswordHandler = (email, password) => {
 };
 
 const submitval = values => {
-  const { email, password, username } = values;
+  const { email, password, ...rest } = values;
   console.log('Validation OK! : ', values);
-  createUserWithEmailAndPasswordHandler(email, password);s
+  createUserWithEmailAndPasswordHandler(email, password, rest);
 }
 
 
@@ -112,13 +116,13 @@ render() {
       <View style={THStyles.mainComponent}>
             <View style={THStyles.imageContainer} ><Text>Profil Acheteur : </Text>
               <View style={THStyles.startActionUserSignUp}>
-              <Field keyboardType="default" label="Prenom" component={THTextInputForm} name="firstname" validate={[required]} />
-              <Field keyboardType="default" label="Nom" component={THTextInputForm} name="lastname" validate={[required]} />
-              <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[nameMax20]} warn={[nameTooSimple]} />
-              <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
-              <Field keyboardType="numeric" label="Tél. Port. : " component={THTextInputForm} name="mobilePhone" validate={[nameMax20]} warn={[nameTooSimple]} />
-              <Field keyboardType="numeric" label="Tél. Fixe. : " component={THTextInputForm} name="phone" validate={[nameMax20]} warn={[nameTooSimple]} />
-              <Field keyboardType="default" label="Password" type="password" component={THTextInputForm} name="password" validate={[required]} format={() => format()} />
+                <Field keyboardType="default" label="Prenom" component={THTextInputForm} name="firstname"  />
+                <Field keyboardType="default" label="Nom" component={THTextInputForm} name="lastname"  />
+                <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[nameMax20]}  />
+                <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[]} />
+                <Field keyboardType="numeric" label="Tél. Port. : " component={THTextInputForm} name="mobilePhone" validate={[nameMax20]} warn={[nameTooSimple]} />
+                <Field keyboardType="numeric" label="Tél. Fixe. : " component={THTextInputForm} name="phone" validate={[nameMax20]} warn={[nameTooSimple]} />
+                <Field keyboardType="default" label="Password"  type="password" component={THTextInputForm} name="password" validate={[]} format={format} />
               </View>
               <View style={THStyles.buttonGroup2}>
                   <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" size="small"/>

@@ -12,13 +12,14 @@ import THBaseButtons from './THBaseButtons';
 export default class HomeScreenUser extends Component {
   constructor(props) {
     super(props);
-    console.log('this.props.userCredentials : ' + this.props.userCredentials);
+    console.log('HomeScreenUser : constructor : this.props.userCredentials : ' + this.props.userCredentials.uid);
     
   }
   HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
   CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');
   
   static  navigationOptions = ({ navigation }) => {
+    console.log('HomeScreenUser : navigationOptions : ' + navigation.state.params);
     const { params = {} } = navigation.state;
     let headerTitle = 'TinderHouzze';
     let headerTitleStyle = {
@@ -40,12 +41,12 @@ export default class HomeScreenUser extends Component {
 
 
   _onConnection() {
-    console.log('Connecté : ', this.props.navigation.state.params.connected);
+    console.log('HomeScreenUser : _onConnection : Connecté : ');
    }
 
   componentDidMount() {
     // this.props.navigation.setParams({ onConnection: this._onConnection.bind(this) });
-    console.log('Connecté : ', this.props.navigation);
+    console.log('HomeScreenUser : componentDidMount : Connecté : ', this.props.userCredentials);
   }
 
   render() {
@@ -59,7 +60,7 @@ export default class HomeScreenUser extends Component {
                     <Text style={THStyles.logoTitle}>TinderHouse</Text>
                     <Text style={THStyles.middleLeitmotive}>Vente Rapide  -  Achat Rapide</Text>
                 </View>
-                <THBaseButtons style={THStyles.buttonContainer} fromTop='235'  />
+                <THBaseButtons style={THStyles.buttonContainer} fromTop='275'  />
               </View>
               <Copyright />
             </ImageBackground>

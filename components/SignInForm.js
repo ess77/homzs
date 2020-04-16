@@ -5,8 +5,9 @@ import THStyles from '../constants/THStyles';
 import THButton from './THButton';
 import { CONTACT_FORM } from '../constants/FormNames';
 import THTextInputForm from './THTextInputForm';
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
 import THBaseButtons from './THBaseButtons';
+import { authLocal } from './sessionManagement/firebase';
 
 
 const required = values => { if(values === undefined) { return 'requis'; }} ;
@@ -30,20 +31,20 @@ const format = (value, name) => {
 const signInWithEmailAndPasswordHandler = (email, password) => {
   // event.preventDefault();
   console.log('signInWithEmailAndPasswordHandler : success : ' + email);
-  firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-    console.log('authenticated.');
+  authLocal.signInWithEmailAndPassword(email, password).then((result) => {
+    console.log('authenticated : ' + result.user.email);
     
   })
     .catch(error => {
-          setError('Erreur lors du sign in par email et password.');
           console.error('Erreur lors du sign in par email et password.' +error);
   });
 };
 
 const submitval = values => {
-  const { email, password, username } = values;
+  const { email, password } = values;
   console.log('Validation OK! : ', values);
-  signInWithEmailAndPasswordHandler(email, password);s
+  // signInWithEmailAndPasswordHandler(email, password);s
+  signInWithEmailAndPasswordHandler('gege@gmail.com', 'jam176');s
 }
 
 
@@ -69,8 +70,8 @@ class SignInField extends Component {
             <View style={THStyles.userSignInField}>
               <Text>Test Form : </Text>
               <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[nameMax20]} warn={[nameTooSimple]} />
-              <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
-              <Field keyboardType="default" label="Password" type="password" component={THTextInputForm} name="password" validate={[required]} format={() => format()} />
+              <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[]} />
+              <Field keyboardType="default" label="Password" type="password" component={THTextInputForm} name="password" validate={[]} format={() => format()} />
             </View>
             <View style={THStyles.buttonGroup2}>
               <THButton text="Annuler" onPress={() => {decomp.navigation.goBack()}} theme="cancel" outline size="small"/>

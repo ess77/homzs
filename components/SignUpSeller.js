@@ -3,7 +3,6 @@ import { View, ImageBackground, Text } from 'react-native';
 import { Field, reduxForm, Form } from 'redux-form';
 import Colors from '../constants/Colors';
 import THButton from './THButton';
-import THTextInput from './THTextInput';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
@@ -33,11 +32,12 @@ const createUserWithEmailAndPasswordHandler = (email, password) => {
   // event.preventDefault();
   console.log('test signup Buyer');
   try {
-    const {user} =  auth.createUserWithEmailAndPassword(email, password);
-    generateUserDocument(user, {displayName});
+      auth.createUserWithEmailAndPassword(email, password).then((result) => {
+      console.log('createUserWithEmailAndPasswordHandler : user Seller created with mail : ' + result.user.email);
+    });;
     this.props.navigation.navigate('SignIn', this.connectionParams);
   } catch(error) {
-    setError('Erreur lors du sign up par email et password' + error, error);
+    setError('Erreur lors du sign up par email et password : error = ', error);
   };
 
   setEmail("");
@@ -48,7 +48,7 @@ const createUserWithEmailAndPasswordHandler = (email, password) => {
 const submitval = values => {
   const { email, password, username } = values;
   console.log('Validation OK! : ', values);
-  createUserWithEmailAndPasswordHandler(email, password);s
+  createUserWithEmailAndPasswordHandler(email, password);
 }
 
 
@@ -91,7 +91,8 @@ export default class SignUpSeller extends Component {
     console.log('test signup Seller');
     try {
       const {user} =  auth.createUserWithEmailAndPassword(email, password);
-      generateUserDocument(user, {displayName});
+      const userInfo = ['Seller', displayName, 'https://res.cloudinary.com/dqcsk8rsc/image/upload/v1577268053/avatar-1-bitmoji_upgwhc.png'];
+      generateUserDocument(user, userInfo, {displayName});
       this.props.navigation.navigate('SignIn', this.connectionParams);
     } catch(error) {
       setError('Erreur lors du sign up par email et password' + error, error);
@@ -118,9 +119,9 @@ export default class SignUpSeller extends Component {
         <View style={THStyles.mainComponent}>
               <View style={THStyles.imageContainer} ><Text>Profil Vendeur : </Text>
                 <View style={THStyles.startActionUserSignUp}>
-                  <Field keyboardType="default" label="Prenom" component={THTextInputForm} name="firstname" validate={[required, mailValid]} />
-                  <Field keyboardType="default" label="Nom" component={THTextInputForm} name="lastname" validate={[required, mailValid]} />
-                  <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[nameMax20]} warn={[nameTooSimple]} />
+                  <Field keyboardType="default" label="Prenom" component={THTextInputForm} name="firstname" validate={[]} />
+                  <Field keyboardType="default" label="Nom" component={THTextInputForm} name="lastname" validate={[]} />
+                  <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[required, nameMax20]} warn={[nameTooSimple]} />
                   <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
                   <Field keyboardType="numeric" label="Tél. Port. : " component={THTextInputForm} name="mobilePhone" validate={[nameMax20]} warn={[nameTooSimple]} />
                   <Field keyboardType="numeric" label="Tél. Fixe. : " component={THTextInputForm} name="phone" validate={[nameMax20]} warn={[nameTooSimple]} />

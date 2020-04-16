@@ -1,3 +1,5 @@
+import React from 'react';
+import { View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
@@ -22,12 +24,15 @@ import SendPassword from '../components/SendPassword';
 import UserConnectedPad from '../components/sessionManagement/UserConnectedPad';
 import THTextInputForm from '../components/THTextInputForm';
 
+let screenDisplayed = 'Home';
+
 export const  TinderHousesScreen = (props) => {
-    return (
-          <View style={THStyles.screen}>
-            <TinderHouses onStopTinderHouzze={() => {props.navigation.navigate('Home')}} onFavoriteHouzze={() => {props.navigation.navigate('Favorite')}} />
-          </View>
-      );
+
+    // return (
+    //       <View style={THStyles.screen}>
+    //         <TinderHouses onStopTinderHouzze={() => {props.navigation.navigate('Home')}} onFavoriteHouzze={() => {props.navigation.navigate('Favorite')}} />
+    //       </View>
+    //   );
 }
 
 export const AppNavigator = createStackNavigator(
@@ -60,7 +65,7 @@ export const AppNavigator = createStackNavigator(
     }
   );
   
-  export const AppDrawerNavigator = createDrawerNavigator(
+  const AppDrawerNavigator = createDrawerNavigator(
     {
       // Home: HomeScreenFacade,
       Home: HomeScreenFacade2,
@@ -84,7 +89,7 @@ export const AppNavigator = createStackNavigator(
     },
     {
       unmountInactiveRoutes: true,
-      initialRouteName: 'Home',
+      initialRouteName: `${screenDisplayed}`,
       defaultNavigationOptions: {
         headerTitle: 'Connexion',
         headerStyle: {
@@ -97,3 +102,13 @@ export const AppNavigator = createStackNavigator(
 const AppContainer = createAppContainer(AppDrawerNavigator);
 // const AppContainer = createAppContainer(AppNavigator);
 export default AppContainer;
+
+// const AppContainer = (props) => {
+  // screenDisplayed = props.screen;
+//   console.log('screenDisplayed : ' + screenDisplayed);
+//   return(
+//     <View>
+//     {createAppContainer(AppDrawerNavigator)}
+//     </View>);
+// }
+// export default AppContainer;

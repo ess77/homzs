@@ -7,6 +7,7 @@ import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
 import THBaseButtons from './THBaseButtons';
+import { TextInput } from 'react-native-gesture-handler';
 
 export default class SignInScreenNDB extends Component {
     HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
@@ -49,8 +50,8 @@ export default class SignInScreenNDB extends Component {
             <View style={THStyles.filterComponent}>
                 <View style={THStyles.userSignInForm}>
                     <View style={THStyles.userSignInField}>
-                        <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="E-Mail : " />
-                        <THTextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Password : " />
+                        <TextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="E-Mail : " name="email" />
+                        <TextInput theme="homeBottom" onPress={(input) => {this.validate(input)}} text="Password : " name="password" />
                     </View>
                     <View style={THStyles.buttonGroup2}>
                         <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" outline size="small"/>

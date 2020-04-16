@@ -63,7 +63,7 @@ export default class SignUpChoice extends Component {
         }],
       });
     }
-    selectNumber(value) {
+    selectProfiles(value) {
       this.addLog(`selecting number: ${value}`);
       switch(value) {
         case 1: {
@@ -114,17 +114,15 @@ export default class SignUpChoice extends Component {
             <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
             <View style={THStyles.filterComponent}>
             <View style={styles.topbar}>
-            <Menu name="numbers" renderer={Popover}  onSelect={value => this.selectNumber(value)} >
+            <Menu name="profiles" renderer={Popover}  onSelect={value => this.selectProfiles(value)} >
               <MenuTrigger style={styles.trigger}>
                 <Text style={[styles.text, styles.triggerText]}>Inscription</Text>
               </MenuTrigger>
-              <MenuOptions customStyles={{ optionText: [styles.text, styles.slideInOption] }}  rendererProps={{placement: "bottom"}} style={{backgroundColor: Colors.TH_POPUP, borderRadius: 25}}>
+              <MenuOptions customStyles={{ optionText: [styles.text, styles.slideInOption],  }}  rendererProps={{placement: "bottom"}} style={{backgroundColor: Colors.whiteMarooned, borderRadius: 25}}>
                 <MenuOption value={1} text='Acheteur'  />
                 <MenuOption value={2} text='Vendeur' />
                 <MenuOption value={3} text='Intermediaire' />
-                { this.service?<MenuOption value={4} text='Service' />
-                          : null
-                }
+                  {this.service?<MenuOption value={4} text='Service' />: null}
               </MenuOptions>
             </Menu>
             <View style={{flex:1}}></View>
@@ -184,15 +182,15 @@ export default class SignUpChoice extends Component {
     }
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: Colors.homeCorporate,
-  },
   topbar: {
     flexDirection: 'row',
     backgroundColor: Colors.homeCorporate,
-    paddingTop : 15,
+    paddingTop: 15,
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: Colors.whitePurpled,
   },
   trigger: {
     padding: 5,
@@ -220,10 +218,19 @@ const styles = StyleSheet.create({
   },
   slideInOption: {
     padding: 5,
-    backgroundColor: Colors.TH_POPUP, 
+    backgroundColor: Colors.whitePurpled,
     borderRadius: 25
   },
   text: {
     fontSize: 18,
+    color: 'white'
   },
+  userConnected: {
+    backgroundColor: Colors.whitePurpled,
+    // padding: 0,
+    // marginTop: -75,
+    // marginLeft: 215,
+    // alignSelf: 'flex-end'
+    borderRadius: 25,
+},
 });

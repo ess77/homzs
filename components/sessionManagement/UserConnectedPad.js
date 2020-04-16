@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 import THButton from '../THButton';
 import Colors from '../../constants/Colors';
 
 export default class UserConnectedPad extends Component {
     constructor(props) {
         super(props);
-        console.log('UserConnectedPad:constructor : user props : '+ this.props.user);
+        console.log('UserConnectedPad : constructor : user props : '+ this.props.user.uid);
         this.state = {
             userName: this.props.user.displayName,
             userEmail: this.props.user.email,

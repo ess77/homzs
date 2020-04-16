@@ -19,12 +19,11 @@ export default class THTextInput extends Component {
     }
 
     render() {
-        const { text, onPress, disabled, ...rest } = this.props;
+        const { text, name, onPress, disabled } = this.props;
         return (
             <View style={THStyles.THImainContainer}>
-                <View onPress={onPress} disabled={disabled}>
-                    <label htmlFor="userEmail" className="block">Email:</label>
-                    <input type="email" className="my-1 p-1 w-full" name="userEmail" value={email} placeholder="Ex. : martin123@gmail.com" id="userEmail" onChange={event => onChangeHandler(event)}/>
+                <View onPress={onPress}>
+                    <TextInput type="text" className="my-1 p-1 w-full" name={name} value={text} placeholder="Ex. : martin123@gmail.com" id="userEmail" />
                 </View>
             </View>
         )
