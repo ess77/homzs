@@ -5,7 +5,7 @@ import firebaseConfig from './ApiKeys';
 
 let fireApp = undefined;
 if (!firebase.apps.length) {
-  console.log('Firebase : Initializing Firebase App.');
+  console.log('Firebase : Initializing Firebase App. at ' + new Date().toUTCString());
   fireApp = firebase.initializeApp(firebaseConfig);
 }
 export const authLocal = firebase.auth();
@@ -16,67 +16,81 @@ export const signInWithGoogle = () => {
 }
 export const generateUserDocument = async (userAuth, userInfo, token) => {
   console.log('firebase : generateUserDocument 1 : ');
-  const login = new Date().toUTCString();
+  const loginTime = new Date().toUTCString();
   if (!userAuth) return;
-  let tokenAuth = userAuth.getIdToken();
+  const tokenAuth = await userAuth.getIdToken();
   console.log('firebase : generateUserDocument 2 : auth : ' + userAuth.uid);
   const userRef = firestoreLocal.doc(`users/${userAuth.uid}`);
   // let snapshot = undefined;
   const snapshot = await userRef.get();
-  if (!snapshot.exists) {
-    console.log('firebase : generateUserDocument 6 : initializing new user data.');
-    const [role, username, photoURL] = userInfo;
-    const { email } = userAuth;
-    const connected = true;
-    const lastLogin = login;
-    // const photoURL = 'https://res.cloudinary.com/dqcsk8rsc/image/upload/v1577268053/avatar-1-bitmoji_upgwhc.png';
-    const loginHistory = ['login ! ' + tokenAuth + ' ! ' + login];
-    try {
-      firestoreLocal.doc(`users/${userAuth.uid}`).set({
-        role: role,
-        email: email,
-        displayName: username,
-        photoURL: photoURL,
-        connected: connected,
-        loginHistory: loginHistory,
-        lastLogin: lastLogin
-      });
-    } catch (error) {
-      console.error('firebase : generateUserDocument 7 : Erreur lors de la création du document userAuth ', error);
-    }
-  } else {
-    console.log('firebase : generateUserDocument 8 : updating user data.');
-    let tokenAuth = userAuth.getIdToken();
-    if (!sameSession(token, tokenAuth)) {
-      // const userRef = firestoreLocal.doc(`users/${userAuth.uid}`);
-      // snapshot = userRef.get();
-      let { connected, loginHistory } = snapshot.data();
-      console.log('Firebase : updateUserDocument : loginHistory = ' + loginHistory);
-
-      connected = true;
-      //First time user connection
-      if (loginHistory === undefined) {
-        console.log("Firebase : updateUserDocument : Login history initialised. ");
-        loginHistory = [];
-      }
-
-      loginHistory.push('login ! ' + tokenAuth + ' ! ' + login);
-      try {
-        // const userRef = firestoreLocal.doc(`users/${userAuth.uid}`);
-        userRef.update({
-          connected: connected,
-          loginHistory: loginHistory,
-          lastLogin: login
-        });
-      } catch (error) {
-        console.log('Erreur lors de la modification du document userAuth : ' + error);
-      }
-    } else {
-      console.log('Firebase : updateUserDocument : Same session, no futher update.');
-
-    }
+  const { role, username, photoURL } = userInfo;
+  console.log('firebase : generateUserDocument 3 : initializing new user data : ' + role + ' : ' + username + ' : ' + photoURL);
+  const { email } = userAuth;
+  const connected = true;
+  const lastLoginTime = loginTime;
+  // const photoURL = 'https://res.cloudinary.com/dqcsk8rsc/image/upload/v1577268053/avatar-1-bitmoji_upgwhc.png';
+  const loginHistory = ['login ! ' + tokenAuth + ' ! ' + loginTime];
+  try {
+    await firestoreLocal.doc(`users/${userAuth.uid}`).set({
+      role: role,
+      email: email,
+      connected: connected,
+      loginHistory: loginHistory,
+      lastLoginTime: lastLoginTime,
+      displayName: username,
+      photoURL: photoURL
+    });
+  } catch (error) {
+    console.error('firebase : generateUserDocument 4 : Erreur lors de la création du document userAuth ', error);
   }
   return getUserDocument(userAuth.uid);
+}
+
+export const updateUserDocument = async (userAuth, token) => {
+  console.log('firebase : updateUserDocument 1.');
+  const loginTime = new Date().toUTCString();
+  if (!userAuth) return;
+  const tokenAuth = await userAuth.getIdToken();
+  console.log('firebase : updateUserDocument 2 : auth : ' + userAuth.uid);
+  const userRef = firestoreLocal.doc(`users/${userAuth.uid}`);
+  const snapshot = await userRef.get();
+  if (!sameSession(token, tokenAuth)) {
+    console.log('firebase : updateUserDocument 3 : updating user data.');
+    let  snapshot, connected, loginHistory  = undefined;
+    await userRef.get().then((result) => {
+      if(result.data()) {
+        snapshot = result.data();
+        connected = snapshot.connected;
+        loginHistory = snapshot.loginHistory;
+      }
+    }).catch((error) => {
+      console.error("Firebase : updateUserDocument : Error getting snapshot. " + error);
+    });
+
+    const length = loginHistory.length;
+    console.log('Firebase : updateUserDocument 4 : updateUserDocument : last loginHistory = ' + loginHistory[length - 1].substring(0,20));
+
+    connected = true;
+    //First time user connection
+    if (loginHistory === undefined) {
+      console.log("Firebase : updateUserDocument 5 : Login history initialised. ");
+      loginHistory = [];
+    }
+
+    loginHistory.push('login ! ' + tokenAuth + ' ! ' + loginTime);
+    try {
+      userRef.update({
+        connected: connected,
+        loginHistory: loginHistory,
+        lastLoginTime: loginTime
+      });
+    } catch (error) {
+      console.error('Firebase : updateUserDocument : Erreur lors de la modification du document userAuth : ' + error);
+    }
+  } else {
+    console.log('Firebase : updateUserDocument : Same session, no futher update.');
+  }
+  return getUserDocument(userAuth.uid);;
 }
 
 export const logoutUpdateUserDocument = async (userUid, tokenAuth) => {
@@ -84,12 +98,16 @@ export const logoutUpdateUserDocument = async (userUid, tokenAuth) => {
   if (!userUid) return;
   console.log('Firebase : logoutUpdateUserDocument 2: ' + userUid);
   const userRef = firestoreLocal.doc(`users/${userUid}`);
-  const snapshot = await userRef.get();
-  let {
-    connected,
-    loginHistory
-  } = snapshot.data();
-
+  let  snapshot, connected, loginHistory  = undefined;
+  await userRef.get().then((result) => {
+    if(result.data()) {
+      snapshot = result.data();
+      connected = snapshot.connected;
+      loginHistory = snapshot.loginHistory;
+    }
+  }).catch((error) => {
+    console.error("Firebase : logoutUpdateUserDocument : Error getting snapshot. " + error);
+  });
   connected = false;
   //First time user connection
   if (loginHistory === undefined) {
@@ -117,15 +135,38 @@ const sameSession = (token1, token2) => {
 }
 
 
-export const getUserDocument = async uid => {
+export const getUserDocument = async (uid) => {
   if (!uid) return null;
+  let user = undefined;
+  let userData = undefined;
   try {
-    const userDocument = await firestoreLocal.doc(`users/${uid}`).get();
-    return {
-      uid,
-      ...userDocument.data()
-    };
+    const userDocument = firestoreLocal.doc(`users/${uid}`);
+
+    //form 1
+    // const doc = await userDocument.get();
+    //  if (doc.exists){
+    //    userData = doc.data()
+    //    user = { uid, ...userData };
+    //    console.log('Firebase : getUserDocument 1: ' + user);
+    //   } else {
+    //     console.log('Firebase : getUserDocument 2: No document.');
+    //     return null;
+    //   }
+
+    //form 2
+    await userDocument.get().then((doc) => {
+     if (doc.exists){
+       userData = doc.data()
+       user = { uid, ...userData };
+       console.log('Firebase : getUserDocument 1: ' + user.displayName);
+      } else {
+        console.log('Firebase : getUserDocument 2: No document.');
+        return null;
+      }
+    });
+    
   } catch (error) {
-    console.error('Erreur lors du fetch userAuth', error);
+    console.error('Firebase : getUserDocument : Erreur lors du fetch userAuth', error);
   }
+  return user;
 }

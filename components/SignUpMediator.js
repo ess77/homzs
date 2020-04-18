@@ -9,6 +9,8 @@ import Copyright from './Copyright';
 import THBaseButtons from './THBaseButtons';
 import { SIGNUP_MEDIATOR_FORM } from '../constants/FormNames';
 import THTextInputForm from './THTextInputForm';
+import { authLocal, generateUserDocument } from './sessionManagement/firebase';
+
 
 const required = values => { if(values === undefined) { return 'requis'; }} ;
   
@@ -21,38 +23,30 @@ const nameTooSimple = values => { // values = username
   if(values === 'coco' || values === 'fifi' || values === 'dede' || values === 'roro') { return 'Vous pouvez faire mieux que ça, n\'est ce pas!' }
 };
 
-const format = (value, name) => {
-  let enteredValue = new String(value);
+const createUserWithEmailAndPasswordHandler = async (email, password, rest) => {
+  const { username } = rest;
+ console.log('createUserWithEmailAndPasswordHandler : test signup Mediator', username);
+ try {
+     await authLocal.createUserWithEmailAndPassword(email, password).then(async (result) => {
+     // await authLocal.createUserWithEmailAndPassword('nono@gmail.com', 'jam176').then(async (result) => {
+     const userInfo = {role:`Mediator`, username: username, photoURL: `https://res.cloudinary.com/dqcsk8rsc/image/upload/v1577268053/avatar-1-bitmoji_upgwhc.png`};
+     generateUserDocument(result.user, userInfo, '');
+     console.log('createUserWithEmailAndPasswordHandler : user Mediator created with mail : ' + email);
+   });
+ } catch(error) {
+   console.log('Erreur lors du sign up par email et password : error = ', error);
+ };
 
-  return value + " : ";
-  // return enteredValue.replace('\w', '*');
-}
-
-const createUserWithEmailAndPasswordHandler = (email, password) => {
-  // event.preventDefault();
-  console.log('test signup Buyer');
-  try {
-    const {user} =  auth.createUserWithEmailAndPassword(email, password);
-    generateUserDocument(user, {displayName});
-    this.props.navigation.navigate('SignIn', this.connectionParams);
-  } catch(error) {
-    setError('Erreur lors du sign up par email et password' + error, error);
-  };
-
-  setEmail("");
-  setPassword("");
-  setDisplayName("");
 };
 
 const submitval = values => {
-  const { email, password, username } = values;
+  const { email, password, event, ...rest } = values;
   console.log('Validation OK! : ', values);
-  createUserWithEmailAndPasswordHandler(email, password);s
+  createUserWithEmailAndPasswordHandler(email, password, rest).then(() => {});
 }
 
 
 const submitSuccess = props => {
-  // decomp = { navigation } = props;
     console.log('submitSuccess : ', props);
 }
   
@@ -133,7 +127,7 @@ export default class SignUpMediator extends Component {
                     <Field keyboardType="default" label="Adresse" component={THTextInputForm} name="address" validate={[required]} />
                     <Field keyboardType="numeric" label="Tél. Port. : " component={THTextInputForm} name="mobilePhone" validate={[nameMax20]} warn={[nameTooSimple]} />
                     <Field keyboardType="numeric" label="Tél. Fixe. : " component={THTextInputForm} name="phone" validate={[nameMax20]} warn={[nameTooSimple]} />
-                    <Field keyboardType="default" label="Password" type="password" component={THTextInputForm} name="password" validate={[required]} format={() => format()} />
+                    <Field keyboardType="default" label="Password" security={true} component={THTextInputForm} name="password" validate={[required]} />
                 </View>
                 <View style={THStyles.buttonGroup2}>
                     <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" size="small"/>

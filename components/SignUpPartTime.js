@@ -3,13 +3,14 @@ import { View, ImageBackground, Text } from 'react-native';
 import { Field, reduxForm, Form } from 'redux-form';
 import Colors from '../constants/Colors';
 import THButton from './THButton';
-import THTextInput from './THTextInput';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
 import THBaseButtons from './THBaseButtons';
 import { SIGNUP_PART_TIME_FORM } from '../constants/FormNames';
 import THTextInputForm from './THTextInputForm';
+import { authLocal, generateUserDocument } from './sessionManagement/firebase';
+
 
 const required = values => { if(values === undefined) { return 'requis'; }} ;
   
@@ -22,43 +23,34 @@ const nameTooSimple = values => { // values = username
   if(values === 'coco' || values === 'fifi' || values === 'dede' || values === 'roro') { return 'Vous pouvez faire mieux que ça, n\'est ce pas!' }
 };
 
-const format = (value, name) => {
-  let enteredValue = new String(value);
-
-  return value + " : ";
-  // return enteredValue.replace('\w', '*');
-}
-
-const createUserWithEmailAndPasswordHandler = (email, password) => {
-  // event.preventDefault();
-  console.log('test signup Buyer');
-  try {
-    const {user} =  auth.createUserWithEmailAndPassword(email, password);
-    generateUserDocument(user, {displayName});
-    this.props.navigation.navigate('SignIn', this.connectionParams);
-  } catch(error) {
-    setError('Erreur lors du sign up par email et password' + error, error);
-  };
-
-  setEmail("");
-  setPassword("");
-  setDisplayName("");
-};
+const createUserWithEmailAndPasswordHandler = async (email, password, rest) => {
+    const { username } = rest;
+   console.log('createUserWithEmailAndPasswordHandler : test signup PartTime', username);
+   try {
+       await authLocal.createUserWithEmailAndPassword(email, password).then(async (result) => {
+       // await authLocal.createUserWithEmailAndPassword('nono@gmail.com', 'jam176').then(async (result) => {
+       const userInfo = {role:`PartTime`, username: username, photoURL: `https://res.cloudinary.com/dqcsk8rsc/image/upload/v1577268053/avatar-1-bitmoji_upgwhc.png`};
+       generateUserDocument(result.user, userInfo, '');
+       console.log('createUserWithEmailAndPasswordHandler : user PartTime created with mail : ' + username);
+     });
+   } catch(error) {
+     console.log('Erreur lors du sign up par email et password : error = ', error);
+   };
+ 
+ };
 
 const submitval = values => {
-  const { email, password, username } = values;
+  const { email, password, event, ...rest } = values;
   console.log('Validation OK! : ', values);
-  createUserWithEmailAndPasswordHandler(email, password);s
+  createUserWithEmailAndPasswordHandler(email, password, rest).then(() => {});
 }
 
 
 const submitSuccess = props => {
-  // decomp = { navigation } = props;
     console.log('submitSuccess : ', props);
 }
   
 const submitFail = errors => {
-  // this.props.navigation.navigate('HomeUser');
   console.log('submitFail : Ne vous acharnez pas, ça ne marchera pas!!!\n', errors);
   
 }
@@ -127,6 +119,7 @@ export default class SignUpPartTime extends Component {
                     <Field keyboardType="numeric" label="Tél. Port. : " component={THTextInputForm} name="mobilePhone" validate={[nameMax20]} warn={[nameTooSimple]} />
                     <Field keyboardType="numeric" label="Tél. Fixe. : " component={THTextInputForm} name="phone" validate={[nameMax20]} warn={[nameTooSimple]} />
                     <Field keyboardType="numeric" label="Niveau d'étude " component={THTextInputForm} name="diploma_level" validate={[required]} />
+                    <Field keyboardType="default" label="Password" security={true} component={THTextInputForm} name="password" validate={[required]} />
                 </View>
                 <View style={THStyles.buttonGroup2}>
                     <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" size="small"/>

@@ -23,6 +23,7 @@ import MyNewForm from '../components/MyNewForm';
 import SendPassword from '../components/SendPassword';
 import UserConnectedPad from '../components/sessionManagement/UserConnectedPad';
 import THTextInputForm from '../components/THTextInputForm';
+import Colors from './Colors';
 
 let screenDisplayed = 'Home';
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ImageBackground, Text, TextInput } from 'react-native';
+import { View, ImageBackground, Text, TextInput, YellowBox } from 'react-native';
 import Colors from '../constants/Colors';
 import THButton from './THButton';
 import THConstants from '../constants/THConstants';
@@ -9,6 +9,13 @@ import Copyright from './Copyright';
   
 
 export default class SignInScreen extends Component {
+    constructor(props) {
+      super(props);
+      
+        //Suppress warnings for timer/performance bottleneck
+        YellowBox.ignoreWarnings(['Setting a timer']);
+        
+    }
     HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
     CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');
     

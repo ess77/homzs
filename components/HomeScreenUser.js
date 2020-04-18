@@ -19,7 +19,7 @@ export default class HomeScreenUser extends Component {
   CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');
   
   static  navigationOptions = ({ navigation }) => {
-    console.log('HomeScreenUser : navigationOptions : ' + navigation.state.params);
+    // console.log('HomeScreenUser : navigationOptions : ' + navigation.state.params);
     const { params = {} } = navigation.state;
     let headerTitle = 'TinderHouzze';
     let headerTitleStyle = {
@@ -46,7 +46,7 @@ export default class HomeScreenUser extends Component {
 
   componentDidMount() {
     // this.props.navigation.setParams({ onConnection: this._onConnection.bind(this) });
-    console.log('HomeScreenUser : componentDidMount : Connecté : ', this.props.userCredentials);
+    console.log('HomeScreenUser : componentDidMount : Connecté : ', this.props.userCredentials.displayName);
   }
 
   render() {
@@ -54,7 +54,7 @@ export default class HomeScreenUser extends Component {
       <View style={THStyles.screen}>
             <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
             <View style={THStyles.filterComponent}>
-                <View style={THStyles.imageContainer} >
+                <View style={THStyles.imageContainerHomeScreen} >
                     <UserConnectedPad user={this.props.userCredentials} />
                     <Image  source={this.CentraleHomeScreenImageUri} style={THStyles.centralImage}></Image>
                     <Text style={THStyles.logoTitle}>TinderHouse</Text>

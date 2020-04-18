@@ -9,6 +9,8 @@ import Copyright from './Copyright';
 import THBaseButtons from './THBaseButtons';
 import { SIGNUP_SELLER_FORM } from '../constants/FormNames';
 import THTextInputForm from './THTextInputForm';
+import { authLocal, generateUserDocument } from './sessionManagement/firebase';
+
 
 const required = values => { if(values === undefined) { return 'requis'; }} ;
   
@@ -21,44 +23,32 @@ const nameTooSimple = values => { // values = username
   if(values === 'coco' || values === 'fifi' || values === 'dede' || values === 'roro') { return 'Vous pouvez faire mieux que ça, n\'est ce pas!' }
 };
 
-const format = (value, name) => {
-  let enteredValue = new String(value);
+const createUserWithEmailAndPasswordHandler = async (email, password, rest) => {
+  const { username } = rest;
+ try {
+     const result = await authLocal.createUserWithEmailAndPassword(email, password);
+     // await authLocal.createUserWithEmailAndPassword('nono@gmail.com', 'jam176').then(async (result) => {
+     const userInfo = {role:`Seller`, username: username, photoURL: `https://res.cloudinary.com/dqcsk8rsc/image/upload/v1577268053/avatar-1-bitmoji_upgwhc.png`};
+     generateUserDocument(result.user, userInfo, '');
+     console.log('createUserWithEmailAndPasswordHandler : user Seller created with mail : ' + username);
+ } catch(error) {
+   console.log('Erreur lors du sign up par email et password : error = ', error);
+ };
 
-  return value + " : ";
-  // return enteredValue.replace('\w', '*');
-}
-
-const createUserWithEmailAndPasswordHandler = (email, password) => {
-  // event.preventDefault();
-  console.log('test signup Buyer');
-  try {
-      auth.createUserWithEmailAndPassword(email, password).then((result) => {
-      console.log('createUserWithEmailAndPasswordHandler : user Seller created with mail : ' + result.user.email);
-    });;
-    this.props.navigation.navigate('SignIn', this.connectionParams);
-  } catch(error) {
-    setError('Erreur lors du sign up par email et password : error = ', error);
-  };
-
-  setEmail("");
-  setPassword("");
-  setDisplayName("");
 };
 
 const submitval = values => {
-  const { email, password, username } = values;
+  const { email, password, event, ...rest } = values;
   console.log('Validation OK! : ', values);
-  createUserWithEmailAndPasswordHandler(email, password);
+  createUserWithEmailAndPasswordHandler(email, password, rest).then(() => {});
 }
 
 
 const submitSuccess = props => {
-  // decomp = { navigation } = props;
     console.log('submitSuccess : ', props);
 }
   
 const submitFail = errors => {
-  // this.props.navigation.navigate('HomeUser');
   console.log('submitFail : Ne vous acharnez pas, ça ne marchera pas!!!\n', errors);
   
 }
@@ -118,19 +108,21 @@ export default class SignUpSeller extends Component {
       <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
         <View style={THStyles.mainComponent}>
               <View style={THStyles.imageContainer} ><Text>Profil Vendeur : </Text>
-                <View style={THStyles.startActionUserSignUp}>
-                  <Field keyboardType="default" label="Prenom" component={THTextInputForm} name="firstname" validate={[]} />
-                  <Field keyboardType="default" label="Nom" component={THTextInputForm} name="lastname" validate={[]} />
-                  <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[required, nameMax20]} warn={[nameTooSimple]} />
-                  <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
-                  <Field keyboardType="numeric" label="Tél. Port. : " component={THTextInputForm} name="mobilePhone" validate={[nameMax20]} warn={[nameTooSimple]} />
-                  <Field keyboardType="numeric" label="Tél. Fixe. : " component={THTextInputForm} name="phone" validate={[nameMax20]} warn={[nameTooSimple]} />
-                  <Field keyboardType="default" label="Password" type="password" component={THTextInputForm} name="password" validate={[required]} format={() => format()} />
-                </View>
-                <View style={THStyles.buttonGroup2}>
-                    <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" size="small"/>
-                    <THButton text="Valider" onPress={decomp.handleSubmit(submitval)} theme="validate" outline size="small"/>
-                </View>
+                
+                  <View style={THStyles.startActionUserSignUp}>
+                    <Field keyboardType="default" label="Prenom" component={THTextInputForm} name="firstname" validate={[required, nameMax20]} />
+                    <Field keyboardType="default" label="Nom" component={THTextInputForm} name="lastname" validate={[required, nameMax20]} />
+                    <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[required, nameMax20]} warn={[nameTooSimple]} />
+                    <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
+                    <Field keyboardType="numeric" label="Tél. Port. : " component={THTextInputForm} name="mobilePhone" validate={[required, nameMax20]} warn={[nameTooSimple]} />
+                    <Field keyboardType="numeric" label="Tél. Fixe. : " component={THTextInputForm} name="phone" validate={[nameMax20]} warn={[nameTooSimple]} />
+                    <Field keyboardType="default" label="Password" security={true} component={THTextInputForm} name="password" validate={[required]} />
+                  </View>
+                  <View style={THStyles.buttonGroup2}>
+                      <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" size="small"/>
+                      <THButton text="Valider" onPress={decomp.handleSubmit(submitval)} theme="validate" outline size="small"/>
+                  </View>
+               
               </View>
               <THBaseButtons style={THStyles.buttonContainer} fromTop='170' />
           </View>
@@ -142,7 +134,7 @@ export default class SignUpSeller extends Component {
     }
     export const SignUpSellerForm = reduxForm({
       form: SIGNUP_SELLER_FORM,
-      // onSubmit: submitval,
+      onSubmit: submitval,
       onSubmitSuccess: submitSuccess,
       onSubmitFail : submitFail,
     })(SignUpSeller);

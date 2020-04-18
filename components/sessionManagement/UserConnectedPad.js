@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, YellowBox } from 'react-native';
 import firebase from 'firebase';
 import THButton from '../THButton';
 import Colors from '../../constants/Colors';
@@ -7,7 +7,11 @@ import Colors from '../../constants/Colors';
 export default class UserConnectedPad extends Component {
     constructor(props) {
         super(props);
-        console.log('UserConnectedPad : constructor : user props : '+ this.props.user.uid);
+        
+        //Suppress warnings for timer/performance bottleneck
+        YellowBox.ignoreWarnings(['Setting a timer']);
+        
+        console.log('UserConnectedPad : constructor : user props : '+ this.props.user.displayName);
         this.state = {
             userName: this.props.user.displayName,
             userEmail: this.props.user.email,

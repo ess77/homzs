@@ -24,27 +24,27 @@ const nameTooSimple = values => { // values = username
 const format = (value, name) => {
   let enteredValue = new String(value);
 
-  return value + " : ";
-  // return enteredValue.replace('\w', '*');
+  // return value + " : ";
+  return enteredValue.replace('\w', '*');
 }
 
 const signInWithEmailAndPasswordHandler = (email, password) => {
   // event.preventDefault();
-  console.log('signInWithEmailAndPasswordHandler : success : ' + email);
+  console.log('signInWithEmailAndPasswordHandler : SignInField : success : ' + email);
   authLocal.signInWithEmailAndPassword(email, password).then((result) => {
-    console.log('authenticated : ' + result.user.email);
-    
+    console.log('signInWithEmailAndPasswordHandler : SignInField : authenticated : ' + result.user.email);
   })
     .catch(error => {
-          console.error('Erreur lors du sign in par email et password.' +error);
+          console.error('Erreur lors du sign in par email et password.' + error);
   });
 };
 
 const submitval = values => {
   const { email, password } = values;
   console.log('Validation OK! : ', values);
-  // signInWithEmailAndPasswordHandler(email, password);s
-  signInWithEmailAndPasswordHandler('gege@gmail.com', 'jam176');s
+  signInWithEmailAndPasswordHandler(email, password);
+  // signInWithEmailAndPasswordHandler('gege@gmail.com', 'jam176');
+  this.props.navigation.navigate('HomeUser');
 }
 
 

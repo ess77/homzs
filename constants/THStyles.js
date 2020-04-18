@@ -99,6 +99,7 @@ export default THStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.whitePurpled,
   },
+  
   imageBackground: {
     flex: 1, 
     height: '100%',
@@ -106,6 +107,13 @@ export default THStyles = StyleSheet.create({
     resizeMode: 'cover',
   },
   imageContainer: {
+    display: 'flex', /* default value */
+    opacity: .8,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    marginTop: 50,
+  },
+  imageContainerHomeScreen: {
     display: 'flex', /* default value */
     opacity: .8,
     alignItems: 'center',

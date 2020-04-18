@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, ImageBackground, Image, ScrollView, StyleSheet } from 'react-native';
-import Menu, { 
-    MenuProvider,
-    MenuTrigger,
-    MenuOptions,
-    MenuOption,
-    renderers
- } from 'react-native-popup-menu';
+import Menu, { MenuProvider, MenuTrigger, MenuOptions, MenuOption, renderers } from 'react-native-popup-menu';
 import Colors from '../constants/Colors';
 
 import THButton from './THButton';

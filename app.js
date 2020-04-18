@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, AsyncStorage } from 'react-native';
+import { AppRegistry, AsyncStorage, YellowBox  } from 'react-native';
 import { AppLoading, Asset, font } from 'expo';
 import AppContainer from './constants/THNavigation';
 import { createStore } from 'redux';
@@ -11,7 +11,7 @@ import '@firebase/firestore';
 // import AsyncStorage from '@react-native-community/async-storage';
 // import SyncStorage from 'sync-storage';
 import { firebaseConfig } from './components/sessionManagement/ApiKeys';
-import { authLocal, generateUserDocument, logoutUpdateUserDocument } from './components/sessionManagement/firebase';
+import { authLocal, logoutUpdateUserDocument, updateUserDocument } from './components/sessionManagement/firebase';
 import HomeScreenUser from './components/HomeScreenUser';
 
 //Workaround for Firebase >= 7.9.0 bug.
@@ -25,113 +25,132 @@ let localSession = undefined;
 export default class App extends Component {
     constructor(props) {
         super(props);
+
+        //Suppress warnings for timer/performance bottleneck
+        YellowBox.ignoreWarnings(['Setting a timer']);
         
         this.state = {
             isLoadingComplete: false,
             isAuthenticationReady:  false,
-            isAuthenticated: false,
-            user: null,
+            userCredentials: null,
         };
         this.retrieveData("session").then((result) => {
-            localSession = result;
+            if(result) {
+                localSession = result;
+                console.log('App : constructor : LocalSession = ' + localSession.substring(29,39));
+            }
         });
         //initialse firebase
         if(!firebase.apps.length) {
-            console.log('App : Initializing Firebase App.');
             firebase.initializeApp(firebaseConfig);
+            console.log('App : constructor : initializeApp done at ' + new Date().toUTCString());
         }
         authLocal.onAuthStateChanged(this.onAuthStateChangedLocal); 
     }
 
     onAuthStateChangedLocal = async (userAuth) => {
-        
-    // console.log('onAuthStateChanged : user : ' + user.email);
-    this.setState({isAuthenticationReady: true});
-    this.setState({isAuthenticated: !!userAuth});
-    this.setState({user: userAuth});
-    
-    if(userAuth) {
-        let remoteStored = 0;
-        let token = await userAuth.getIdToken();
-        let sessionParam = null;
-        if(!localSession) {
+        // console.log('onAuthStateChanged : user : ' + user.email);
+        this.setState({isAuthenticationReady: true});
+        this.setState({isAuthenticated: !!userAuth});
+        if(userAuth) {
+            let remoteStored = 0;
+            let token = await userAuth.getIdToken();
+            let sessionParam = null;
+            if(!localSession) {
                 localSession = userAuth.uid + '!' + token + '!' + remoteStored;
-                console.log('App : onAuthStateChangedLocal : localSession : ');
+                await this.storeData('session', localSession);
+                console.log('App : onAuthStateChangedLocal : localSession 1 : ' + token.substring(0,10));
                 sessionParam = localSession.split('!');
-        } else {
+            } else {
                 sessionParam = localSession.split('!');
-            if(!this.sameSession(sessionParam[1], token)) {
-                localSession = userAuth.uid + '!' + token + '!' + remoteStored;
-                console.log('App : onAuthStateChangedLocal : New user session : ');
+                if(!this.sameSession(sessionParam[1], token)) {
+                    localSession = userAuth.uid + '!' + token + '!' + remoteStored;
+                    this.storeData('session', localSession);
+                    console.log('App : onAuthStateChangedLocal : New user local session created : ' + localSession.substring(29, 39));
+                }
             }
-        }
-        await this.storeData('session', localSession);
-        console.log('App : onAuthStateChangedLocal 1: ' + sessionParam[1]);
-        const user = generateUserDocument(userAuth, sessionParam[1]);
-        this.setState({ userContext: { user: user, sessionToken: localSession }});
-        console.log('App : onAuthStateChangedLocal : ' + user.uid + ' : ');
-    } else {
-        if(localSession) {
-            console.log('App : onAuthStateChangedLocal : localSession : ');
-            const sessionParam = localSession.split('!');
-            await logoutUpdateUserDocument(sessionParam[0], sessionParam[1]);
-            await this.removeData('session');
+            
+            console.log('App : onAuthStateChangedLocal 1: ' + sessionParam[1].substring(0, 10));
+            const user = await updateUserDocument(userAuth, sessionParam[1]);
+            if(user){
+                console.log('App : onAuthStateChangedLocal : User : ' + user.displayName + ' : ');
+                this.setState({ userContext: { user: user, sessionToken: localSession }});
+                this.setState({userCredentials: user});
+            }
         } else {
-            console.log('App : onAuthStateChangedLocal : no localSession.');
+            if(localSession) {
+                console.log('App : onAuthStateChangedLocal : localSession 2 : ');
+                const sessionParam = localSession.split('!');
+                await logoutUpdateUserDocument(sessionParam[0], sessionParam[1]);
+                await this.removeData('session');
+            } else {
+                console.log('App : onAuthStateChangedLocal : no localSession.');
+            }
+            console.log('App : onAuthStateChangedLocal : No user connected : ');
+            this.setState({ userContext: { user: null, sessionToken: '' } });
         }
-        console.log('App : onAuthStateChangedLocal : No user connected : ');
-        this.setState({ userContext: { user: null, sessionToken: '' } });
     }
-}
-storeData = async (key, value) => {
-    try {
-        await AsyncStorage.setItem(key, value);
-        console.log('storeData : ' + value);
-    } catch (error) {
-        console.error('App : storeData : error while saving on local storage : ' + error);
-    }
-}
 
-retrieveData = async (key) => {
-    try {
-        const value = await AsyncStorage.getItem(key);
-        if (value !== null) {
-            console.log('App : retrieveData : ' + value);
+    sameSession = (token1, token2) => {
+        if(token1 === token2) return true;
+        console.log('App : SameSession false : A new session will be created.');
+        // console.log('UserProvider : SameSession false : token1 :   ' + token1);
+        // console.log('UserProvider : SameSession false : token2 :   ' + token2);
+        return false;
+    }
+
+
+    storeData = (key, value) => {
+        try {
+            AsyncStorage.setItem(key, value);
+            console.log('App : storeData saved : ' + value.substring(0,40));
+        } catch (error) {
+            console.error('App : storeData : error while saving on local storage : ' + error);
         }
-    } catch (error) {
-        console.error('App : retrieveData : error while retrieving data on local storage : ' + error);
     }
-}
 
-removeData = async (key) => {
-    try {
-        await AsyncStorage.removeItem(key);
-        console.log('App : removeData : key=' + key);
-    } catch (error) {
-        console.error('App : removeData : error while removing data on local storage : ' + error);
+    retrieveData = async (key) => {
+        try {
+            const value = await AsyncStorage.getItem(key);
+            if (value !== null) {
+                console.log('App : retrieveData retrieved session : ' + value.substring(29,39));
+                return value;
+            }
+        } catch (error) {
+            console.error('App : retrieveData : error while retrieving data on local storage : ' + error);
+        }
+        return null;
     }
-}
-render() {
-    if(!this.state.isLoadingComplete && !this.state.isAuthenticationReady && !this.props.skipLoadingScreen) {
-        console.log('App : render : Not LoadingCompleted.');
-        return ( 
-            <AppLoading 
-                    startAsync={this._loadResourcesAsync}
-                    onError={this._handleLoadingError}
-                    onFinish={this._handleFinishLoading} 
-            />);
-    } else {
-        if(this.state.user) {
-            console.log('App : render : this.state.user : ' + this.state.user.uid);
-            return (
-            <Provider store={store} >
-                {(this.state.isAuthenticated)? <HomeScreenUser userCredentials={this.state.user} /> : <AppContainer screen="HomeUser"/>}
-            </Provider>
-        );} else {
-            return (
+
+    removeData = async (key) => {
+        try {
+            await AsyncStorage.removeItem(key);
+            console.log('App : removeData : key=' + key);
+        } catch (error) {
+            console.error('App : removeData : error while removing data on local storage : ' + error);
+        }
+    }
+    render() {
+        if(!this.state.isLoadingComplete && !this.state.isAuthenticationReady && !this.props.skipLoadingScreen) {
+            console.log('App : render : Not LoadingCompleted.');
+            return ( 
+                <AppLoading 
+                        startAsync={this._loadResourcesAsync}
+                        onError={this._handleLoadingError}
+                        onFinish={this._handleFinishLoading} 
+                />);
+        } else {
+            if(this.state.userCredentials) {
+                console.log('App : render : this.state.userCredentials uid : ' + this.state.userCredentials.uid);
+                return (
                 <Provider store={store} >
-                    <AppContainer />
-                </Provider>)
+                    {(this.state.isAuthenticated)? <HomeScreenUser userCredentials={this.state.userCredentials} /> : <AppContainer screen="HomeUser"/>}
+                </Provider>);
+            } else {
+                return (
+                    <Provider store={store} >
+                        <AppContainer />
+                    </Provider>)
             }
         }
     }

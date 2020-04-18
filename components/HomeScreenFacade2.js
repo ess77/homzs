@@ -49,7 +49,7 @@ export default class HomeScreenFacade2 extends Component {
           <View style={THStyles.screen}>
             <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
             <View style={THStyles.filterComponent}>
-              <View style={THStyles.imageContainer} >
+              <View style={THStyles.imageContainerHomeScreen} >
                 <Image  source={this.CentraleHomeScreenImageUri} style={THStyles.centralImage}></Image>
                 <Text style={THStyles.logoTitle}>TinderHouse</Text>
                 <Text style={THStyles.middleLeitmotive}>Vente Rapide  -  Achat Rapide</Text>

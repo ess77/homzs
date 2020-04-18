@@ -1,4 +1,4 @@
-export default Colors = {
+const  Colors = {
     button: '#28388b', //Bleue
     buttonVal: 'rgba(106,197,29,0.8)', //Vert
     header: '#6ac51d', //Vert
@@ -20,3 +20,5 @@ export default Colors = {
     VALIDATE_COLOR: 'rgba(50,173,35,.5)', //Vert light
     CANCEL_COLOR: 'rgba(206,40,35,.5)', //Rouge-Bordeaux
 }
+
+export default Colors;
