@@ -7,9 +7,9 @@ import { CONTACT_FORM } from '../constants/FormNames';
 import THTextInputForm from './THTextInputForm';
 // import * as firebase from 'firebase';
 import THBaseButtons from './THBaseButtons';
-import { authLocal } from './sessionManagement/firebase';
+import { authLocal, logoutUpdateUserDocument } from './sessionManagement/firebase';
 
-
+let errorMessage = undefined;
 const required = values => { if(values === undefined) { return 'requis'; }} ;
   
 const nameMax20 = values => { if(values && values.length > 20) { return 'Le nom user doit avoir moins de 20 caractères!'; }};
@@ -30,53 +30,75 @@ const format = (value, name) => {
 
 const signInWithEmailAndPasswordHandler = (email, password) => {
   // event.preventDefault();
-  console.log('signInWithEmailAndPasswordHandler : SignInField : success : ' + email);
-  authLocal.signInWithEmailAndPassword(email, password).then((result) => {
-    console.log('signInWithEmailAndPasswordHandler : SignInField : authenticated : ' + result.user.email);
-  })
-    .catch(error => {
-          console.error('Erreur lors du sign in par email et password.' + error);
-  });
+  if((!email) || (!password)) {
+    //security signout, to protect privacy
+    authLocal.signOut();
+    console.log('signInWithEmailAndPasswordHandler : Securely signing out!');
+  } else {
+    authLocal.signInWithEmailAndPassword(email, password).then((result) => {
+      console.log('SignInForm : signInWithEmailAndPasswordHandler : authenticated : ' + result.user.email);
+    })
+      .catch(error => {
+            //TODO : gestion UX des erreurs
+            // console.error('SignInForm : signInWithEmailAndPasswordHandler : Erreur lors du sign in par email et password. ',  error);
+            errorMessage = error;
+    });
+  }
 };
 
 const submitval = values => {
+  errorMessage = '';
   const { email, password } = values;
-  console.log('Validation OK! : ', values);
-  signInWithEmailAndPasswordHandler(email, password);
-  // signInWithEmailAndPasswordHandler('gege@gmail.com', 'jam176');
-  this.props.navigation.navigate('HomeUser');
+  console.log('SignInForm : submitval : Validation en cours! : ', values);
+  if(email && password) {
+    return {email, password};
+  } else {
+    return false;
+  }
 }
 
 
-const submitSuccess = props => {
-  // decomp = { navigation } = props;
-    console.log('submitSuccess : ', props);
+const submitSuccess = validationOk => {
+  errorMessage = undefined;
+  const { email, password } = validationOk;
+  console.log('SignInForm : submitSuccess : ', validationOk);
+  // signInWithEmailAndPasswordHandler('rete@gmail.com', 'jam176');
+  validationOk? signInWithEmailAndPasswordHandler(email, password) : signInWithEmailAndPasswordHandler(null, null );
 }
   
 const submitFail = errors => {
-  // this.props.navigation.navigate('HomeUser');
-  console.log('submitFail : Ne vous acharnez pas, ça ne marchera pas!!!\n', errors);
-  
+  console.log('SignInForm : submitFail : Ne vous acharnez pas, ça ne marchera pas.\n', errors);
+  errorMessage = 'Veuillez remplir les champs requis!';
+  signInWithEmailAndPasswordHandler(null, null );
 }
 
 
 
 class SignInField extends Component {
+  state = {
+    errorMsg: errorMessage
+  } 
+  removeMessage = (event) => {
+    this.setState({errorMsg: ''});
+    errorMessage = '';
+    console.log('SignInForm : removing message.', this.state.errorMsg);
+  }
   render() {
     const decomp = { handleSubmit, navigation } = this.props;
     return (
         <View style={THStyles.filterComponent}>
           <View style={THStyles.userSignInForm}>
             <View style={THStyles.userSignInField}>
-              <Text>Test Form : </Text>
-              <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[nameMax20]} warn={[nameTooSimple]} />
-              <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[]} />
-              <Field keyboardType="default" label="Password" type="password" component={THTextInputForm} name="password" validate={[]} format={() => format()} />
+              <Text style={THStyles.loginTitle}>Login : </Text>
+              <Field keyboardType="default" label="Username"  onFocus={(event) => this.removeMessage(event)} component={THTextInputForm} name="username" validate={[required, nameMax20]} warn={[nameTooSimple]} autofocus/>
+              <Field keyboardType="email-address" label="Email" onFocus={(event) => this.removeMessage(event)} component={THTextInputForm} name="email" validate={[required]} />
+              <Field keyboardType="default" label="Password" onFocus={(event) => this.removeMessage(event)} security={true} component={THTextInputForm} name="password" validate={[required]} format={() => format()} />
             </View>
             <View style={THStyles.buttonGroup2}>
               <THButton text="Annuler" onPress={() => {decomp.navigation.goBack()}} theme="cancel" outline size="small"/>
               <THButton type="submit" text="Connexion" onPress={decomp.handleSubmit(submitval)} theme="validate" outline size="small"/>
             </View>
+            {!!errorMessage && <Text style={THStyles.errorMessageText}>Erreur : {errorMessage}</Text>}
           </View>
           <THBaseButtons style={THStyles.buttonContainer} fromTop='210' />
         </View>
@@ -86,7 +108,7 @@ class SignInField extends Component {
 
 export const SignInForm = reduxForm({
   form: CONTACT_FORM,
-  // onSubmit: submitval,
+  onSubmit: submitval,
   onSubmitSuccess: submitSuccess,
   onSubmitFail : submitFail,
 })(SignInField);

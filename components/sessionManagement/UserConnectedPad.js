@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, YellowBox } from 'react-native';
 import firebase from 'firebase';
 import THButton from '../THButton';
 import Colors from '../../constants/Colors';
+import { authLocal } from './firebase';
 
 export default class UserConnectedPad extends Component {
     constructor(props) {
@@ -50,7 +51,7 @@ static  navigationOptions = ({ navigation }) => {
     }
 
     signOut() {
-        firebase.auth().signOut();
+        authLocal.signOut();
         console.log('ManageSession : signOut');
         // this.props.navigation.navigate('Home');
     }

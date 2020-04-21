@@ -2,6 +2,12 @@ import { StyleSheet } from 'react-native';
 import Colors from './Colors';
 
 export default THStyles = StyleSheet.create({
+  testCircle: {
+    width: 10,
+    height: 10,
+    borderRadius: 100/2,
+    backgroundColor: Colors.VALIDATE_COLOR
+},
   button: {
     width: '10%',
   },
@@ -113,12 +119,27 @@ export default THStyles = StyleSheet.create({
     justifyContent: 'space-around',
     marginTop: 50,
   },
+  imageContainerProfileChoice: {
+    display: 'flex', /* default value */
+    opacity: .8,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    marginTop: 5,
+  },
   imageContainerHomeScreen: {
     display: 'flex', /* default value */
     opacity: .8,
     alignItems: 'center',
     justifyContent: 'space-around',
     marginTop: 125, 
+  },
+  imageContainerSearchCriteria: {
+    display: 'flex', /* default value */
+    opacity: .8,
+    // alignItems: 'center',
+    justifyContent: 'space-around',
+    marginTop: 20,
+    marginLeft: 20,
   },
   inputBox: {
     width: 300,
@@ -139,6 +160,19 @@ export default THStyles = StyleSheet.create({
     // backgroundColor: 'rgba(69,90,100,.5)',
     backgroundColor: Colors.whitePurpled,
   },
+  mainComponentCriteriaForm: {
+    flex: 1,
+    // backgroundColor: 'rgba(69,90,100,.5)',
+    backgroundColor: Colors.whitePurpled,
+    marginTop: 50,
+  },
+  criteriaForm: {
+    // flex: 1,
+    // backgroundColor: 'rgba(69,90,100,.5)',
+    // backgroundColor: Colors.CANCEL_COLOR,
+    marginLeft: 20,
+    alignItems: 'flex-start',
+  },
   middleLeitmotive: {
     fontSize: 15,
     marginTop: 30
@@ -152,6 +186,7 @@ export default THStyles = StyleSheet.create({
     flexDirection: 'row',
     height: 50,
     alignItems: 'center',
+    justifyContent: 'center'
   },
   renderFieldText: {
     fontSize: 14,
@@ -192,7 +227,7 @@ export default THStyles = StyleSheet.create({
   }, 
   userSignInForm: {
     flex: 1,
-    marginTop: 250,
+    marginTop: 200,
   },
   
     ////////////
@@ -285,6 +320,26 @@ export default THStyles = StyleSheet.create({
         fontWeight: '500',
         color: '#fff',
     },
+    titleSearchType: {
+        fontSize: 12,
+        fontWeight: '500',
+    },
+    loginTitle: {
+        fontSize: 18,
+        fontWeight: '500',
+        marginLeft: 25
+    },
+    errorMessageText: {
+        fontSize: 15,
+        fontWeight: '700',
+        marginLeft: 5,
+        color: 'red'
+    },
+    testTextInput: {
+        fontSize: 18,
+        fontWeight: '500',
+        marginLeft: 25
+    },
 
     ///////////////
    //THTextInput//
@@ -339,8 +394,6 @@ export default THStyles = StyleSheet.create({
     borderColor: Colors.TH_HOME_COLOR,
   },
   THIFlabelContainer: {
-    // alignItems: 'center',
-    // justifyContent: 'center',
     fontSize: 15,
     paddingVertical: 5,
     borderWidth: 1,

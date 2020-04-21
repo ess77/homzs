@@ -120,12 +120,12 @@ export default class SignUpMediator extends Component {
                 <View style={THStyles.startActionUserSignIn}>
                     <Field keyboardType="default" label="Prenom" component={THTextInputForm} name="firstname" validate={[required]} />
                     <Field keyboardType="default" label="Nom" component={THTextInputForm} name="lastname" validate={[required]} />
-                    <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[nameMax20]} warn={[nameTooSimple]} />
+                    <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[required, nameMax20]} warn={[nameTooSimple]} />
                     <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
                     <Field keyboardType="default" label="Agence/SIRET" component={THTextInputForm} name="company_siret" validate={[required]} />
                     <Field keyboardType="numeric" label="N°RSCAC-Agent" component={THTextInputForm} name="realtor_rscac" validate={[required]} />
                     <Field keyboardType="default" label="Adresse" component={THTextInputForm} name="address" validate={[required]} />
-                    <Field keyboardType="numeric" label="Tél. Port. : " component={THTextInputForm} name="mobilePhone" validate={[nameMax20]} warn={[nameTooSimple]} />
+                    <Field keyboardType="numeric" label="Tél. Port. : " component={THTextInputForm} name="mobilePhone" validate={[required, nameMax20]} warn={[nameTooSimple]} />
                     <Field keyboardType="numeric" label="Tél. Fixe. : " component={THTextInputForm} name="phone" validate={[nameMax20]} warn={[nameTooSimple]} />
                     <Field keyboardType="default" label="Password" security={true} component={THTextInputForm} name="password" validate={[required]} />
                 </View>
@@ -142,9 +142,9 @@ export default class SignUpMediator extends Component {
         );
       }
     }
-    export const SignUpMediatorForm = reduxForm({
-      form: SIGNUP_MEDIATOR_FORM,
-      // onSubmit: submitval,
-      onSubmitSuccess: submitSuccess,
-      onSubmitFail : submitFail,
-    })(SignUpMediator);
+export const SignUpMediatorForm = reduxForm({
+  form: SIGNUP_MEDIATOR_FORM,
+  // onSubmit: submitval,
+  onSubmitSuccess: submitSuccess,
+  onSubmitFail : submitFail,
+})(SignUpMediator);

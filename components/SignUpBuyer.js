@@ -126,11 +126,11 @@ class SignUpBuyer extends Component {
     }
 }
 
-    export const SignUpBuyerForm = reduxForm({
-      form: SIGNUP_BUYER_FORM,
-      onSubmit: submitval,
-      // onSubmitSuccess: submitSuccess,
-      onSubmitFail : submitFail,
-    })(SignUpBuyer);
+export const SignUpBuyerForm = reduxForm({
+  form: SIGNUP_BUYER_FORM,
+  onSubmit: submitval,
+  // onSubmitSuccess: submitSuccess,
+  onSubmitFail : submitFail,
+})(SignUpBuyer);
   
 

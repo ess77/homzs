@@ -41,7 +41,7 @@ export default class SignUpChoice extends Component {
 
 
     _onConnection() { 
-      console.log('Connecté : ', this.props.navigation.state.params.connected);
+      console.log('SignUpChoice : _onConnection : Connecté : ', this.props.navigation.state.params.connected);
      }
   
 
@@ -56,6 +56,7 @@ export default class SignUpChoice extends Component {
           id: ++unique,
         }],
       });
+      console.log('SignUpChoice : addLog : value added = ' + value);
     }
     selectProfiles(value) {
       this.addLog(`selecting number: ${value}`);
@@ -93,6 +94,7 @@ export default class SignUpChoice extends Component {
     selectOptionType(value) {
       const v = typeof value === 'object' ? JSON.stringify(value) : value;
       this.addLog(`selecting type: ${v}`);
+      console.log('SignUpChoice : _onConnection : selectOptionType :' + v);
       return value !== 'Do not close';
     }
     deleteLogItem(id) {
@@ -108,7 +110,7 @@ export default class SignUpChoice extends Component {
             <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
             <View style={THStyles.filterComponent}>
             <View style={styles.topbar}>
-            <Menu name="profiles" renderer={Popover}  onSelect={value => this.selectProfiles(value)} >
+            <Menu name="signup_types" renderer={Popover}  onSelect={value => this.selectProfiles(value)} >
               <MenuTrigger style={styles.trigger}>
                 <Text style={[styles.text, styles.triggerText]}>Inscription</Text>
               </MenuTrigger>
@@ -120,23 +122,24 @@ export default class SignUpChoice extends Component {
               </MenuOptions>
             </Menu>
             <View style={{flex:1}}></View>
-            <Menu name="types" onSelect={value => this.selectOptionType(value)} onBackdropPress={() => this.addLog('menu will be closed by backdrop')} onOpen={() => this.addLog('menu is opening')} onClose={() => this.addLog('menu is closing')}>
+            <Menu name="tools" onSelect={value => this.selectOptionType(value)} onBackdropPress={() => this.addLog('menu will be closed by backdrop')} onOpen={() => this.addLog('menu is opening')} onClose={() => this.addLog('menu is closing')}>
               <MenuTrigger onAlternativeAction={() => this.addLog('trigger longpressed')} style={styles.trigger}>
-                <Text style={[styles.text, styles.triggerText]}>Profiles</Text>
+                <Text style={[styles.text, styles.triggerText]}>Outils</Text>
               </MenuTrigger>
-              <MenuOptions customStyles={{ optionText: styles.text, backgroundColor: Colors.homeCorporate }} style={{backgroundColor: Colors.TH_POPUP, borderRadius: 25}}>
+              <MenuOptions customStyles={{ optionText: [styles.textOptions, styles.slideInOption] , backgroundColor: Colors.whiteGreened }} style={{backgroundColor: Colors.whiteMarooned, borderRadius: 15}}>
                 <MenuOption value="profile" text='Profile' />
                 <MenuOption value="paramètres" disabled={true} text='Paramètres' />
                 <MenuOption value="payment" disableTouchable={true} text='Paiement' />
                 <MenuOption value="network" text='Notre Réseau' />
                 <View style={styles.divider}/>
-                <MenuOption value={{ help_chapter: 'profile' }} text='Aides/Profile' />
+                <MenuOption value={{ help_chapter: 'aid_profile' }} text='Aides/Profile' />
               </MenuOptions>
             </Menu>
           </View>
 
           <ScrollView style={styles.logView}>
             {this.state.log.map((l, i) => {
+              console.log('SignUpChoice : render : ScrollView : ' + i);
               const wrapperStyle = {backgroundColor: i % 2 ? '#fd654241' : '#fd654265'};
               const textStyle = {color: l.highlighted ? 'red' : 'black'};
               return (
@@ -154,7 +157,7 @@ export default class SignUpChoice extends Component {
               );
               })}
             </ScrollView>
-            <View style={THStyles.imageContainer} >
+            <View style={THStyles.imageContainerProfileChoice} >
                 <Image  source={this.CentraleHomeScreenImageUri} style={THStyles.centralImage}></Image>
                 <Text style={THStyles.logoTitle}>TinderHouse</Text>
                 <Text style={THStyles.middleLeitmotive}>Vente Rapide  -  Achat Rapide</Text>
@@ -217,7 +220,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    color: 'white'
+    // color: 'white'
+  },
+  textOptions: {
+    fontSize: 18,
+    // color: 'black'
   },
   userConnected: {
     backgroundColor: Colors.whitePurpled,

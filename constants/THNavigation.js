@@ -24,6 +24,7 @@ import SendPassword from '../components/SendPassword';
 import UserConnectedPad from '../components/sessionManagement/UserConnectedPad';
 import THTextInputForm from '../components/THTextInputForm';
 import Colors from './Colors';
+import SearchCriteriaWrapper from '../components/SearchCriteriaWrapper';
 
 let screenDisplayed = 'Home';
 
@@ -83,6 +84,7 @@ export const AppNavigator = createStackNavigator(
       SignUpSeller: SignUpSellerWrapper,
       SignUpMediator: SignUpMediatorWrapper,
       SignUpPT: SignUpPartTimeWrapper,
+      SearchCriteria: SearchCriteriaWrapper,
       TestFlex: TestFlex,
       LocateUser: UserLocation,
       SignUpTP: SignUpThirdPart,

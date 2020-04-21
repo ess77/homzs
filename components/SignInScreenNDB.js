@@ -8,6 +8,7 @@ import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
 import THBaseButtons from './THBaseButtons';
 import { TextInput } from 'react-native-gesture-handler';
+import { authLocal } from './sessionManagement/firebase';
 
 export default class SignInScreenNDB extends Component {
     HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
@@ -40,7 +41,13 @@ export default class SignInScreenNDB extends Component {
 
     componentDidMount() {
       // this.props.navigation.setParams({ onConnection: this._onConnection.bind(this) });
-      console.log('Connecté : ', this.props.navigation);
+      console.log('SignInScreenNDB : componentDidMount : navigation = ', this.props.navigation);
+    }
+
+    async connDefaultUser() {
+      await authLocal.signInWithEmailAndPassword('rete@gmail.com', 'jam176');
+      console.log('SignInScreenNDB : connDefaultUser : Connecté : navigation = ', this.props.navigation);
+      // this.props.navigation.navigate('HomeUser')
     }
   
 
@@ -55,7 +62,7 @@ export default class SignInScreenNDB extends Component {
                     </View>
                     <View style={THStyles.buttonGroup2}>
                         <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" outline size="small"/>
-                        <THButton text="Connexion" onPress={() => {this.props.navigation.navigate('HomeUser')}} theme="validate" outline size="small"/>
+                        <THButton text="Connexion" onPress={this.connDefaultUser} theme="validate" outline size="small"/>
                     </View>
                 </View>
                 <THBaseButtons style={THStyles.buttonContainer} fromTop='210' />

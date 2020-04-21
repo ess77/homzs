@@ -130,6 +130,16 @@ export default class App extends Component {
             console.error('App : removeData : error while removing data on local storage : ' + error);
         }
     }
+
+    componentDidMount() {
+        //loads the local.db file and opens it with SQLite
+        // await Expo.FileSystem.downloadAsync(
+        //     Expo.Asset.fromModule(require("./assets/db/local.db")).uri,
+        //     `${Expo.FileSystem.documentDirectory}SQLite/local.db`
+        //   );
+        
+        //   SQLite.openDatabase("local.db");
+    }
     render() {
         if(!this.state.isLoadingComplete && !this.state.isAuthenticationReady && !this.props.skipLoadingScreen) {
             console.log('App : render : Not LoadingCompleted.');
@@ -149,8 +159,11 @@ export default class App extends Component {
             } else {
                 return (
                     <Provider store={store} >
-                        <AppContainer />
-                    </Provider>)
+                        <PaperProvider>
+                            <AppContainer />
+                        </PaperProvider>
+                    </Provider>
+                    )
             }
         }
     }
