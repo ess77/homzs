@@ -11,7 +11,7 @@ const requiredValid = values => { if(values.trim()) return true} ;
   
 const nameMax20Valid = values => { if(values && values.length < 21) return true};
   
-const alphabeticalOnlyValid = values => { if(/^[-a-zA-Z]*$/i.test(values)) return true};
+const alphabeticalOnlyValid = values => { if(/^[\s-a-zA-Z]*$/i.test(values)) return true};
 
 const passwordValid = values => { if(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values)) return true};
 
@@ -67,7 +67,7 @@ const submitFail = errors => {
 
 const helperTextErrorMessages = {
   usernamePlaceholderText: "Entrer votre username, en lettres alphabetique.",
-  usernameError: "Attention: Seules les lettres sont autorisées.",
+  usernameError: "Attention: Seules les lettres sont autorisées, sans espace.",
   usernameHelperText: "Le nom user doit avoir moins de 20 caractères!",
   usernameComplexityHelperText: "Vous pouvez faire mieux que ça, n\'est ce pas!",
   emailPlaceholderText: "Entrez votre mail.",
@@ -110,12 +110,10 @@ export default class SignInRNPForm extends ValidationComponent {
   
   validateUsername(username) {
     if(requiredValid(username) && alphabeticalOnlyValid(username) && nameMax20Valid(username)) {
-      // this.setState({ username: username.trim(), usernameMessage: ''});
-      this.setState({ usernameMessage: ''});
+      this.setState({ username: username.trim(), usernameMessage: ''});
       console.log('SignInForm : validateUsername : ok');
     } else {
-      // this.setState({ username: username.trim(), usernameMessage: helperTextErrorMessages.usernameError});
-      this.setState({ usernameMessage: helperTextErrorMessages.usernameError});
+      this.setState({ username: username.trim(), usernameMessage: helperTextErrorMessages.usernameError});
       console.log('SignInForm : validateUsername : error  : ');
     }
     // Call ValidationComponent validate method
@@ -181,6 +179,7 @@ export default class SignInRNPForm extends ValidationComponent {
                 keyboardType="default"
                 style={{ backgroundColor: 'transparent', paddingHorizontal: 0, margin: 0 }}
                 placeholder={htem.usernamePlaceholderText}
+                value={this.state.username}
                 error={this.state.usernameMessage}
                 onChangeText={username => this.validateUsername(username)}/>
               <HelperText type="error" padding="none" visible={this.state.usernameMessage} >{helperTextErrorMessages.usernameError}</HelperText>
@@ -192,6 +191,7 @@ export default class SignInRNPForm extends ValidationComponent {
                 keyboardType="email-address"
                 style={{ backgroundColor: 'transparent', paddingHorizontal: 0, margin: 0 }}
                 placeholder={htem.emailPlaceholderText}
+                value={this.state.email}
                 error={this.state.emailMessage}
                 onChangeText={email => this.validateEmail(email)}/>
               <HelperText type="error" padding="none" visible={this.state.emailMessage} >{helperTextErrorMessages.emailHelperText}</HelperText>
@@ -204,6 +204,7 @@ export default class SignInRNPForm extends ValidationComponent {
                 keyboardType="default"
                 style={{ backgroundColor: 'transparent', paddingHorizontal: 0, margin: 0 }}
                 placeholder={htem.passwordPlaceholderText}
+                value={this.state.password}
                 secureTextEntry={true} 
                 error={this.state.passwordMessage}
                 onChangeText={password => this.validatePassword(password)}/>
