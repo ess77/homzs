@@ -89,6 +89,7 @@ export default class SignInRNPForm extends ValidationComponent {
       passwordMessage: '',
     }
     this._onPressButton = this._onPressButton.bind(this);
+    this.validate = this.validate.bind(this);
   }
 
   static  navigationOptions = ({ navigation }) => {
