@@ -105,6 +105,10 @@ export default THStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.whitePurpled,
   },
+  filterComponentRNP: {
+    // flex: 1,
+    backgroundColor: Colors.whitePurpled,
+  },
   
   imageBackground: {
     flex: 1, 
@@ -226,7 +230,7 @@ export default THStyles = StyleSheet.create({
     color: Colors.whitePurpled,
   }, 
   userSignInForm: {
-    flex: 1,
+    // flex: 1,
     marginTop: 120,
     // marginTop: {userSignInFormMarginTop},
   },

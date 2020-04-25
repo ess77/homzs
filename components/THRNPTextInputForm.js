@@ -9,22 +9,21 @@ export default class THRNPTextInputForm extends Component {
       this.state = { value: '' };
     }
     render() {
-        const { label, keyboardType, value, placeholder, security, helperTextMessage, autofocus, meta: {touched, error, warning}, input: {onError, onFocus, onChange, ...restInput} } = this.props;
+        const { label, keyboardType, value, onChangeText, error, placeholder, security, helperTextMessage, autofocus, meta: {touched, warning}, input: {onError, onFocus, ...restInput} } = this.props;
         return (
           <View style={styles.inputContainerStyle}>
             <TextInput
               label={label}
-              style={{ backgroundColor: 'transparent', paddingHorizontal: 0 }}
+              style={{ backgroundColor: 'transparent', paddingLeft: 5, paddingBottom: 0 }}
               placeholder={ placeholder }
-              // value={value}
+              value={value}
               error={error}
-              onChangeText={value => {this.setState({ value })}}
-              onChange={onChange}
+              onChangeText={onChangeText}
               keyboardType={keyboardType} 
               secureTextEntry={security} 
-              onFocus={onFocus}  
+              onFocus={onFocus}
               autofocus={autofocus}/>
-            <HelperText type="error" padding="none" visible={!!error}>{helperTextMessage}</HelperText>
+            <HelperText type="error" padding="none" visible={error}>{helperTextMessage}</HelperText>
             <HelperText type="warning" padding="none" visible={!!warning}>{helperTextMessage}</HelperText>
           </View>
         )

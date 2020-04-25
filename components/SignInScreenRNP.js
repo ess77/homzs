@@ -14,6 +14,7 @@ export default class SignInScreenRNP extends Component {
       
         //Suppress warnings for timer/performance bottleneck
         YellowBox.ignoreWarnings(['Setting a timer']);
+        YellowBox.ignoreWarnings(['Warning: componentWillMount']);
         
     }
     HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');

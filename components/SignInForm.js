@@ -9,19 +9,18 @@ import { authLocal, logoutUpdateUserDocument } from './sessionManagement/firebas
 import THRNPTextInputForm from './THRNPTextInputForm';
 
 let errorMessage = undefined;
-const required = values => { if(values === undefined) { return 'requis'; }} ;
+const requiredValid = values => { if(values.trim()) return true} ;
   
-const nameMax20 = values => { if(values && values.length > 20) { return helperTextErrorMessages.usernameMaxLength; }};
+const nameMax20Valid = values => { if(values && values.length < 21) return true};
   
-const alphabeticalOnly = values => { if(! /^[a-zA-Z]*$/i.test(values)) {return helperTextErrorMessages.usernameHelperText;}};
+const alphabeticalOnlyValid = values => { if(/^[\s-a-zA-Z]*$/i.test(values)) return true};
 
-const validPassword = values => { if(!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values)) {return helperTextErrorMessages.passwordHelperText;}};
+const passwordValid = values => { if(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values)) return true};
 
-const validMail = values => { if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(values)) {return 'Veuillez fournir un email valide!';}};
+const mailValid = values => { if(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(values)) return true};
 
-const nameTooSimple = values => { // values = username
-  if(values === 'coco' || values === 'fifi' || values === 'dede' || values === 'roro') { return 'Vous pouvez faire mieux que ça, n\'est ce pas!' }
-};
+const nameComplexityValid = values => { if(values !== 'coco' && values !== 'fifi' && values !== 'dede' && values !== 'roro') return true};
+
 
 const format = (value, name) => {
   let enteredValue = new String(value);
@@ -50,8 +49,8 @@ const signInWithEmailAndPasswordHandler = (email, password) => {
 
 const submitval = values => {
   errorMessage = '';
-  const { email, password } = values;
-  console.log('SignInForm : submitval : Validation en cours! : ', values);
+  const { username, email, password } = values;
+  console.log('SignInForm : submitval : Validation en cours! : ', username);
   if(email && password) {
     return {email, password};
   } else {
@@ -62,8 +61,8 @@ const submitval = values => {
 
 const submitSuccess = validationOk => {
   errorMessage = undefined;
-  const { email, password } = validationOk;
-  console.log('SignInForm : submitSuccess : ', validationOk);
+  const {username, email, password } = validationOk;
+  console.log('SignInForm : submitSuccess : ', username);
   // signInWithEmailAndPasswordHandler('rete@gmail.com', 'jam176');
   validationOk? signInWithEmailAndPasswordHandler(email, password) : signInWithEmailAndPasswordHandler(null, null );
 }
@@ -85,14 +84,17 @@ const helperTextErrorMessages = {
 }
 
 class SignInField extends Component {
-  state = {
-    username: '',
-    email: '',
-    password: '',
-    errorMsg: errorMessage,
-    usernameMessage: '',
-    emailMessage: '',
-    passwordMessage: '',
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      email: '',
+      password: '',
+      errorMsg: errorMessage,
+      usernameMessage: undefined,
+      emailMessage: '',
+      passwordMessage: '',
+    }
   } 
   removeMessage = (event) => {
     if(this.state.errorMsg) {
@@ -101,14 +103,34 @@ class SignInField extends Component {
       this.setState({errorMsg: ''});
     }
   }
-  usernameValidation = event => {
-    const tempUsername = event.nativeEvent.text;
-    const valid = /^[a-zA-Z]*$/.test(tempUsername);
+  usernameValidation = tempUsername => {
+    const valid = requiredValid(tempUsername) && nameMax20Valid(tempUsername) && alphabeticalOnlyValid(tempUsername);
     if(!valid) {
       console.log('SignInForm : usernameValidation not valid', valid, tempUsername);
-      this.setState({username: tempUsername, usernameMessage: helperTextErrorMessages.usernameError});
+      this.setState({username: tempUsername.trim(), usernameMessage: helperTextErrorMessages.usernameError});
     } else {
-      this.setState({username: tempUsername, errorMsg: ''});
+      this.setState({username: tempUsername.trim(), usernameMessage: ''});
+    }
+    return valid;
+  }
+  emailValidation = tempEmail => {
+    const valid = requiredValid(tempEmail) && mailValid(tempEmail);
+    if(!valid) {
+      console.log('SignInForm : emailValidation not valid', valid, tempEmail);
+      this.setState({email: tempEmail.trim(), emailMessage: helperTextErrorMessages.mailHelperText});
+    } else {
+      this.setState({email: tempEmail.trim(), emailMessage: ''});
+    }
+    return valid;
+  }
+  passwordValidation = tempPassword => {
+    // const valid = requiredValid(tempPassword) && nameMax20Valid(tempPassword) && passwordValid(tempPassword);
+    const valid = requiredValid(tempPassword) && nameMax20Valid(tempPassword);
+    if(!valid) {
+      console.log('SignInForm : passwordValidation not valid', valid, tempPassword);
+      this.setState({password: tempPassword.trim(), passwordMessage: helperTextErrorMessages.passwordHelperText});
+    } else {
+      this.setState({password: tempPassword.trim(), passwordMessage: ''});
     }
     return valid;
   }
@@ -117,24 +139,30 @@ class SignInField extends Component {
     const decomp = { handleSubmit, navigation } = this.props;
     const { ...htem } = helperTextErrorMessages;
     return (
-      <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-300}>
+      <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-500}>
       <ScrollView keyboardShouldPersistTaps={'never'} removeClippedSubviews={false}>
         <View style={THStyles.filterComponent}>
           <View style={THStyles.userSignInForm}>
               <Text style={THStyles.loginTitle}>Login : </Text>
 
               <Field keyboardType="default" label="Username" placeholder={htem.usernamePlaceholderText}
-                     onFocus={(event) => this.removeMessage(event)} component={THRNPTextInputForm} name="username"
-                     onChange={(value) => {this.usernameValidation(value)}}
-                      warn={[nameTooSimple]} validate={[required, nameMax20, alphabeticalOnly]} helperTextMessage={this.state.usernameMessage}/>
+                     component={THRNPTextInputForm} name="username"
+                     onChangeText={this.usernameValidation}
+                     value={this.state.username}
+                     error={!!this.state.usernameMessage}
+                     helperTextMessage={helperTextErrorMessages.usernameError}/>
 
               <Field keyboardType="email-address" label="Email" placeholder={htem.mailPlaceholderText} 
-                     onFocus={(event) => this.removeMessage(event)} component={THRNPTextInputForm} name="email"
-                     validate={[required, validMail]} helperTextErrorMessage={htem.mailHelperText} />
+                     onChangeText={this.emailValidation} component={THRNPTextInputForm} name="email"
+                     value={this.state.email}
+                     error={!!this.state.emailMessage}
+                     helperTextMessage={htem.mailHelperText} />
 
               <Field keyboardType="default" label="Password" placeholder={htem.passwordPlaceholderText} 
-                     onFocus={(event) => this.removeMessage(event)} security={true} component={THRNPTextInputForm} name="password" 
-                     validate={[required, validPassword]} helperTextErrorMessage={htem.passwordHelperText} format={() => format()} />
+                     onChangeText={this.passwordValidation} security={true} component={THRNPTextInputForm} name="password"
+                     value={this.state.password}
+                     error={!!this.state.passwordMessage}
+                     helperTextMessage={htem.passwordHelperText} />
 
             <View style={THStyles.buttonGroup2}>
               <THButton text="Annuler" onPress={() => {decomp.navigation.goBack()}} theme="cancel" outline size="small"/>

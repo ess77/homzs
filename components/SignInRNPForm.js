@@ -1,6 +1,7 @@
 import React from 'react';
-import { Text, View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { Text, View, ScrollView, KeyboardAvoidingView, YellowBox } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
+import { authLocal } from './sessionManagement/firebase'
 import THStyles from '../constants/THStyles';
 import THButton from './THButton';
 import THBaseButtons from './THBaseButtons';
@@ -21,14 +22,15 @@ const nameComplexityValid = values => { if(values !== 'coco' && values !== 'fifi
 
 
 
-const signInWithEmailAndPasswordHandler = (email, password) => {
+const signInWithEmailAndPasswordHandler = async (email, password) => {
+  console.log('signInWithEmailAndPasswordHandler : received parameters : ' + email + ' : ' + password);
   // event.preventDefault();
   if((!email) || (!password)) {
     //security signout, to protect privacy
     authLocal.signOut();
     console.log('signInWithEmailAndPasswordHandler : Securely signing out!');
   } else {
-    authLocal.signInWithEmailAndPassword(email, password).then((result) => {
+    await authLocal.signInWithEmailAndPassword(email, password).then((result) => {
       console.log('SignInForm : signInWithEmailAndPasswordHandler : authenticated : ' + result.user.email);
     })
       .catch(error => {
@@ -90,6 +92,7 @@ export default class SignInRNPForm extends ValidationComponent {
     }
     this._onPressButton = this._onPressButton.bind(this);
     this.validate = this.validate.bind(this);
+    YellowBox.ignoreWarnings(['Warning: componentWillMount has been renamed']);
   }
 
   static  navigationOptions = ({ navigation }) => {
@@ -156,11 +159,15 @@ export default class SignInRNPForm extends ValidationComponent {
     const validForm = this.validate({
       username: {minlength:3, maxlength:20, required: true},
       email: {email: true, required: true},
-      password: {minlength:8, maxlength:20, password: true, required: true},
+      password: {minlength:6, maxlength:20, required: true},
     });
     if(validForm) {
-      console.log('Form valide!');
-      
+      console.log('Form valide! : soumission.');
+      signInWithEmailAndPasswordHandler(this.state.email, this.state.password);
+      console.log('Après signIn.');
+      this.props.navigation.navigate('Home');
+    } else {
+      console.log('Form not valide!');
     }
   };
 
@@ -168,9 +175,9 @@ export default class SignInRNPForm extends ValidationComponent {
     console.log('SignInForm : render values : ' +  this.state.errorMsg + ' : ' + this.state.username + ' : ' + this.state.email + ' : ' + this.state.password + ' :$ ');
     const { ...htem } = helperTextErrorMessages;
     return (
-    <View style={THStyles.filterComponent}>
+    <View style={THStyles.filterComponentRNP}>
       <View style={THStyles.userSignInForm}>
-        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={0}>
+        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-300}>
           <ScrollView keyboardShouldPersistTaps={'never'} removeClippedSubviews={false}>
             <Text style={THStyles.loginTitle}>Login : </Text>
               <View style={THStyles.inputContainerStyleTestRNP}>
@@ -184,6 +191,30 @@ export default class SignInRNPForm extends ValidationComponent {
                 error={this.state.usernameMessage}
                 onChangeText={username => this.validateUsername(username)}/>
               <HelperText type="error" padding="none" visible={this.state.usernameMessage} >{helperTextErrorMessages.usernameError}</HelperText>
+            </View>
+            <View style={THStyles.inputContainerStyleTestRNP}>
+              <TextInput
+                ref="email"
+                label="Email"
+                keyboardType="email-address"
+                style={{ backgroundColor: 'transparent', paddingHorizontal: 0, margin: 0 }}
+                placeholder={htem.emailPlaceholderText}
+                value={this.state.email}
+                error={this.state.emailMessage}
+                onChangeText={email => this.validateEmail(email)}/>
+              <HelperText type="error" padding="none" visible={this.state.emailMessage} >{helperTextErrorMessages.emailHelperText}</HelperText>
+            </View>
+            <View style={THStyles.inputContainerStyleTestRNP}>
+              <TextInput
+                ref="email"
+                label="Email"
+                keyboardType="email-address"
+                style={{ backgroundColor: 'transparent', paddingHorizontal: 0, margin: 0 }}
+                placeholder={htem.emailPlaceholderText}
+                value={this.state.email}
+                error={this.state.emailMessage}
+                onChangeText={email => this.validateEmail(email)}/>
+              <HelperText type="error" padding="none" visible={this.state.emailMessage} >{helperTextErrorMessages.emailHelperText}</HelperText>
             </View>
             <View style={THStyles.inputContainerStyleTestRNP}>
               <TextInput
@@ -215,11 +246,12 @@ export default class SignInRNPForm extends ValidationComponent {
             <View style={THStyles.buttonGroup2}>
               <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" outline size="small"/>
               <THButton type="submit" text="Connexion" onPress={this._onPressButton} theme="validate" outline size="small"/>
-              <Text>
-                {this.getErrorMessages()}
-              </Text>
+              <View style={THStyles.errorMessageText}>
+                <Text>
+                  {this.getErrorMessages()}
+                </Text>
+              </View>
             </View>
-            {!!errorMessage && <Text style={THStyles.errorMessageText}>Erreur : {errorMessage}</Text>}
             </ScrollView>
             </KeyboardAvoidingView>
           </View>
