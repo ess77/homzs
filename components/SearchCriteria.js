@@ -12,6 +12,7 @@ import { SEARCH_CRITERIA_FORM } from '../constants/FormNames';
 import THCheckboxForm from './THCheckboxForm';
 import THRadioForm from './THRadioForm';
 import THRadioAddressForm from './THRadioAddressForm';
+import THRNPTextInputForm from './THRNPTextInputForm';
 
 
 const required = values => { if(values === undefined) { return 'requis'; }} ;
@@ -132,9 +133,9 @@ class SearchCriteria extends Component {
               <View style={THStyles.criteriaForm}>
               <Field name="areas" radios={checksSearchArea} setLabel="Pick Area Search " component={THRadioAddressForm} onChangeChecked={(value) => this.addressToggle(value)}/>
               { this.state.addressChecked? (<View style={THStyles.criteriaForm}>
-                <Field keyboardType="default" label="Pays" component={THTextInputForm} name="country" validate={[required, nameMax20]} />
-                <Field keyboardType="default" label="Ville/CP" security={true} component={THTextInputForm} name="citypc" validate={[required]} />
-                <Field keyboardType="default" label="N° et Rue" security={true} component={THTextInputForm} name="streetNumber" validate={[required]} />
+                <Field keyboardType="default" label="Pays" component={THRNPTextInputForm} name="country" validate={[required, nameMax20]} />
+                <Field keyboardType="default" label="Ville/CP" security={true} component={THRNPTextInputForm} name="citypc" validate={[required]} />
+                <Field keyboardType="default" label="N° et Rue" security={true} component={THRNPTextInputForm} name="streetNumber" validate={[required]} />
               </View>): null}
             </View>
             <View style={THStyles.buttonGroup2}>

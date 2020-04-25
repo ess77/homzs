@@ -1,4 +1,6 @@
 export const CONTACT_FORM = 'ContactForm';
+export const CONTACT_FORM_RNP = 'ContactFormRnp';
+export const CONTACT_FORM1 = 'ContactForm1';
 export const SIGNUP_BUYER_FORM = 'SignUpBuyerForm';
 export const SIGNUP_SELLER_FORM = 'SignUpSellerForm';
 export const SIGNUP_MEDIATOR_FORM = 'SignUpMediatorForm';

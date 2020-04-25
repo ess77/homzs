@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { AppRegistry, AsyncStorage, YellowBox  } from 'react-native';
 import { AppLoading, Asset, font } from 'expo';
-import AppContainer from './constants/THNavigation';
+import MainAppNavigation from './constants/THNavigation';
 import { createStore } from 'redux';
-import { Provider } from 'react-redux';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider as StoreProvider } from 'react-redux';
 import reducers from './reducers/reducers';
 import * as firebase from 'firebase';
 import '@firebase/auth';
@@ -22,7 +23,7 @@ if (!global.atob) { global.atob = decode };
 
 const store = createStore(reducers);
 let localSession = undefined;
-export default class App extends Component {
+export default class Main extends Component {
     constructor(props) {
         super(props);
 
@@ -154,19 +155,19 @@ export default class App extends Component {
                 console.log('App : render : this.state.userCredentials uid : ' + this.state.userCredentials.uid);
                 return (
                 <Provider store={store} >
-                    {(this.state.isAuthenticated)? <HomeScreenUser userCredentials={this.state.userCredentials} /> : <AppContainer screen="HomeUser"/>}
+                    {(this.state.isAuthenticated)? <HomeScreenUser userCredentials={this.state.userCredentials} /> : <MainAppNavigation screen="HomeUser"/>}
                 </Provider>);
             } else {
                 return (
-                    <Provider store={store} >
+                    <StoreProvider store={store} >
                         <PaperProvider>
-                            <AppContainer />
+                            <MainAppNavigation />
                         </PaperProvider>
-                    </Provider>
+                    </StoreProvider>
                     )
             }
         }
     }
 };
 
-AppRegistry.registerComponent('TinderHouzze', () => AppContainer);
+AppRegistry.registerComponent('TinderHouzze', () => Main);

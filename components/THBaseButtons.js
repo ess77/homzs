@@ -6,22 +6,22 @@ export default class THBaseButtons extends Component {
     constructor(props) {
         super(props);
     }
-    // static  navigationOptions = ({ navigation }) => {
-    //     const { params = {} } = navigation.state;
-    //     let headerTitle = 'Generic';
-    //     let headerTitleStyle = {
-    //       color: 'white',
-    //     };
-    //     let headerStyle = {
-    //       backgroundColor: Colors.homeCorporate,
-    //     };
-    //     let headerRight = (<THButton 
-    //                           text={ THConstants.notConnected }
-    //                           theme="homeBottom" outline size="small"
-    //                           onPress={ () => params.onConnection() } />);
+    static  navigationOptions = ({ navigation }) => {
+        const { params = {} } = navigation.state;
+        let headerTitle = 'Generic';
+        let headerTitleStyle = {
+          color: 'white',
+        };
+        let headerStyle = {
+          backgroundColor: Colors.homeCorporate,
+        };
+        let headerRight = (<THButton 
+                              text={ THConstants.notConnected }
+                              theme="homeBottom" outline size="small"
+                              onPress={ () => params.onConnection() } />);
   
-    //     return ({ headerStyle, headerTitleStyle, headerTitle, headerRight });
-    //   }
+        return ({ headerStyle, headerTitleStyle, headerTitle, headerRight });
+      }
     render() {
         const fromTop = Math.round(this.props.fromTop);
         return(

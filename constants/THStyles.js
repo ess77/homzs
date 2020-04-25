@@ -170,7 +170,7 @@ export default THStyles = StyleSheet.create({
     // flex: 1,
     // backgroundColor: 'rgba(69,90,100,.5)',
     // backgroundColor: Colors.CANCEL_COLOR,
-    marginLeft: 20,
+    // marginLeft: 20,
     alignItems: 'flex-start',
   },
   middleLeitmotive: {
@@ -227,7 +227,8 @@ export default THStyles = StyleSheet.create({
   }, 
   userSignInForm: {
     flex: 1,
-    marginTop: 200,
+    marginTop: 120,
+    // marginTop: {userSignInFormMarginTop},
   },
   
     ////////////
@@ -327,7 +328,7 @@ export default THStyles = StyleSheet.create({
     loginTitle: {
         fontSize: 18,
         fontWeight: '500',
-        marginLeft: 25
+        marginLeft: 20
     },
     errorMessageText: {
         fontSize: 15,
@@ -368,6 +369,11 @@ export default THStyles = StyleSheet.create({
     marginHorizontal: 20,
     marginVertical: 10,
     width: 100,
+  },
+  inputContainerStyleTestRNP: {
+    margin: 0,
+    width: 375,
+    paddingLeft: 25
   },
     ///////////////
    //THTextInputForm//

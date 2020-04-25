@@ -57,8 +57,8 @@ export default class TinderHouses extends Component {
             extrapolate: 'clamp'
         });
     }
-    componentWillMount() {
-        console.log('TinderHouse : componentWillMount', Slide);
+    componentDidMount() {
+        console.log('TinderHouse :  componentDidMount', Slide);
         this.setState({currentIndex: 0});
         this.PanResponder = PanResponder.create({
             onStartShouldSetPanResponder: (evt ,gestureState) => true,

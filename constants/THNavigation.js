@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
@@ -25,6 +24,7 @@ import UserConnectedPad from '../components/sessionManagement/UserConnectedPad';
 import THTextInputForm from '../components/THTextInputForm';
 import Colors from './Colors';
 import SearchCriteriaWrapper from '../components/SearchCriteriaWrapper';
+import SignInScreenRNP from '../components/SignInScreenRNP';
 
 let screenDisplayed = 'Home';
 
@@ -79,6 +79,7 @@ export const AppNavigator = createStackNavigator(
       SignIn: SignInScreen,
       MyNewForm: MyNewForm,
       SignInNDB: SignInScreenNDB,
+      SignInRNP: SignInScreenRNP,
       SignUpChoice: SignUpChoice,
       SignUpBuyer: SignUpBuyerWrapper,
       SignUpSeller: SignUpSellerWrapper,
@@ -102,11 +103,11 @@ export const AppNavigator = createStackNavigator(
     }
   );
   
-const AppContainer = createAppContainer(AppDrawerNavigator);
+const MainAppNavigation = createAppContainer(AppDrawerNavigator);
 // const AppContainer = createAppContainer(AppNavigator);
-export default AppContainer;
+export default MainAppNavigation;
 
-// const AppContainer = (props) => {
+// const MainAppNavigation = (props) => {
   // screenDisplayed = props.screen;
 //   console.log('screenDisplayed : ' + screenDisplayed);
 //   return(
@@ -114,4 +115,4 @@ export default AppContainer;
 //     {createAppContainer(AppDrawerNavigator)}
 //     </View>);
 // }
-// export default AppContainer;
+// export default MainAppNavigation;

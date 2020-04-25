@@ -7,8 +7,8 @@ const  Colors = {
     textVal: 'rgba(106,197,29,0.9)', //Vert
     violetDachine: '#533c3c', //Violet Dachine
     whiteTransp: 'rgba(255,255,255,0.8)', //Blanc demi transparent
-    whitePurpled: 'rgba(231,223,216,0.5)', //Blanc cassé Violété
     whiteGreened: 'rgba(226,233,215,0.5)', //Blanc cassé Verdoyant
+    whitePurpled: 'rgba(231,223,216,0.5)', //Blanc cassé Violété
     whiteMarooned: 'rgba(158,125,104,0.5)', //Blanc cassé Marron
 
 
