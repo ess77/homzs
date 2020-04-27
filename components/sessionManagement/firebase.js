@@ -5,7 +5,7 @@ import firebaseConfig from './ApiKeys';
 
 let fireApp = undefined;
 if (!firebase.apps.length) {
-  console.log('Firebase : Initializing Firebase App. at ' + new Date().toUTCString());
+  console.log('Firebase : Initializing Firebase App. on : ' + new Date().toUTCString());
   fireApp = firebase.initializeApp(firebaseConfig);
 }
 export const authLocal = firebase.auth();
@@ -53,19 +53,23 @@ export const updateUserDocument = async (userAuth, token) => {
   const tokenAuth = await userAuth.getIdToken();
   console.log('firebase : updateUserDocument 2 : auth : ' + userAuth.uid);
   const userRef = firestoreLocal.doc(`users/${userAuth.uid}`);
-  const snapshot = await userRef.get();
+  console.log('firebase : updateUserDocument 21 : userRef : ', userRef);
   if (!sameSession(token, tokenAuth)) {
     console.log('firebase : updateUserDocument 3 : updating user data.');
     let  snapshot, connected, loginHistory  = undefined;
-    await userRef.get().then((result) => {
+    try {
+      console.log('firebase : updateUserDocument 31 : updating user data.');
+      const result = await userRef.get();
+      console.log('firebase : updateUserDocument 32 : updating user data.');
       if(result.data()) {
+        console.log('firebase : updateUserDocument 33 : updating user data.');
         snapshot = result.data();
         connected = snapshot.connected;
         loginHistory = snapshot.loginHistory;
       }
-    }).catch((error) => {
+    } catch(error) {
       console.error("Firebase : updateUserDocument : Error getting snapshot. " + error);
-    });
+    }
 
     const length = loginHistory.length;
     console.log('Firebase : updateUserDocument 4 : updateUserDocument : last loginHistory = ' + loginHistory[length - 1].substring(0,20));
@@ -90,7 +94,7 @@ export const updateUserDocument = async (userAuth, token) => {
   } else {
     console.log('Firebase : updateUserDocument : Same session, no futher update.');
   }
-  return getUserDocument(userAuth.uid);;
+  return getUserDocument(userAuth.uid);
 }
 
 export const logoutUpdateUserDocument = async (userUid, tokenAuth) => {
@@ -99,18 +103,18 @@ export const logoutUpdateUserDocument = async (userUid, tokenAuth) => {
   console.log('Firebase : logoutUpdateUserDocument 2: ' + userUid);
   const userRef = firestoreLocal.doc(`users/${userUid}`);
   let  snapshot, connected, loginHistory  = undefined;
-  await userRef.get().then((result) => {
+  try {
+    const result = await userRef.get();
     if(result.data()) {
       snapshot = result.data();
-      connected = snapshot.connected;
       loginHistory = snapshot.loginHistory;
     }
-  }).catch((error) => {
+  } catch(error) {
     console.error("Firebase : logoutUpdateUserDocument : Error getting snapshot. " + error);
-  });
+  }
   connected = false;
   //First time user connection
-  if (loginHistory === undefined) {
+  if (!loginHistory) {
     console.log("Firebase : logoutUpdateUserDocument : Login history initialised. ");
     loginHistory = [];
   }
@@ -135,12 +139,13 @@ const sameSession = (token1, token2) => {
 }
 
 
-export const getUserDocument = async (uid) => {
+export const getUserDocument = (uid) => {
   if (!uid) return null;
   let user = undefined;
   let userData = undefined;
   try {
-    const userDocument = firestoreLocal.doc(`users/${uid}`);
+    console.log('Firebase : getUserDocument 0: ');
+    const docRef = firestoreLocal.doc(`users/${uid}`);
 
     //form 1
     // const doc = await userDocument.get();
@@ -154,19 +159,26 @@ export const getUserDocument = async (uid) => {
     //   }
 
     //form 2
-    await userDocument.get().then((doc) => {
-     if (doc.exists){
-       userData = doc.data()
-       user = { uid, ...userData };
-       console.log('Firebase : getUserDocument 1: ' + user.displayName);
+    console.log('Firebase : getUserDocument 01: ');
+    let document = '';
+    docRef.get().then(result => {
+      document = result;
+      console.log('Firebase : getUserDocument 02: ', document);
+      if (document){
+        userData = document.data()
+        // user = { uid, ...userData };
+        console.log('Firebase : getUserDocument 1: ', userData);
       } else {
         console.log('Firebase : getUserDocument 2: No document.');
         return null;
       }
     });
+    // }).catch ((error) => {
+    //   console.error('Firebase : getUserDocument : Erreur lors du get userDocument : ', error);
+    // });
     
   } catch (error) {
     console.error('Firebase : getUserDocument : Erreur lors du fetch userAuth', error);
   }
-  return user;
+  return userData;
 }

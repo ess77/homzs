@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, ScrollView, KeyboardAvoidingView, YellowBox } from 'react-native';
+import { Text, View, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 import { authLocal } from './sessionManagement/firebase'
 import THStyles from '../constants/THStyles';
@@ -92,7 +92,7 @@ export default class SignInRNPForm extends ValidationComponent {
     }
     this._onPressButton = this._onPressButton.bind(this);
     this.validate = this.validate.bind(this);
-    YellowBox.ignoreWarnings(['Warning: componentWillMount has been renamed']);
+    // YellowBox.ignoreWarnings(['Warning: componentWillMount has been renamed']);
   }
 
   static  navigationOptions = ({ navigation }) => {

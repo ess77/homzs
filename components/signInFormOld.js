@@ -39,14 +39,13 @@ const signInWithEmailAndPasswordHandler = (email, password) => {
   });
 };
 
-// const submitval = values => {
-//   const { email, password } = values;
-//   console.log('Validation OK! : ', values);
-//   signInWithEmailAndPasswordHandler(email, password);
-//   // signInWithEmailAndPasswordHandler('gege@gmail.com', 'jam176');
-//   console.log('signInWithEmailAndPasswordHandler OK! : ', values);
-//   this.props.navigation.navigate('HomeUser');
-// }
+const submitval = values => {
+  const { email, password } = values;
+  console.log('Validation OK! : ', values);
+  signInWithEmailAndPasswordHandler(email, password);
+  // signInWithEmailAndPasswordHandler('gege@gmail.com', 'jam176');
+  this.props.navigation.navigate('HomeUser');
+}
 
 
 const submitSuccess = props => {
@@ -63,16 +62,6 @@ const submitFail = errors => {
 
 
 class SignInField extends Component {
-
-  submitval = values => {
-    const { email, password } = values;
-    console.log('Validation OK! : ', values);
-    signInWithEmailAndPasswordHandler(email, password);
-    // signInWithEmailAndPasswordHandler('gege@gmail.com', 'jam176');
-    console.log('signInWithEmailAndPasswordHandler OK! : ', values);
-    // this.props.navigation.navigate('HomeUser');
-  }
-
   render() {
     const decomp = { handleSubmit, navigation } = this.props;
     return (
@@ -86,7 +75,7 @@ class SignInField extends Component {
             </View>
             <View style={THStyles.buttonGroup2}>
               <THButton text="Annuler" onPress={() => {decomp.navigation.goBack()}} theme="cancel" outline size="small"/>
-              <THButton type="submit" text="Connexion" onPress={decomp.handleSubmit(this.submitval)} theme="validate" outline size="small"/>
+              <THButton type="submit" text="Connexion" onPress={decomp.handleSubmit(submitval)} theme="validate" outline size="small"/>
             </View>
           </View>
           <THBaseButtons style={THStyles.buttonContainer} fromTop='210' />

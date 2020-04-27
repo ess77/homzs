@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, AsyncStorage, YellowBox  } from 'react-native';
+import { AppRegistry, AsyncStorage  } from 'react-native';
 import { AppLoading, Asset, font } from 'expo';
 import MainAppNavigation from './constants/THNavigation';
 import { createStore } from 'redux';
@@ -13,6 +13,7 @@ import '@firebase/firestore';
 // import SyncStorage from 'sync-storage';
 import { firebaseConfig } from './components/sessionManagement/ApiKeys';
 import { authLocal, logoutUpdateUserDocument, updateUserDocument } from './components/sessionManagement/firebase';
+import { getUserProfile } from './components/sessionManagement/firebaseUserProfile';
 import HomeScreenUser from './components/HomeScreenUser';
 
 //Workaround for Firebase >= 7.9.0 bug.
@@ -22,25 +23,19 @@ if (!global.atob) { global.atob = decode };
 
 
 const store = createStore(reducers);
-let localSession = undefined;
+let localSession = '';
 export default class Main extends Component {
     constructor(props) {
         super(props);
 
         //Suppress warnings for timer/performance bottleneck
-        YellowBox.ignoreWarnings(['Setting a timer']);
+        // YellowBox.ignoreWarnings(['Setting a timer']);
         
         this.state = {
             isLoadingComplete: false,
             isAuthenticationReady:  false,
             userCredentials: null,
         };
-        this.retrieveData("session").then((result) => {
-            if(result) {
-                localSession = result;
-                console.log('App : constructor : LocalSession = ' + localSession.substring(29,39));
-            }
-        });
         //initialse firebase
         if(!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
@@ -48,11 +43,13 @@ export default class Main extends Component {
         }
         authLocal.onAuthStateChanged(this.onAuthStateChangedLocal); 
     }
-
+    
     onAuthStateChangedLocal = async (userAuth) => {
-        // console.log('onAuthStateChanged : user : ' + user.email);
         this.setState({isAuthenticationReady: true});
         this.setState({isAuthenticated: !!userAuth});
+        console.log('App : onAuthStateChanged : userAuth : ', userAuth.uid);
+        localSession = await this.retrieveData("session");
+        console.log('App : onAuthStateChangedLocal : LocalSession = ' + localSession.substring(29,39));
         if(userAuth) {
             let remoteStored = 0;
             let token = await userAuth.getIdToken();
@@ -60,24 +57,21 @@ export default class Main extends Component {
             if(!localSession) {
                 localSession = userAuth.uid + '!' + token + '!' + remoteStored;
                 await this.storeData('session', localSession);
+
                 console.log('App : onAuthStateChangedLocal : localSession 1 : ' + token.substring(0,10));
                 sessionParam = localSession.split('!');
             } else {
                 sessionParam = localSession.split('!');
                 if(!this.sameSession(sessionParam[1], token)) {
                     localSession = userAuth.uid + '!' + token + '!' + remoteStored;
-                    this.storeData('session', localSession);
+                    await this.storeData('session', localSession);
                     console.log('App : onAuthStateChangedLocal : New user local session created : ' + localSession.substring(29, 39));
                 }
             }
             
             console.log('App : onAuthStateChangedLocal 1: ' + sessionParam[1].substring(0, 10));
-            const user = await updateUserDocument(userAuth, sessionParam[1]);
-            if(user){
-                console.log('App : onAuthStateChangedLocal : User : ' + user.displayName + ' : ');
-                this.setState({ userContext: { user: user, sessionToken: localSession }});
-                this.setState({userCredentials: user});
-            }
+            // this.manageUserData(userAuth, sessionParam);
+            this.manageUserProfile();
         } else {
             if(localSession) {
                 console.log('App : onAuthStateChangedLocal : localSession 2 : ');
@@ -100,10 +94,28 @@ export default class Main extends Component {
         return false;
     }
 
+    async manageUserData(userAuth, sessionParam) {
+        const user = await updateUserDocument(userAuth, sessionParam[1]);
+        console.log('App : manageUserData 1: ' + user);
+        if(user){
+            console.log('App : manageUserData : User : ' + user.displayName + ' : ');
+            this.setState({ userContext: { user: user, sessionToken: localSession }});
+            this.setState({userCredentials: user});
+        }
+    }
+    manageUserProfile() {
+        const user = getUserProfile();
+        console.log('App : manageUserProfile 1: ' + user);
+        if(user){
+            console.log('App : manageUserProfile : User : ' + user.displayName + ' : ');
+            this.setState({ userContext: { user: user, sessionToken: localSession }});
+            this.setState({userCredentials: user});
+        }
+    }
 
-    storeData = (key, value) => {
+    storeData = async (key, value) => {
         try {
-            AsyncStorage.setItem(key, value);
+            await AsyncStorage.setItem(key, value);
             console.log('App : storeData saved : ' + value.substring(0,40));
         } catch (error) {
             console.error('App : storeData : error while saving on local storage : ' + error);
@@ -132,7 +144,7 @@ export default class Main extends Component {
         }
     }
 
-    componentDidMount() {
+    // componentDidMount() {
         //loads the local.db file and opens it with SQLite
         // await Expo.FileSystem.downloadAsync(
         //     Expo.Asset.fromModule(require("./assets/db/local.db")).uri,
@@ -140,7 +152,7 @@ export default class Main extends Component {
         //   );
         
         //   SQLite.openDatabase("local.db");
-    }
+    // }
     render() {
         if(!this.state.isLoadingComplete && !this.state.isAuthenticationReady && !this.props.skipLoadingScreen) {
             console.log('App : render : Not LoadingCompleted.');
@@ -154,9 +166,11 @@ export default class Main extends Component {
             if(this.state.userCredentials) {
                 console.log('App : render : this.state.userCredentials uid : ' + this.state.userCredentials.uid);
                 return (
-                <Provider store={store} >
+                    <StoreProvider store={store} >
+                    <PaperProvider>
                     {(this.state.isAuthenticated)? <HomeScreenUser userCredentials={this.state.userCredentials} /> : <MainAppNavigation screen="HomeUser"/>}
-                </Provider>);
+                    </PaperProvider>
+                    </StoreProvider>);
             } else {
                 return (
                     <StoreProvider store={store} >
