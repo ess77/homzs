@@ -204,30 +204,6 @@ export default class SignInRNPForm extends ValidationComponent {
                 onChangeText={email => this.validateEmail(email)}/>
               <HelperText type="error" padding="none" visible={this.state.emailMessage} >{helperTextErrorMessages.emailHelperText}</HelperText>
             </View>
-            <View style={THStyles.inputContainerStyleTestRNP}>
-              <TextInput
-                ref="email"
-                label="Email"
-                keyboardType="email-address"
-                style={{ backgroundColor: 'transparent', paddingHorizontal: 0, margin: 0 }}
-                placeholder={htem.emailPlaceholderText}
-                value={this.state.email}
-                error={this.state.emailMessage}
-                onChangeText={email => this.validateEmail(email)}/>
-              <HelperText type="error" padding="none" visible={this.state.emailMessage} >{helperTextErrorMessages.emailHelperText}</HelperText>
-            </View>
-            <View style={THStyles.inputContainerStyleTestRNP}>
-              <TextInput
-                ref="email"
-                label="Email"
-                keyboardType="email-address"
-                style={{ backgroundColor: 'transparent', paddingHorizontal: 0, margin: 0 }}
-                placeholder={htem.emailPlaceholderText}
-                value={this.state.email}
-                error={this.state.emailMessage}
-                onChangeText={email => this.validateEmail(email)}/>
-              <HelperText type="error" padding="none" visible={this.state.emailMessage} >{helperTextErrorMessages.emailHelperText}</HelperText>
-            </View>
 
             <View style={THStyles.inputContainerStyleTestRNP}>
               <TextInput

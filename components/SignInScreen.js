@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, ImageBackground, Text, TextInput } from 'react-native';
+import { ImageBackground } from 'react-native';
 import Colors from '../constants/Colors';
 import THButton from './THButton';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
-import { SignInForm } from './SignInForm';
 import Copyright from './Copyright';
+import { SignInFormOld } from './signInFormOld';
   
 
 export default class SignInScreen extends Component {
@@ -53,7 +53,7 @@ export default class SignInScreen extends Component {
     render() {
       return (
         <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
-            <SignInForm navigation={this.props.navigation} />
+            <SignInFormOld navigation={this.props.navigation} />
             <Copyright />
         </ImageBackground>
         );

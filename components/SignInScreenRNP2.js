@@ -6,16 +6,14 @@ import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
 import SignInRNPForm from './SignInRNPForm';
-import { SignInForm } from './SignInForm';
   
 
-export default class SignInScreenRNP extends Component {
+export default class SignInScreenRNP2 extends Component {
     constructor(props) {
       super(props);
       
         //Suppress warnings for timer/performance bottleneck
         // YellowBox.ignoreWarnings(['Setting a timer']);
-        // YellowBox.ignoreWarnings(['Warning: componentWillMount']);
         
     }
     HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
@@ -55,7 +53,7 @@ export default class SignInScreenRNP extends Component {
     render() {
       return (
         <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
-            <SignInForm navigation={this.props.navigation} />
+            <SignInRNPForm navigation={this.props.navigation} />
             <Copyright />
         </ImageBackground>
         );

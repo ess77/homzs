@@ -73,7 +73,7 @@ export default class SignInScreenNDB extends Component {
                     label="Username"
                     keyboardType="default"
                     style={{ backgroundColor: 'transparent', paddingHorizontal: 0, margin: -10 }}
-                    placeholder="Entrer Votre password" 
+                    placeholder="Entrer Votre username" 
                     value={this.state.username}
                     error={!this._isUsernameValid(this.state.username)}
                     onChangeText={username => this.setState({ username })}

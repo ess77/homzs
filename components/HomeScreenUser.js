@@ -8,12 +8,10 @@ import Copyright from './Copyright';
 import UserConnectedPad from './sessionManagement/UserConnectedPad';
 import THBaseButtons from './THBaseButtons';
 
-
 export default class HomeScreenUser extends Component {
   constructor(props) {
     super(props);
     console.log('HomeScreenUser : constructor : this.props.userCredentials : ' + this.props.userCredentials.uid);
-    
   }
   HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
   CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');

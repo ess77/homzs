@@ -4,16 +4,21 @@ import 'firebase/firestore';
 import firebaseConfig from './ApiKeys';
 
 let fireApp = undefined;
+
 if (!firebase.apps.length) {
   console.log('Firebase : Initializing Firebase App. on : ' + new Date().toUTCString());
   fireApp = firebase.initializeApp(firebaseConfig);
 }
+
 export const authLocal = firebase.auth();
 export const firestoreLocal = firebase.firestore(fireApp);
+
 const provider = new firebase.auth.GoogleAuthProvider();
+
 export const signInWithGoogle = () => {
   authLocal.signInWithPopup(provider);
 }
+
 export const generateUserDocument = async (userAuth, userInfo, token) => {
   console.log('firebase : generateUserDocument 1 : ');
   const loginTime = new Date().toUTCString();

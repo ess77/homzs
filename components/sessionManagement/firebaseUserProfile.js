@@ -2,19 +2,20 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import firebaseConfig from './ApiKeys';
+import { authLocal } from './firebase';
 
-let fireApp = undefined;
-if (!firebase.apps.length) {
-  console.log('FirebaseUserProfile : Initializing Firebase App. on : ' + new Date().toUTCString());
-  fireApp = firebase.initializeApp(firebaseConfig);
-}
-export const authLocalUP = firebase.auth();
-export const firestoreLocalUP = firebase.firestore(fireApp);
+// let fireApp = undefined;
+// if (!firebase.apps.length) {
+//   console.log('FirebaseUserProfile : Initializing Firebase App. on : ' + new Date().toUTCString());
+//   fireApp = firebase.initializeApp(firebaseConfig);
+// }
+export const authLocalUP = authLocal;
+// export const firestoreLocalUP = firebase.firestore(fireApp);
 const provider = new firebase.auth.GoogleAuthProvider();
 let user;
 let name, email, photoUrl, uid, emailVerified;
 export const signInWithGoogleUP = () => {
-  authLocal.signInWithPopup(provider);
+  authLocalUP.signInWithPopup(provider);
 }
 // export const updateUserProfile = (userProfile) => {
 export const updateUserProfile = () => {
@@ -54,17 +55,17 @@ export const updateUserProfile = () => {
   //   console.log('FirebaseUserProfile : updateProfile 22 : Error : ', error);
   // });
 
-  return getUserDocument(userAuth.uid);
+  return getUserProfile();
 }
 
 export const getUserProfile = () => {
-  console.log('FirebaseUserProfile : getUserProfile 1: ', user);
+  console.log('FirebaseUserProfile : getUserProfile 1: ');
   
-  user = authLocalUP.auth().currentUser;
+  user = authLocalUP.currentUser;
   
-  console.log('FirebaseUserProfile : getUserProfile 2: ', user);
-  if (user != null) {
-    console.log('FirebaseUserProfile : getUserProfile 3: ', user);
+  console.log('FirebaseUserProfile : getUserProfile 2: ', user.email);
+  if (user) {
+    console.log('FirebaseUserProfile : getUserProfile 3: ', user.lastLoginAt);
     name = user.displayName;
     email = user.email;
     photoUrl = user.photoURL;
@@ -72,10 +73,10 @@ export const getUserProfile = () => {
     uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
     // this value to authenticate with your backend server, if
     // you have one. Use User.getToken() instead.
-    console.log('FirebaseUserProfile : getUserProfile 4: ', user);
+    console.log('FirebaseUserProfile : getUserProfile 4: ');
   }
   
-  console.log('FirebaseUserProfile : getUserProfile 5 : ', user);
+  console.log('FirebaseUserProfile : getUserProfile 5 : ');
 
   return user;
 }

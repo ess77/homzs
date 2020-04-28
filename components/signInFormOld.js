@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput } from 'react-native';
-import { Field, reduxForm, Form } from 'redux-form';
+import { Text, View } from 'react-native';
+import { Field, reduxForm } from 'redux-form';
 import THStyles from '../constants/THStyles';
 import THButton from './THButton';
-import { CONTACT_FORM } from '../constants/FormNames';
+import { CONTACT_FORM_OLD } from '../constants/FormNames';
 import THTextInputForm from './THTextInputForm';
-// import * as firebase from 'firebase';
 import THBaseButtons from './THBaseButtons';
 import { authLocal } from './sessionManagement/firebase';
 
@@ -23,8 +22,6 @@ const nameTooSimple = values => { // values = username
 
 const format = (value, name) => {
   let enteredValue = new String(value);
-
-  // return value + " : ";
   return enteredValue.replace('\w', '*');
 }
 
@@ -61,7 +58,7 @@ const submitFail = errors => {
 
 
 
-class SignInField extends Component {
+class SignInFieldOld extends Component {
   render() {
     const decomp = { handleSubmit, navigation } = this.props;
     return (
@@ -69,9 +66,9 @@ class SignInField extends Component {
           <View style={THStyles.userSignInForm}>
             <View style={THStyles.userSignInField}>
               <Text>Test Form : </Text>
-              <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[nameMax20]} warn={[nameTooSimple]} />
-              <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[]} />
-              <Field keyboardType="default" label="Password" type="password" component={THTextInputForm} name="password" validate={[]} format={() => format()} />
+              <Field keyboardType="default" label="Username" component={THTextInputForm} name="username"  warn={[nameTooSimple]} />
+              <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email"  />
+              <Field keyboardType="default" label="Password" type="password" component={THTextInputForm} security={true} name="password"/>
             </View>
             <View style={THStyles.buttonGroup2}>
               <THButton text="Annuler" onPress={() => {decomp.navigation.goBack()}} theme="cancel" outline size="small"/>
@@ -84,9 +81,9 @@ class SignInField extends Component {
   }
 };
 
-export const SignInForm = reduxForm({
-  form: CONTACT_FORM,
-  // onSubmit: submitval,
+export const SignInFormOld = reduxForm({
+  form: CONTACT_FORM_OLD,
+  onSubmit: submitval,
   onSubmitSuccess: submitSuccess,
   onSubmitFail : submitFail,
-})(SignInField);
+})(SignInFieldOld);
