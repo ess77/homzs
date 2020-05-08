@@ -1,4 +1,3 @@
-import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
@@ -25,7 +24,6 @@ import THTextInputForm from '../components/THTextInputForm';
 import Colors from './Colors';
 import SearchCriteriaWrapper from '../components/SearchCriteriaWrapper';
 import SignInScreenRNP from '../components/SignInScreenRNP';
-import SignInScreenRNP2 from '../components/SignInScreenRNP2';
 
 let screenDisplayed = 'Home';
 
@@ -81,7 +79,6 @@ export const AppNavigator = createStackNavigator(
       MyNewForm: MyNewForm,
       SignInNDB: SignInScreenNDB,
       SignInRNP: SignInScreenRNP,
-      SignInRNP2: SignInScreenRNP2,
       SignUpChoice: SignUpChoice,
       SignUpBuyer: SignUpBuyerWrapper,
       SignUpSeller: SignUpSellerWrapper,

@@ -105,6 +105,11 @@ export default THStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.whitePurpled,
   },
+  filterComponentSignInForm: {
+    // flex: 1,
+    // backgroundColor: Colors.whitePurpled,
+    // marginTop: 750,
+  },
   filterComponentRNP: {
     // flex: 1,
     backgroundColor: Colors.whitePurpled,

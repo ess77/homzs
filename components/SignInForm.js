@@ -54,8 +54,8 @@ const submitval = values => {
 
 const submitSuccess = validationOk => {
   errorMessage = undefined;
-  const {username, email, password } = validationOk;
-  console.log('SignInForm : submitSuccess : ', username);
+  const { email, password } = validationOk;
+  console.log('SignInForm : submitSuccess : ', email);
   // signInWithEmailAndPasswordHandler('rete@gmail.com', 'jam176');
   validationOk? signInWithEmailAndPasswordHandler(email, password) : signInWithEmailAndPasswordHandler(null, null );
 }
@@ -174,7 +174,7 @@ class SignInField extends Component {
             </View>
             <THBaseButtons style={THStyles.buttonContainer} fromTop='210' />
           </View>
-        </ScrollView>
+          </ScrollView>
       </KeyboardAvoidingView>
       </View>
     );

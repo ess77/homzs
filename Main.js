@@ -32,27 +32,31 @@ export default class Main extends Component {
         // YellowBox.ignoreWarnings(['Setting a timer']);
         
         this.state = {
-            isLoadingComplete: false,
-            isAuthenticationReady:  false,
+            loadingComplete: true,
+            authenticationReady:  true,
+            authenticated:  true,
+            userContext: null,
             userCredentials: null,
+            userAuth: null,
         };
         //initialse firebase
         if(!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
             console.log('App : constructor : initializeApp done at ' + new Date().toUTCString());
         }
-        authLocal.onAuthStateChanged(this.onAuthStateChangedLocal); 
+
+        authLocal.onAuthStateChanged(this.onAuthStateChangedLocal);
     }
     
     onAuthStateChangedLocal = async (userAuth) => {
-        this.setState({isAuthenticationReady: true});
-        this.setState({isAuthenticated: !!userAuth});
-        console.log('App : onAuthStateChanged : userAuth : ', userAuth.uid);
+       
+        this.setState({authenticated: !!userAuth});
+        this.setState({userAuth: userAuth});
         localSession = await this.retrieveData("session");
-        console.log('App : onAuthStateChangedLocal : LocalSession = ' + localSession.substring(29,39));
+        console.log('App : onAuthStateChangedLocal : LocalSession = ', localSession?.substring(29,39));
         if(userAuth) {
             let remoteStored = 0;
-            let token = await userAuth.getIdToken();
+            let token =  userAuth.getIdToken();
             let sessionParam = null;
             if(!localSession) {
                 localSession = userAuth.uid + '!' + token + '!' + remoteStored;
@@ -71,20 +75,22 @@ export default class Main extends Component {
             
             console.log('App : onAuthStateChangedLocal 1: ' + sessionParam[1].substring(0, 10));
             // this.manageUserData(userAuth, sessionParam);
-            this.manageUserProfile();
+            // this.manageUserProfile();
         } else {
             if(localSession) {
-                console.log('App : onAuthStateChangedLocal : localSession 2 : ');
+                console.log('App : onAuthStateChangedLocal : localSession 2 : ', localSession.substring(29, 39));
                 const sessionParam = localSession.split('!');
-                await logoutUpdateUserDocument(sessionParam[0], sessionParam[1]);
+                // await logoutUpdateUserDocument(sessionParam[0], sessionParam[1]);
                 await this.removeData('session');
             } else {
                 console.log('App : onAuthStateChangedLocal : no localSession.');
             }
             console.log('App : onAuthStateChangedLocal : No user connected : ');
             this.setState({ userContext: { user: null, sessionToken: '' } });
+            this.setState({ userCredentials: null });
         }
-    }
+        this.setState({authenticationReady: true, authenticated: !!userAuth, userAuth: userAuth});
+    };
 
     sameSession = (token1, token2) => {
         if(token1 === token2) return true;
@@ -105,7 +111,7 @@ export default class Main extends Component {
     }
     manageUserProfile() {
         const user = getUserProfile();
-        console.log('App : manageUserProfile 1: ' + user);
+        console.log('App : manageUserProfile 1: ', user);
         if(user){
             console.log('App : manageUserProfile : User : ' + user.displayName + ' : ');
             this.setState({ userContext: { user: user, sessionToken: localSession }});
@@ -145,16 +151,20 @@ export default class Main extends Component {
     }
 
     // componentDidMount() {
-        //loads the local.db file and opens it with SQLite
+        // loads the local.db file and opens it with SQLite
         // await Expo.FileSystem.downloadAsync(
         //     Expo.Asset.fromModule(require("./assets/db/local.db")).uri,
         //     `${Expo.FileSystem.documentDirectory}SQLite/local.db`
         //   );
         
         //   SQLite.openDatabase("local.db");
+
+        
     // }
+    
+
     render() {
-        if(!this.state.isLoadingComplete && !this.state.isAuthenticationReady && !this.props.skipLoadingScreen) {
+        if(!this.state.loadingComplete && !this.state.authenticationReady && !this.props.skipLoadingScreen) {
             console.log('App : render : Not LoadingCompleted.');
             return ( 
                 <AppLoading 
@@ -163,15 +173,17 @@ export default class Main extends Component {
                         onFinish={this._handleFinishLoading} 
                 />);
         } else {
-            if(this.state.userCredentials) {
-                console.log('App : render : this.state.userCredentials uid : ' + this.state.userCredentials.uid);
+            if(this.state.userAuth) {
+                const userAuth = this.state.userAuth;
+                console.log('App : render : this.state.userCredentials uid : ', userAuth['stsTokenManager']);
                 return (
                     <StoreProvider store={store} >
-                    <PaperProvider>
-                    {(this.state.isAuthenticated)? <HomeScreenUser userCredentials={this.state.userCredentials} /> : <MainAppNavigation screen="HomeUser"/>}
-                    </PaperProvider>
+                        <PaperProvider>
+                            <HomeScreenUser userAuth={this.state.userAuth} navigation={this.props.navigation}/>
+                        </PaperProvider>
                     </StoreProvider>);
             } else {
+                console.log('App : render : this.state.userCredentials null : ');
                 return (
                     <StoreProvider store={store} >
                         <PaperProvider>

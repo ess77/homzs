@@ -17,7 +17,7 @@ export default class HomeScreenFacade2 extends Component {
     
     static  navigationOptions = ({ navigation }) => {
       const { params = {} } = navigation.state;
-      let headerTitle = 'Home';
+      // let headerTitle = 'Home';
       let headerTitleStyle = {
         color: 'white',
       };
@@ -29,7 +29,7 @@ export default class HomeScreenFacade2 extends Component {
                             theme="homeBottom" outline size="small"
                             onPress={ () => params.onConnection() } />);
 
-      return ({ headerStyle, headerTitleStyle, headerTitle, headerRight });
+      return ({ headerStyle, headerTitleStyle, headerRight });
     }
 
 
@@ -62,7 +62,6 @@ export default class HomeScreenFacade2 extends Component {
                   <View style={THStyles.startActionUserSignIn}>
                       <THButton text="Connexion" onPress={() => {this.props.navigation.navigate('SignIn', this.connectionParams)}} theme="homeStart" outline size="small"/>
                       <THButton text="ConnexionRNP" onPress={() => {this.props.navigation.navigate('SignInRNP', this.connectionParams)}} theme="homeStart" outline size="small"/>
-                      <THButton text="ConnexionRNP2" onPress={() => {this.props.navigation.navigate('SignInRNP2', this.connectionParams)}} theme="homeStart" outline size="small"/>
                   </View>
                 </View>
               </View>

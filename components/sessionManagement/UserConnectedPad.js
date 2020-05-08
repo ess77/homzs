@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import firebase from 'firebase';
 import THButton from '../THButton';
 import Colors from '../../constants/Colors';
 import { authLocal } from './firebase';
@@ -12,10 +11,11 @@ export default class UserConnectedPad extends Component {
         //Suppress warnings for timer/performance bottleneck
         // YellowBox.ignoreWarnings(['Setting a timer']);
         
-        console.log('UserConnectedPad : constructor : user props : '+ this.props.user.displayName);
+        console.log('UserConnectedPad : constructor : user mail : '+ this.props.user.email);
         this.state = {
             userName: this.props.user.displayName,
             userEmail: this.props.user.email,
+            photoURL: this.props.user.photoURL,
             avatar: ''
         }
     }
@@ -51,8 +51,8 @@ static  navigationOptions = ({ navigation }) => {
     }
 
     signOut() {
+        console.log('UserConnectedPad : signOut');
         authLocal.signOut();
-        console.log('ManageSession : signOut');
         // this.props.navigation.navigate('Home');
     }
 }

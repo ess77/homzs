@@ -25,15 +25,20 @@ const nameTooSimple = values => { // values = username
 
 const createUserWithEmailAndPasswordHandler = async (email, password, rest) => {
   const { username } = rest;
- try {
-     const result = await authLocal.createUserWithEmailAndPassword(email, password);
-     // await authLocal.createUserWithEmailAndPassword('nono@gmail.com', 'jam176').then(async (result) => {
-     const userInfo = {role:`Seller`, username: username, photoURL: `https://res.cloudinary.com/dqcsk8rsc/image/upload/v1577268053/avatar-1-bitmoji_upgwhc.png`};
-     generateUserDocument(result.user, userInfo, '');
-     console.log('createUserWithEmailAndPasswordHandler : user Seller created with mail : ' + username);
- } catch(error) {
-   console.log('Erreur lors du sign up par email et password : error = ', error);
- };
+  console.log('SignUpSeller : createUserWithEmailAndPasswordHandler : test signup Buyer', username);
+  const result = await authLocal.createUserWithEmailAndPassword(email, password).catch(function(error) {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log('SignUpSeller : createUserWithEmailAndPasswordHandler : Erreur lors du sign up par email et password : error = ', errorCode, errorMessage);
+  });
+  const userInfo = {role:`Buyer`, username: username, photoURL: `https://res.cloudinary.com/dqcsk8rsc/image/upload/v1577268053/avatar-1-bitmoji_upgwhc.png`};
+  try {
+      generateUserDocument(result.user, userInfo, '');
+      console.log('SignUpSeller : createUserWithEmailAndPasswordHandler : user Buyer created with mail : ' + email);
+  } catch(error) {
+    console.log('SignUpSeller : Erreur lors du sign up par email et password : error = ', error);
+  };
 
 };
 

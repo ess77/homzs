@@ -5,7 +5,7 @@ import THButton from './THButton';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
-import { SignInFormOld } from './signInFormOld';
+import { SignInForm } from './SignInForm';
   
 
 export default class SignInScreen extends Component {
@@ -53,7 +53,7 @@ export default class SignInScreen extends Component {
     render() {
       return (
         <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
-            <SignInFormOld navigation={this.props.navigation} />
+            <SignInForm navigation={this.props.navigation} />
             <Copyright />
         </ImageBackground>
         );

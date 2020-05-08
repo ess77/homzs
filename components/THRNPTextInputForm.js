@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text } from 'react-native';
-import { TextInput, HelperText } from 'react-native-paper';
-import THStyles from '../constants/THStyles';
+import { View, StyleSheet } from 'react-native';
+import { HelperText, TextInput } from 'react-native-paper';
 
 export default class THRNPTextInputForm extends Component {
-    constructor(props) {
-      super(props);
-      this.state = { value: '' };
-    }
     render() {
-        const { label, keyboardType, value, onChangeText, error, placeholder, security, helperTextMessage } = this.props;
+        const { label, keyboardType, value, error, placeholder,onChangeText, security, helperTextMessage, input: {onChange, ...restInput} } = this.props;
+        // const { label, keyboardType, value, security, autofocus, meta: {touched, error, warning}, input: {onFocus, onChange, ...restInput} } = this.props;
         return (
           <View style={styles.inputContainerStyle}>
             <TextInput
@@ -18,6 +14,7 @@ export default class THRNPTextInputForm extends Component {
               placeholder={ placeholder }
               value={value}
               error={error}
+              onChange={onChange}
               onChangeText={onChangeText}
               keyboardType={keyboardType} 
               secureTextEntry={security} />
@@ -27,6 +24,7 @@ export default class THRNPTextInputForm extends Component {
     }
 }
 // {touched && ((error && <Text style={{color: 'red'}}>{error}</Text> ) || warning && <Text style={{color: 'orange'}}>{warning}</Text>)}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
