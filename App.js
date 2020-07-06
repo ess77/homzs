@@ -12,18 +12,22 @@ import '@firebase/firestore';
 // import AsyncStorage from '@react-native-community/async-storage';
 // import SyncStorage from 'sync-storage';
 import { firebaseConfig } from './components/sessionManagement/ApiKeys';
-import { authLocal, logoutUpdateUserDocument, updateUserDocument } from './components/sessionManagement/firebase';
-import { getUserProfile } from './components/sessionManagement/firebaseUserProfile';
 import HomeScreenUser from './components/HomeScreenUser';
 
 //Workaround for Firebase >= 7.9.0 bug.
 import {decode, encode} from 'base-64'
+import { authLocal, logoutUpdateUserDocument } from './components/sessionManagement/firebase';
+
+// console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
+console.disableYellowBox = true; 
+// YellowBox.ignoreWarnings;
+
 if (!global.btoa) {  global.btoa = encode };
 if (!global.atob) { global.atob = decode };
 
 
 const store = createStore(reducers);
-let localSession = '';
+// let localSession = '';
 export default class Main extends Component {
     constructor(props) {
         super(props);
@@ -62,7 +66,7 @@ export default class Main extends Component {
                 localSession = userAuth.uid + '!' + token + '!' + remoteStored;
                 await this.storeData('session', localSession);
 
-                console.log('App : onAuthStateChangedLocal : localSession 1 : ' + token.substring(0,10));
+                // console.log('App : onAuthStateChangedLocal : localSession 1 : ' + token?.substring(0,10));
                 sessionParam = localSession.split('!');
             } else {
                 sessionParam = localSession.split('!');
@@ -80,7 +84,7 @@ export default class Main extends Component {
             if(localSession) {
                 console.log('App : onAuthStateChangedLocal : localSession 2 : ', localSession.substring(29, 39));
                 const sessionParam = localSession.split('!');
-                // await logoutUpdateUserDocument(sessionParam[0], sessionParam[1]);
+                await logoutUpdateUserDocument(sessionParam[0], sessionParam[1]);
                 await this.removeData('session');
             } else {
                 console.log('App : onAuthStateChangedLocal : no localSession.');

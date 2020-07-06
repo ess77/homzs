@@ -96,7 +96,7 @@ const signInWithEmailAndPasswordHandler = (email, password) => {
   }
 };
 
-const SignInField = (props) => {
+const SignInFieldLBC = (props) => {
     console.log('SignInForm : initialize state.');
     // const { username, setUsername } = useState('');
     // const { email, setEmail } = useState('');
@@ -114,8 +114,9 @@ const SignInField = (props) => {
       <View style={THStyles.filterComponentRNP}>
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-300}>
           <ScrollView keyboardShouldPersistTaps={'never'} removeClippedSubviews={false}>
-            <View style={{marginTop: 240}}>
-              <Text style={THStyles.loginTitle}>Login : </Text>
+            <View style={{marginTop: 185}}>
+              <Text style={THStyles.loginTitle}>Bonjour !</Text>
+              <Text style={THStyles.loginSubText}>Connecter vous pour décourvrir nos services.</Text>
 
               <Field keyboardType="default" label="Username" placeholder={htem.usernamePlaceholderText}
                      component={THRNPTextInputForm} name="username" />
@@ -139,13 +140,13 @@ const SignInField = (props) => {
     );
 };
 
-export const SignInForm = reduxForm({
+export const SignInFormLBC = reduxForm({
   form: CONTACT_FORM,
   validate,
   warn,
   onSubmitSuccess: submitSignIn,
   onSubmitFail: submitFail,
-})(SignInField);
+})(SignInFieldLBC);
 
 
 const helperTextErrorMessages = {

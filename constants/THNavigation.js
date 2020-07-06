@@ -1,6 +1,12 @@
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
+import LoadingScreen from '../components/LoadingScreen';
+import RegistrationScreen from '../components/RegistrationScreen';
+import HomeScreen from '../components/HomeScreen';
+import LoginScreen from '../components/LoginScreen';
+import * as firebase from 'firebase';
+import firebaseConfig from '../components/sessionManagement/ApiKeys';
 import TinderHouses from '../components/TinderHouses';
 import SignInScreen from '../components/SignInScreen';
 import FavoriteHousesScreen from '../components/FavoriteHousesScreen';
@@ -24,8 +30,36 @@ import THTextInputForm from '../components/THTextInputForm';
 import Colors from './Colors';
 import SearchCriteriaWrapper from '../components/SearchCriteriaWrapper';
 import SignInScreenRNP from '../components/SignInScreenRNP';
+import SignInScreenLBC from '../components/SignInScreenLBC';
+
+// firebase.initializeApp(firebaseConfig);
+
+// const AppStack = createStackNavigator({
+//   HomeStack: HomeScreen,
+// });
+
+// const AuthStack = createStackNavigator({
+//   LoginStack: LoginScreen,
+//   RegisterStack: RegistrationScreen,
+// });
+
+// export default createAppContainer(
+//   createSwitchNavigator(
+//     {
+//       LoadingSwitch: LoadingScreen,
+//       AppSwitch: AppStack,
+//       AuthSwitch: AuthStack,
+//     },
+//     {
+//       initialRouteName: "LoadingSwitch"
+//     }
+//   )
+// )
+
+
 
 let screenDisplayed = 'Home';
+
 
 export const  TinderHousesScreen = (props) => {
 
@@ -79,6 +113,7 @@ export const AppNavigator = createStackNavigator(
       MyNewForm: MyNewForm,
       SignInNDB: SignInScreenNDB,
       SignInRNP: SignInScreenRNP,
+      SignInLBC: SignInScreenLBC,
       SignUpChoice: SignUpChoice,
       SignUpBuyer: SignUpBuyerWrapper,
       SignUpSeller: SignUpSellerWrapper,

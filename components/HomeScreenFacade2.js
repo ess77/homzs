@@ -62,6 +62,7 @@ export default class HomeScreenFacade2 extends Component {
                   <View style={THStyles.startActionUserSignIn}>
                       <THButton text="Connexion" onPress={() => {this.props.navigation.navigate('SignIn', this.connectionParams)}} theme="homeStart" outline size="small"/>
                       <THButton text="ConnexionRNP" onPress={() => {this.props.navigation.navigate('SignInRNP', this.connectionParams)}} theme="homeStart" outline size="small"/>
+                      <THButton text="ConnexionLBC" onPress={() => {this.props.navigation.navigate('SignInLBC', this.connectionParams)}} theme="homeStart" outline size="small"/>
                   </View>
                 </View>
               </View>

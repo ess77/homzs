@@ -57,7 +57,7 @@ export default class HomeScreenUser extends Component {
   componentDidMount() {
     // this.props.navigation.setParams({ onConnection: this._onConnection.bind(this) });
     this.setState({navigation: HomeScreenUser.navigationOptions.navigation});
-    console.log('HomeScreenUser : componentDidMount : Connecté : ', HomeScreenUser.navigationOptions);
+    console.log('HomeScreenUser : componentDidMount : Connecté : ');
   }
 
   render() {

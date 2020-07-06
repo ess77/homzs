@@ -176,7 +176,7 @@ export default class SignInRNPForm extends ValidationComponent {
     const { ...htem } = helperTextErrorMessages;
     return (
     <View style={THStyles.filterComponentRNP}>
-      <View style={THStyles.userSignInForm}>
+      <View style={{marginTop: 120}}>
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-300}>
           <ScrollView keyboardShouldPersistTaps={'never'} removeClippedSubviews={false}>
             <Text style={THStyles.loginTitle}>Login : </Text>

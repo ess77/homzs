@@ -63,7 +63,7 @@ class SignInFieldOld extends Component {
     const decomp = { handleSubmit, navigation } = this.props;
     return (
         <View style={THStyles.filterComponent}>
-          <View style={THStyles.userSignInForm}>
+          <View style={{marginTop: 120}}>
             <View style={THStyles.userSignInField}>
               <Text>Test Form : </Text>
               <Field keyboardType="default" label="Username" component={THTextInputForm} name="username"  warn={[nameTooSimple]} />

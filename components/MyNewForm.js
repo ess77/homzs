@@ -86,7 +86,7 @@ class SignInField extends Component {
       return (
         <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
             <View style={THStyles.filterComponent}>
-            <View style={THStyles.userSignInForm}>
+            <View style={{marginTop: 120}}>
                   <View style={THStyles.userSignInField}>
                       <Text>Test Form : </Text>
                       <Field keyboardType="default" label="Username" component={renderField} name="username" validate={[required, nameMax20]} war={[nameTooSimple]} />

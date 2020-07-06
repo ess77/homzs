@@ -66,7 +66,7 @@ export default class SignInScreenNDB extends Component {
       return (
         <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
             <View style={THStyles.filterComponent}>
-                <View style={THStyles.userSignInForm}>
+                <View style={{marginTop: 120}}>
                     <View style={THStyles.userSignInField}>
                     <TextInput
                     ref="username"

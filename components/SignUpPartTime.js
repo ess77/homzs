@@ -114,15 +114,15 @@ export default class SignUpPartTime extends Component {
         <View style={THStyles.mainComponent}>
               <View style={THStyles.imageContainer} ><Text>Profil Mandataire de Service : </Text>
                 <View style={THStyles.startActionUserSignIn}>
-                    <Field keyboardType="default" label="Prenom" component={THTextInputForm} name="firstname" validate={[required]} />
-                    <Field keyboardType="default" label="Nom" component={THTextInputForm} name="lastname" validate={[required]} />
-                    <Field keyboardType="default" label="Username" component={THTextInputForm} name="username" validate={[required, nameMax20]} warn={[nameTooSimple]} />
-                    <Field keyboardType="numeric" label="Date de Naissance" component={THTextInputForm} name="birthday" validate={[required]} />
-                    <Field keyboardType="email-address" label="Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
-                    <Field keyboardType="numeric" label="Tél. Port. : " component={THTextInputForm} name="mobilePhone" validate={[required, nameMax20]} warn={[nameTooSimple]} />
-                    <Field keyboardType="numeric" label="Tél. Fixe. : " component={THTextInputForm} name="phone" validate={[nameMax20]} warn={[nameTooSimple]} />
-                    <Field keyboardType="numeric" label="Niveau d'étude " component={THTextInputForm} name="diploma_level" validate={[required]} />
-                    <Field keyboardType="default" label="Password" security={true} component={THTextInputForm} name="password" validate={[required]} />
+                    <Field keyboardType="default" placeholder="Votre Prenom" component={THTextInputForm} name="firstname" validate={[required]} />
+                    <Field keyboardType="default" placeholder="Votre Nom" component={THTextInputForm} name="lastname" validate={[required]} />
+                    <Field keyboardType="default" placeholder="Votre Username" component={THTextInputForm} name="username" validate={[required, nameMax20]} warn={[nameTooSimple]} />
+                    <Field keyboardType="numeric" placeholder="Votre Date de Naissance" component={THTextInputForm} name="birthday" validate={[required]} />
+                    <Field keyboardType="email-address" placeholder="Votre Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
+                    <Field keyboardType="numeric" placeholder="Tél. Port. : " component={THTextInputForm} name="mobilePhone" validate={[required, nameMax20]} warn={[nameTooSimple]} />
+                    <Field keyboardType="numeric" placeholder="Tél. Fixe. : " component={THTextInputForm} name="phone" validate={[nameMax20]} warn={[nameTooSimple]} />
+                    <Field keyboardType="numeric" placeholder="Niveau d'étude " component={THTextInputForm} name="diploma_level" validate={[required]} />
+                    <Field keyboardType="default" placeholder="Password" security={true} component={THTextInputForm} name="password" validate={[required]} />
                 </View>
                 <View style={THStyles.buttonGroup2}>
                     <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" size="small"/>
