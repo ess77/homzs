@@ -13,8 +13,8 @@ export default THStyles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-around',
+    alignItems: 'center',
     width: '100%',
   },
   buttonContainerSignIn: {
@@ -119,7 +119,7 @@ export default THStyles = StyleSheet.create({
     flex: 1, 
     height: '100%',
     width: '100%', 
-    resizeMode: 'cover',
+    // resizeMode: 'cover',
   },
   imageContainer: {
     display: 'flex', /* default value */
@@ -163,6 +163,13 @@ export default THStyles = StyleSheet.create({
     color: 'white',
     fontSize: 32,
     marginTop: -20,
+  },
+    ///////////////////
+   //Main App Styles//
+  ///////////////////
+  appbarHeader: {
+    backgroundColor: Colors.homeCorporate,
+    color: 'red'
   },
   mainComponent: {
     flex: 1,

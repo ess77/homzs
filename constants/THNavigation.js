@@ -31,6 +31,8 @@ import Colors from './Colors';
 import SearchCriteriaWrapper from '../components/SearchCriteriaWrapper';
 import SignInScreenRNP from '../components/SignInScreenRNP';
 import SignInScreenLBC from '../components/SignInScreenLBC';
+import signInWithMask from '../components/signInWithMask';
+import SignInHidePassword from '../components/SignInHidePassword';
 
 // firebase.initializeApp(firebaseConfig);
 
@@ -114,6 +116,8 @@ export const AppNavigator = createStackNavigator(
       SignInNDB: SignInScreenNDB,
       SignInRNP: SignInScreenRNP,
       SignInLBC: SignInScreenLBC,
+      SignInMask: signInWithMask,
+      SignInHidePassword: SignInHidePassword,
       SignUpChoice: SignUpChoice,
       SignUpBuyer: SignUpBuyerWrapper,
       SignUpSeller: SignUpSellerWrapper,

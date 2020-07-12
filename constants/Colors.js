@@ -4,6 +4,7 @@ const  Colors = {
     header: '#6ac51d', //Vert
     home: '#805d3f', //Marron
     homeCorporate: '#805d3f', //Marron
+    homeCorporate2: '#533c3c', //Marron fort
     textVal: 'rgba(106,197,29,0.9)', //Vert
     violetDachine: '#533c3c', //Violet Dachine
     whiteTransp: 'rgba(255,255,255,0.8)', //Blanc demi transparent
@@ -18,7 +19,7 @@ const  Colors = {
     TH_HOME_COLOR: 'rgba(70,44,8,.5)', //Marron verdâtre
     TH_POPUP: 'rgba(70,44,8,.8)', //Marron verdâtre
     VALIDATE_COLOR: 'rgba(50,173,35,.5)', //Vert light
-    CANCEL_COLOR: 'rgba(206,40,35,.5)', //Rouge-Bordeaux
+    CANCEL_COLOR: 'rgba(206,40,35,.5)', //Rouge-Bordeaux 
 }
 
 export default Colors;

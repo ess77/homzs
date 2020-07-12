@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground } from 'react-native';
+import { ImageBackground, StatusBar } from 'react-native';
 import Colors from '../constants/Colors';
 import THButton from './THButton';
 import THConstants from '../constants/THConstants';
@@ -53,6 +53,7 @@ export default class SignInScreen extends Component {
     render() {
       return (
         <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
+          <StatusBar backgroundColor={ Colors.homeCorporate } barStyle={"default"} />
             <SignInForm navigation={this.props.navigation} />
             <Copyright />
         </ImageBackground>

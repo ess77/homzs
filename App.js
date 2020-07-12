@@ -3,7 +3,7 @@ import { AppRegistry, AsyncStorage  } from 'react-native';
 import { AppLoading, Asset, font } from 'expo';
 import MainAppNavigation from './constants/THNavigation';
 import { createStore } from 'redux';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { Provider as StoreProvider } from 'react-redux';
 import reducers from './reducers/reducers';
 import * as firebase from 'firebase';
@@ -49,8 +49,19 @@ export default class Main extends Component {
             console.log('App : constructor : initializeApp done at ' + new Date().toUTCString());
         }
 
+       this.theme = {
+            ...DefaultTheme,
+            roundness: 2,
+            colors: {
+                ...DefaultTheme.colors,
+                primary: '#3498db',
+                accent: 'red',
+                surface: 'red',
+            },
+        }
         authLocal.onAuthStateChanged(this.onAuthStateChangedLocal);
     }
+
     
     onAuthStateChangedLocal = async (userAuth) => {
        
@@ -190,7 +201,7 @@ export default class Main extends Component {
                 console.log('App : render : this.state.userCredentials null : ');
                 return (
                     <StoreProvider store={store} >
-                        <PaperProvider>
+                        <PaperProvider theme={this.theme}>
                             <MainAppNavigation />
                         </PaperProvider>
                     </StoreProvider>

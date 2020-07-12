@@ -48,7 +48,6 @@ export default class THButton extends Component {
         userContainerStyles: PropTypes.object,
         userTextStyles: PropTypes.object,
         onPress: PropTypes.func.isRequired,
-        onPress: PropTypes.func.isRequired,
         outline: PropTypes.bool,
         size: PropTypes.oneOf(['small', 'default', 'large']),
         theme: PropTypes.oneOf(['primary', 'secondary', 'homeStart', 'homeBottom', 'validate', 'cancel']),

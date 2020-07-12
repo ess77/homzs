@@ -6,6 +6,7 @@ import THStyles from '../constants/THStyles';
 import THButton from './THButton';
 import THBaseButtons from './THBaseButtons';
 import ValidationComponent from './ValidationComponent';
+import { helperTextErrorMessages } from '../constants/HelperTextMessage';
 
 let errorMessage = undefined;
 const requiredValid = values => { if(values.trim()) return true} ;
@@ -63,22 +64,11 @@ const submitSuccess = validationOk => {
   
 const submitFail = errors => {
   console.log('SignInForm : submitFail : Ne vous acharnez pas, ça ne marchera pas.\n', errors);
-  errorMessage = 'Veuillez remplir les champs requis!';
+  errorMessage = helperTextErrorMessages.errorMessageAll;
   signInWithEmailAndPasswordHandler(null, null );
 }
 
-const helperTextErrorMessages = {
-  usernamePlaceholderText: "Entrer votre username, en lettres alphabetique.",
-  usernameError: "Attention: Seules les lettres sont autorisées, sans espace.",
-  usernameHelperText: "Le nom user doit avoir moins de 20 caractères!",
-  usernameComplexityHelperText: "Vous pouvez faire mieux que ça, n\'est ce pas!",
-  emailPlaceholderText: "Entrez votre mail.",
-  emailHelperText: "Votre email doit être de la forme : pseudo@nom-domain.com",
-  passwordPlaceholderText: "Entrez votre password.",
-  passwordHelperText: "Attention: Le mot de passe doit comporter au moins une lettre, un chiffre, et un caractère spécial, il doit aussi avoir une longueur de 8 caractères minimum.",
-}
-
-export default class SignInRNPForm extends ValidationComponent {
+export default class SignInRNP_NO_REDUX_Form extends ValidationComponent {
   constructor(props) {
     super(props);
     this.state = {

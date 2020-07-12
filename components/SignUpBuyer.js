@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ImageBackground, Text } from 'react-native';
+import { View, ImageBackground, Text, StatusBar } from 'react-native';
 import { Field, reduxForm, Form } from 'redux-form';
 import Colors from '../constants/Colors';
 import THButton from './THButton';
@@ -105,27 +105,28 @@ class SignUpBuyer extends Component {
     const decomp = { handleSubmit, navigation } = this.props;
     return (
       <View style={THStyles.screen}>
-        <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
-          <View style={THStyles.mainComponent}>
-              <View style={THStyles.imageContainer} ><Text>Profil Acheteur : </Text>
-                <View style={THStyles.startActionUserSignUp}>
-                  <Field keyboardType="default" placeholder="Votre Prenom" component={THTextInputForm} name="firstname" validate={[required, nameMax20]} />
-                  <Field keyboardType="default" placeholder="Votre Nom" component={THTextInputForm} name="lastname" validate={[required, nameMax20]} />
-                  <Field keyboardType="default" placeholder="Votre Username" component={THTextInputForm} name="username" validate={[required, nameMax20]}  />
-                  <Field keyboardType="email-address" placeholder="Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
-                  <Field keyboardType="numeric" placeholder="Tél. Port. : " component={THTextInputForm} name="mobilePhone" validate={[required, nameMax20]} warn={[nameTooSimple]} />
-                  <Field keyboardType="numeric" placeholder="Tél. Fixe. : " component={THTextInputForm} name="phone" validate={[nameMax20]} warn={[nameTooSimple]} />
-                  <Field keyboardType="default" placeholder="Password" security={true} component={THTextInputForm} name="password" validate={[required]} />
+        <StatusBar backgroundColor={ Colors.homeCorporate } barStyle={"default"} />
+          <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
+            <View style={THStyles.mainComponent}>
+                <View style={THStyles.imageContainer} ><Text>Profil Acheteur : </Text>
+                  <View style={THStyles.startActionUserSignUp}>
+                    <Field keyboardType="default" placeholder="Votre Prenom" component={THTextInputForm} name="firstname" validate={[required, nameMax20]} />
+                    <Field keyboardType="default" placeholder="Votre Nom" component={THTextInputForm} name="lastname" validate={[required, nameMax20]} />
+                    <Field keyboardType="default" placeholder="Votre Username" component={THTextInputForm} name="username" validate={[required, nameMax20]}  />
+                    <Field keyboardType="email-address" placeholder="Email" component={THTextInputForm} name="email" validate={[required, mailValid]} />
+                    <Field keyboardType="numeric" placeholder="Tél. Port. : " component={THTextInputForm} name="mobilePhone" validate={[required, nameMax20]} warn={[nameTooSimple]} />
+                    <Field keyboardType="numeric" placeholder="Tél. Fixe. : " component={THTextInputForm} name="phone" validate={[nameMax20]} warn={[nameTooSimple]} />
+                    <Field keyboardType="default" placeholder="Password" security={true} component={THTextInputForm} name="password" validate={[required]} />
+                  </View>
+                  <View style={THStyles.buttonGroup2}>
+                      <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" size="small"/>
+                      <THButton text="Valider" onPress={decomp.handleSubmit(submitval)} theme="validate" outline size="small"/>
+                  </View>
                 </View>
-                <View style={THStyles.buttonGroup2}>
-                    <THButton text="Annuler" onPress={() => {this.props.navigation.goBack()}} theme="cancel" size="small"/>
-                    <THButton text="Valider" onPress={decomp.handleSubmit(submitval)} theme="validate" outline size="small"/>
-                </View>
-              </View>
-              <THBaseButtons style={THStyles.buttonContainer} fromTop='170' />
-          </View>
-          <Copyright />
-        </ImageBackground>
+                <THBaseButtons style={THStyles.buttonContainer} fromTop='170' />
+            </View>
+            <Copyright />
+          </ImageBackground>
       </View>
       );
     }

@@ -7,6 +7,7 @@ import { CONTACT_FORM } from '../constants/FormNames';
 import THRNPTextInputForm from './THRNPTextInputForm';
 import THBaseButtons from './THBaseButtons';
 import { authLocal } from './sessionManagement/firebase';
+import { helperTextErrorMessages } from '../constants/HelperTextMessage';
 
 let errorMessage = undefined;
 let errors = {};
@@ -75,7 +76,7 @@ const submitSignIn = validationOk => {
   
 const submitFail = errors => {
   console.log('SignInForm : submitFail : Ne vous acharnez pas, ça ne marchera pas.\n', errors);
-  errorMessage = 'Veuillez remplir les champs requis!';
+  errorMessage = helperTextErrorMessages.errorMessageAll;
   signInWithEmailAndPasswordHandler(null, null );
 }
 
@@ -118,13 +119,17 @@ const SignInField = (props) => {
               <Text style={THStyles.loginTitle}>Login : </Text>
 
               <Field keyboardType="default" label="Username" placeholder={htem.usernamePlaceholderText}
+                     style={{ backgroundColor: 'transparent', paddingLeft: 5, paddingBottom: 0, width: 350 }}
                      component={THRNPTextInputForm} name="username" />
                     
-              <Field keyboardType="email-address" label="Email" placeholder={htem.mailPlaceholderText} 
+              <Field keyboardType="email-address" label="Email" placeholder={htem.mailPlaceholderText}
+                     style={{ backgroundColor: 'transparent', paddingLeft: 5, paddingBottom: 0, width: 350 }}
                      component={THRNPTextInputForm} name="email" />
 
-              <Field keyboardType="default" label="Password" placeholder={htem.passwordPlaceholderText} 
-                     component={THRNPTextInputForm} name="password" security />
+              <Field keyboardType="default" label="Password" placeholder={htem.passwordPlaceholderText}
+                     style={{ backgroundColor: 'transparent', paddingLeft: 5, width: 350 }}
+                    //  style={{ marginTop: 15, backgroundColor: "white", width: 350 }} 
+                     component={THRNPTextInputForm} name="password" security icon="key" />
 
               <View style={THStyles.buttonGroup2}>
                 <THButton text="Annuler" onPress={() => {navigation.goBack()}} theme="cancel" outline size="small"/>
@@ -147,20 +152,4 @@ export const SignInForm = reduxForm({
   onSubmitFail: submitFail,
 })(SignInField);
 
-
-const helperTextErrorMessages = {
-  usernamePlaceholderText: 'Entrer votre username, avec des lettres.',
-  usernameError: 'Attention: Veuillez entrer le nom du user.',
-  alphabeticalError: 'Attention: Seules les lettres sont autorisée.',
-  usernameLengthError: 'Le nom user doit avoir moins de 30 caractères.',
-  usernameToSimple: 'Éviter d\'utiliser des noms trop simples.',
-  emailError: 'Attention: Veuillez entrer le mail du user.',
-  emailLengthError: 'Le mail user doit avoir moins de 30 caractères.',
-  mailHelperText: 'Votre email doit être de la forme : pseudo@nom-domain.com',
-  mailPlaceholderText: 'Entrer votre mail.',
-  passwordPlaceholderText: 'Entrer votre password.',
-  passwordError: 'Votre mot de passe est nécéssaire pour être connecté.',
-  passwordLengthError: 'Le mot de passe doit avoir moins de 30 caractères.',
-  passwordHelperText: 'Attention: Le mot de passe doit comporter au moins une lettre, un chiffre, et un caractère spécial, il doit aussi avoir une longueur de 8 caractère minimum.',
-}
 

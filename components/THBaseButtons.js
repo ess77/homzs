@@ -27,9 +27,9 @@ export default class THBaseButtons extends Component {
         return(
             <View style={{marginTop: fromTop}}>
                 <View style={this.props.style}>
-                    <THButton text="Recherche" onPress={() => {this.props.navigation.navigate('SearchCriteria')}} theme="homeBottom" outline size="small"/>
-                    <THButton text="Selection" onPress={() => {this.props.navigation.navigate('TinderHouses')}} theme="homeBottom" outline size="small"/>
-                    <THButton text='Transactions' onPress={() => this.props.navigation.navigate('TestFlex')} theme="homeBottom" outline size="small"/>
+                    <THButton text="Recherche" onPress={() => {this.props.navigation.navigate('SearchCriteria')}} theme="homeBottom" outline size="small" disabled={this.props.disabled} />
+                    <THButton text="Selection" onPress={() => {this.props.navigation.navigate('TinderHouses')}} theme="homeBottom" outline size="small" disabled={this.props.disabled} />
+                    <THButton text='Transactions' onPress={() => this.props.navigation.navigate('TestFlex')} theme="homeBottom" outline size="small" disabled={this.props.disabled} />
                 </View>
             </View>
         )
