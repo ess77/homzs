@@ -1,40 +1,66 @@
-import React, { Component } from 'react';
+import React, { useState, Component } from 'react';
 import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
+import { reduxForm, Field } from 'redux-form';
+import { CONTACT_FORM_LBC } from '../constants/FormNames';
+import THRNPTextInputForm from './THRNPTextInputForm';
 
 
-export default class SignInHidePassword extends Component {
+const SignInHidePasswordComp = () => {
 
-  constructor() {
-    super();
+    const [ hidePassword, setHidePassword ] = useState(true);
 
-    this.state = { hidePassword: true }
-  }
 
-  setPasswordVisibility = () => {
+  const setPasswordVisibility = () => {
       console.log('setPasswordVisibility : ');
-    this.setState({ hidePassword: !this.state.hidePassword });
+    setHidePassword(!hidePassword);
   }
 
 
-  render() {
     return (
-        <View style={{marginTop: 100, backgroundColor: 'purple'}}>
-          <TextInput secureTextEntry={this.state.hidePassword} style={styles.textBox} 
+        <View style={{marginTop: 100, backgroundColor: 'yellow'}}>
+          <Field
+          componentStyle={{
+            marginTop: 15, 
+                       backgroundColor: "green", 
+                       width: 370, 
+                    //  fontSize: 20,
+                    //  alignSelf: 'stretch',
+                    //  height: 45,
+                    //  paddingRight: 50,
+                    //  paddingLeft: 8,
+                     borderWidth: 1,
+                     borderColor: 'red',
+                    //  borderBlock: 'border-top-width',
+                    //  borderBlockStyle: 'dashed',
+                    //  paddingVertical: 1,
+                  }} 
+          security
           label="Password" 
-          placeholder="Entrer votre password*" />
-          <TouchableOpacity activeOpacity={0.1} style={styles.touchableButton} onPress={this.setPasswordVisibility}>
-            <Image source={(this.state.hidePassword) ? require('../assets/images/eye_clear_red.png') : require('../assets/images/eye_hidden.png')} style={styles.buttonImage} />
-          </TouchableOpacity>
+          placeholder="Entrer votre password" 
+          component={THRNPTextInputForm}
+          mode="outlined"
+          />
         </View>
     );
-  }
 }
+
+ const SignInHidePasswordForm = reduxForm({
+  form: CONTACT_FORM_LBC,
+})(SignInHidePasswordComp);
+
+export default class SignInHidePassword extends Component {
+  render() {
+    return(
+        <SignInHidePasswordForm />
+    );
+  }
+} 
 
 const styles = StyleSheet.create(
   {
     textBox: {
-      backgroundColor: 'green',
+      // backgroundColor: 'green',
       // fontSize: 20,
       // alignSelf: 'stretch',
       // height: 45,

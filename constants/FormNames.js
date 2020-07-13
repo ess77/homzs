@@ -1,6 +1,7 @@
 export const CONTACT_FORM = 'ContactForm';
 export const CONTACT_FORM_RNP = 'ContactFormRnp';
-export const CONTACT_FORM_LBC = 'ContactFormRnp';
+export const CONTACT_FORM_LBC = 'ContactFormLbc';
+export const CONTACT_FORM_MDP_LBC = 'ContactFormMdpLbc';
 export const CONTACT_FORM_LBC_UP = 'ContactFormRnp';
 export const CONTACT_FORM_OLD = 'ContactFormOld';
 export const SIGNUP_BUYER_FORM = 'SignUpBuyerForm';

@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { View, ScrollView, KeyboardAvoidingView, StatusBar, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
+import { View, ScrollView, KeyboardAvoidingView, StatusBar } from 'react-native';
 import THStyles from '../constants/THStyles';
-import THButton from './THButton';
-import { CONTACT_FORM_LBC } from '../constants/FormNames';
+import { CONTACT_FORM_MDP_LBC } from '../constants/FormNames';
 import THRNPTextInputForm from './THRNPTextInputForm';
-import { Text, Switch, Title, Paragraph, Button, Appbar, Head, ToggleButton } from 'react-native-paper';
+import { Text, Button, Appbar } from 'react-native-paper';
 import THBaseButtons from './THBaseButtons';
 import { authLocal } from './sessionManagement/firebase';
 import Colors from '../constants/Colors';
 import { helperTextErrorMessages } from '../constants/HelperTextMessage';
 
-let errorMessage = undefined;
+let errorMessage = '';
 let errors = {};
 let warns = {};
 
@@ -34,6 +32,7 @@ const nameComplexityNotValid = values => { if(values === 'coco' || values === 'f
  */
 const validate = values => {
   errors = {};
+  errorMessage = '';
   if(required(values.email)) errors.email = helperTextErrorMessages.emailError;
    else if(mailNotValid(values.email)) errors.email = helperTextErrorMessages.mailHelperText;
    else if(fieldExceeds30(values.email)) errors.email = helperTextErrorMessages.emailLengthError;
@@ -74,8 +73,8 @@ const submitSignIn = validationOk => {
 }
   
 const submitFail = errors => {
-  console.log('SignInForm : submitFail : Ne vous acharnez pas, ça ne marchera pas.\n', errors);
-  errorMessage = helperTextErrorMessages.errorMessageAll;
+  console.log('SignInForm : submitFail : Ne vous acharnez pas, ça ne marchera pas.\n', errors)
+  if(Object.keys(errors).length > 0 ) errorMessage = helperTextErrorMessages.errorMessageAll;
   signInWithEmailAndPasswordHandler(null, null );
 }
 
@@ -97,20 +96,22 @@ const signInWithEmailAndPasswordHandler = (email, password) => {
 };
 
 
-const SignInFieldLBC = (props) => {
+const SignMdpOublieLBC = (props) => {
     // console.log('SignInForm : initialize state.');
     // const { username, setUsername } = useState('');
     const [email, setEmail] = useState('');
-    const [birthday, setBirthday] = useState('');
     // const { errorMsg, seterrorMsg } = useState(errorMessage);
     // const { usernameMessage, setUsernameMessage } = useState(undefined);
     // const { emailMessage, setEmailMessage } = useState(null);
-    const [password, setPassword] = useState('');
     const [hidePassword, setHidePassword] = useState(true);
     // const { passwordMessage, setPasswordMessage } = useState(false);
     // const { showInfo, setShowInfo } = useState(false);
 
-    
+    const resetErrorMsg = () => {
+      console.log('resetErrorMsg');
+      errorMessage = '';
+    }
+
     const toggleHidePassword = () => {
       setHidePassword(!hidePassword);
       console.log('SignInForm : toggleHidePassword : ', hidePassword);
@@ -120,62 +121,42 @@ const SignInFieldLBC = (props) => {
     return (
       <View style={THStyles.filterComponentRNP}>
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-300}>
-          <ScrollView keyboardShouldPersistTaps={'never'} removeClippedSubviews={false}>
+          <ScrollView keyboardShouldPersistTaps={'handled'} removeClippedSubviews={false}>
             <StatusBar backgroundColor={ Colors.homeCorporate } barStyle={"default"} />
             <Appbar.Header dark={true} style={THStyles.appbarHeader}>
               <Appbar.Content title="TinderHouze" subtitle={'Déjà Chez-moi!'} />
-              <Appbar.Action icon="magnify" onPress={() => {}} />
+              <Appbar.BackAction icon="step-back" onPress={() => {navigation.goBack()}} />
+              <Appbar.Action icon="step-forward" onPress={() => {toggleHidePassword()}} />
             </Appbar.Header>
             <View style={{marginTop: 15}}>
-              <Text style={THStyles.loginTitle}>Bonjour !</Text>
-              <Text style={THStyles.loginSubText}>Connecter vous pour décourvrir nos services.</Text>
+              <Text style={THStyles.loginTitle}>Réinitialisation de Mot de Passe :</Text>
+              <Text style={THStyles.loginSubText}>Veuillez renseigner votre mail.</Text>
                     
               <Field component={THRNPTextInputForm} value={email} 
-                     onChangeText={text => setEmail(text) } 
+                     onChangeText={text => {resetErrorMsg(); setEmail(text)} } 
                      keyboardType="email-address" label="Email" 
                      placeholder={htem.mailPlaceholderText} 
-                     style={{ marginTop: 15, backgroundColor: "yellow", width: 370,  }}
+                     componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white'  }}
                      name="email" mode="outlined" />
 
               
-              <Field component={THRNPTextInputForm} value={password} 
-                     onChangeText={text => setPassword(text)} 
-                     keyboardType="default" label="Password" 
-                     placeholder={htem.passwordPlaceholderText}
-                    //  style={{ backgroundColor: 'green', borderWidth: 1, borderColor: 'green', padding:  10, margin: 50, width: 400 }}
-                     componentStyle={{ 
-                       marginTop: 15, 
-                       backgroundColor: "yellow", 
-                       width: 370, 
-                    //  fontSize: 20,
-                    //  alignSelf: 'stretch',
-                    //  height: 45,
-                    //  paddingRight: 50,
-                    //  paddingLeft: 8,
-                     borderWidth: 1,
-                     borderColor: 'red',
-                    //  borderBlock: 'border-top-width',
-                    //  borderBlockStyle: 'dashed',
-                    //  paddingVertical: 1, 
-                    }} 
-                     name="password" security={hidePassword} mode="outlined" />
                 {!!errorMessage && <Text style={THStyles.errorMessageText}>Erreur : {errorMessage}</Text>}
               <View style={THStyles.buttonGroup2} style={{ display: 'flex', alignItems: 'center' }}>
-                <Button type="submit" style={{ marginTop: 15, backgroundColor:  Colors.homeCorporate, width: 398 }} icon="send" mode="contained" onPress={handleSubmit(submitval)}>Connexion</Button>
-                <Text style={{color:"blue", marginTop: 20}}>Mot de Passe oublié?</Text>
+                <Button type="submit" style={{ marginTop: 15, backgroundColor:  Colors.homeCorporate, color: 'red', width: 398 }} icon="lock-reset" mode="contained" onPress={handleSubmit(submitval)}>Réinitialiser</Button>
+                <Button style={{ marginTop: 15, backgroundColor:  Colors.homeCorporate, width: 200 }} icon="step-backward"  onPress={() => navigation.navigate('SignIn')}>Retour</Button>
               </View>
             </View>
-            <THBaseButtons style={THStyles.buttonContainer} fromTop='165' disabled={true}/>
+            <THBaseButtons style={THStyles.buttonContainer} fromTop='320' disabled={true}/>
           </ScrollView>
         </KeyboardAvoidingView>
       </View>
     );
 };
 
-export const SignInFormLBC = reduxForm({
-  form: CONTACT_FORM_LBC,
+export const SignMdpOublieLBCForm = reduxForm({
+  form: CONTACT_FORM_MDP_LBC,
   validate,
   warn,
   onSubmitSuccess: submitSignIn,
   onSubmitFail: submitFail,
-})(SignInFieldLBC);
+})(SignMdpOublieLBC);

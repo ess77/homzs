@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   inputStyleSecurity: {
     flexDirection: 'row',
-    backgroundColor: 'purple',
+    // backgroundColor: 'purple',
     width: 370,
       // padding: 10,
   },

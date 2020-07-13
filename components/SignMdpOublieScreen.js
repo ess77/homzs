@@ -5,10 +5,10 @@ import THButton from './THButton';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
-import { SignInFormLBC } from './SignInForm_Le_Bon_Coin';
+import { SignMdpOublieLBCForm } from './SignMdpOublieForm';
   
 
-export default class SignInScreenLBC extends Component {
+export default class SignMdpOublieScreenLBC extends Component {
     constructor(props) {
       super(props);
       
@@ -53,7 +53,7 @@ export default class SignInScreenLBC extends Component {
     render() {
       return (
         <ImageBackground style={THStyles.imageBackground}  >
-            <SignInFormLBC navigation={this.props.navigation} />
+            <SignMdpOublieLBCForm navigation={this.props.navigation} />
             <Copyright />
         </ImageBackground>
         );

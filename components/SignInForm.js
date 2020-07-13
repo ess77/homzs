@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Text, View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, StatusBar, TouchableOpacity } from 'react-native';
 import THStyles from '../constants/THStyles';
-import THButton from './THButton';
 import { CONTACT_FORM } from '../constants/FormNames';
 import THRNPTextInputForm from './THRNPTextInputForm';
+import { Text, Button, Appbar } from 'react-native-paper';
 import THBaseButtons from './THBaseButtons';
 import { authLocal } from './sessionManagement/firebase';
+import Colors from '../constants/Colors';
 import { helperTextErrorMessages } from '../constants/HelperTextMessage';
 
-let errorMessage = undefined;
+let errorMessage = '';
 let errors = {};
 let warns = {};
+let compteurPassage = 0;
 
 
 const required = (values) => { if(!values || !values.trim()) return true} ;
@@ -31,10 +33,7 @@ const nameComplexityNotValid = values => { if(values === 'coco' || values === 'f
  */
 const validate = values => {
   errors = {};
-  if(required(values.username)) errors.username = helperTextErrorMessages.usernameError;
-  else if(notAlphabeticalOnly(values.username)) errors.username = helperTextErrorMessages.alphabeticalError;
-   else if(fieldExceeds30(values.username)) errors.username = helperTextErrorMessages.usernameLengthError;
-
+  errorMessage = '';
   if(required(values.email)) errors.email = helperTextErrorMessages.emailError;
    else if(mailNotValid(values.email)) errors.email = helperTextErrorMessages.mailHelperText;
    else if(fieldExceeds30(values.email)) errors.email = helperTextErrorMessages.emailLengthError;
@@ -42,8 +41,8 @@ const validate = values => {
   if(required(values.password)) errors.password = helperTextErrorMessages.passwordError;
   //  else if(notValidPassword(values.password)) errors.password = helperTextErrorMessages.mailHelperText;
    else if(fieldExceeds30(values.password)) errors.password = helperTextErrorMessages.passwordLengthError;
- 
-  // console.log('errors : ', errors);
+  compteurPassage++;
+  console.log('Validate : ', compteurPassage);
 
   return errors;
 }
@@ -51,35 +50,42 @@ const validate = values => {
 const warn = values => {
   warns = {};
   // console.log('warn : values : ', values);
-  if(nameComplexityNotValid(values.username)) warns.username = helperTextErrorMessages.usernameToSimple;
+  compteurPassage++;
+  console.log('Warn : ', compteurPassage);
+  if(nameComplexityNotValid(values.email)) warns.email = helperTextErrorMessages.emailError;
   return warns;
 }
 
+const submitFail = errors => {
+  if(Object.keys(errors).length > 0 ) errorMessage = helperTextErrorMessages.errorMessageAll;
+  compteurPassage++;
+  console.log('SubmitFail : ', compteurPassage);
+  signInWithEmailAndPasswordHandler(null, null );
+  console.log('SignInForm : submitFail : Ne vous acharnez pas, ça ne marchera pas : ', errorMessage);
+}
+
 const submitval = values => {
-  const { email, password, props } = values;
-  errorMessage = '';
+  const { email, password } = values;
   console.log('SignInForm : submitval : Validation en cours... : ', values);
+  compteurPassage++;
+  console.log('SubmitVal : ', compteurPassage);
   if(email && password) {
-    return {email, password, props};
+    return {email, password};
   } else {
     return false;
   }
 }
 
 const submitSignIn = validationOk => {
-  errorMessage = '';
+  // errorMessage = '';
+  compteurPassage++;
+  console.log('SubmitSignIn : ', compteurPassage);
   const { email, password } = validationOk;
   console.log('SignInForm : submitSignIn : ', email);
   // signInWithEmailAndPasswordHandler('rete@gmail.com', 'jam176');
   validationOk? signInWithEmailAndPasswordHandler(email, password) : signInWithEmailAndPasswordHandler(null, null);
 }
   
-const submitFail = errors => {
-  console.log('SignInForm : submitFail : Ne vous acharnez pas, ça ne marchera pas.\n', errors);
-  errorMessage = helperTextErrorMessages.errorMessageAll;
-  signInWithEmailAndPasswordHandler(null, null );
-}
-
 const signInWithEmailAndPasswordHandler = (email, password) => {
   if((!email) || (!password)) {
     //security signout, to protect privacy
@@ -91,53 +97,65 @@ const signInWithEmailAndPasswordHandler = (email, password) => {
     })
       .catch(error => {
             //TODO : gestion UX des erreurs
-            // console.error('SignInForm : signInWithEmailAndPasswordHandler : Erreur lors du sign in par email et password. ',  error);
+            console.error('SignInForm : signInWithEmailAndPasswordHandler : Erreur lors du sign in par email et password. ',  error);
             errorMessage = error;
     });
   }
 };
 
-const SignInField = (props) => {
-    console.log('SignInForm : initialize state.');
-    // const { username, setUsername } = useState('');
-    // const { email, setEmail } = useState('');
-    // const { password, setPassword } = useState('');
-    // const { errorMsg, seterrorMsg } = useState(errorMessage);
-    // const { usernameMessage, setUsernameMessage } = useState(undefined);
-    // const { emailMessage, setEmailMessage } = useState(null);
-    // const { passwordMessage, setPasswordMessage } = useState(false);
-    // const { showInfo, setShowInfo } = useState(false);
 
-    // console.log('SignInForm : render message.', username);
+const SignInField = (props) => {
+    // console.log('SignInForm : initialize state.');
+    const [email, setEmail] = useState('');
+    const [visible, setVisible] = useState(false);
+    const [password, setPassword] = useState('');
+    const [hidePassword, setHidePassword] = useState(true);
+
+    
+    const toggleHidePassword = () => {
+      setHidePassword(!hidePassword);
+      console.log('SignInForm : toggleHidePassword : ', hidePassword);
+    }
     const { handleSubmit, navigation } = props;
     const { ...htem } = helperTextErrorMessages;
+    
     return (
       <View style={THStyles.filterComponentRNP}>
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-300}>
-          <ScrollView keyboardShouldPersistTaps={'never'} removeClippedSubviews={false}>
-            <View style={{marginTop: 240}}>
-              <Text style={THStyles.loginTitle}>Login : </Text>
-
-              <Field keyboardType="default" label="Username" placeholder={htem.usernamePlaceholderText}
-                     style={{ backgroundColor: 'transparent', paddingLeft: 5, paddingBottom: 0, width: 350 }}
-                     component={THRNPTextInputForm} name="username" />
+          <ScrollView keyboardShouldPersistTaps={'handled'} removeClippedSubviews={false}>
+            <StatusBar backgroundColor={ Colors.homeCorporate } barStyle={"default"} />
+            <Appbar.Header dark={true} style={THStyles.appbarHeader}>
+              <Appbar.Content title="TinderHouze" subtitle={'Déjà Chez-moi!'} />
+              <Appbar.BackAction icon="step-back" onPress={() => {navigation.goBack()}} />
+              <Appbar.Action icon="step-forward" onPress={() => {toggleHidePassword()}} />
+            </Appbar.Header>
+            <View style={{marginTop: 15}}>
+              <Text style={THStyles.loginTitle}>Bonjour !</Text>
+              <Text style={THStyles.loginSubText}>Connecter vous pour décourvrir nos services.</Text>
                     
-              <Field keyboardType="email-address" label="Email" placeholder={htem.mailPlaceholderText}
-                     style={{ backgroundColor: 'transparent', paddingLeft: 5, paddingBottom: 0, width: 350 }}
-                     component={THRNPTextInputForm} name="email" />
+              <Field component={THRNPTextInputForm} value={email} 
+                     onChangeText={text => { setEmail(text); } } 
+                     keyboardType="email-address" label="Email" 
+                     placeholder={htem.mailPlaceholderText} 
+                     componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white'  }}
+                     name="email" mode="outlined" />
 
-              <Field keyboardType="default" label="Password" placeholder={htem.passwordPlaceholderText}
-                     style={{ backgroundColor: 'transparent', paddingLeft: 5, width: 350 }}
-                    //  style={{ marginTop: 15, backgroundColor: "white", width: 350 }} 
-                     component={THRNPTextInputForm} name="password" security icon="key" />
-
-              <View style={THStyles.buttonGroup2}>
-                <THButton text="Annuler" onPress={() => {navigation.goBack()}} theme="cancel" outline size="small"/>
-                <THButton type="submit" text="Connexion" onPress={handleSubmit(submitval)} theme="validate" outline size="small"/>
+              
+              <Field component={THRNPTextInputForm} value={password} 
+                     onChangeText={text => setPassword(text)} 
+                     keyboardType="default" label="Password" 
+                     placeholder={htem.passwordPlaceholderText}
+                     componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white', borderWidth: 1, borderColor: 'white' }} 
+                     name="password" security={hidePassword} mode="outlined" />
+                {!!errorMessage && <Text style={THStyles.errorMessageText} visible={true} >Erreur : {errorMessage}</Text>}
+              <View style={THStyles.buttonGroup2} style={{ display: 'flex', alignItems: 'center' }}>
+                <Button type="submit" style={{ marginTop: 15, backgroundColor:  Colors.homeCorporate, width: 398 }} icon="send" mode="contained" onPress={handleSubmit(submitval)}>Connexion</Button>
+                <TouchableOpacity activeOpacity={0.1} onPress={() => navigation.navigate('SignMdpOublie')} >
+                  <Text style={{color:"blue", marginTop: 20, textDecorationLine: 'underline'}}>Mot de Passe oublié?</Text>
+                </TouchableOpacity>
               </View>
-              {!!errorMessage && <Text style={THStyles.errorMessageText}>Erreur : {errorMessage}</Text>}
             </View>
-            <THBaseButtons style={THStyles.buttonContainer} fromTop='210' />
+            <THBaseButtons style={THStyles.buttonContainer} fromTop='265' disabled={true}/>
           </ScrollView>
         </KeyboardAvoidingView>
       </View>

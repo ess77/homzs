@@ -53,7 +53,6 @@ export default class SignInScreen extends Component {
     render() {
       return (
         <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
-          <StatusBar backgroundColor={ Colors.homeCorporate } barStyle={"default"} />
             <SignInForm navigation={this.props.navigation} />
             <Copyright />
         </ImageBackground>

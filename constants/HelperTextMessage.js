@@ -12,6 +12,6 @@ export const helperTextErrorMessages = {
     passwordError: 'Votre mot de passe est nécéssaire pour vous connecter.',
     passwordLengthError: 'Le mot de passe doit avoir moins de 30 caractères.',
     passwordHelperText: 'Attention: Le mot de passe doit comporter au moins une lettre, un chiffre, et un caractère spécial, il doit aussi avoir une longueur de 8 caractère minimum.',
-    errorMessageAll: 'Veuillez remplir les champs requis!',
+    errorMessageAll: 'Veuillez remplir correctement le(s) champ(s) requis!',
   }
   
