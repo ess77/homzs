@@ -5,7 +5,7 @@ import THConstants from '../constants/THConstants';
 
 const Copyright = () => {
     return(
-        <View style={THStyles.copyrightContainer}>
+        <View>
             <Text style={THStyles.copyrightText}>{THConstants.copyrightText}</Text>
         </View>);
 }

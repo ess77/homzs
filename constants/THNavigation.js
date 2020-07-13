@@ -11,7 +11,6 @@ import SignUpSellerWrapper from '../components/SignUpSellerWrapper';
 import SignUpMediatorWrapper from '../components/SignUpMediatorWrapper';
 import TestFlex from '../components/TestFlex';
 import UserLocation from '../components/UserLocation';
-import SignUpThirdPart from '../components/SignUpThirdPart';
 import HomeScreenUser from '../components/HomeScreenUser';
 // import HomeScreenFacade from '../components/HomeScreenFacade';
 import HomeScreenFacade2 from '../components/HomeScreenFacade2';
@@ -88,7 +87,6 @@ export const AppNavigator = createStackNavigator(
       TestFlex: TestFlex,
       LocateUser: UserLocation,
       SignUpPT: SignUpPartTimeWrapper,
-      SignUpTP: SignUpThirdPart,
       TestForm: TestFormScreen,
       },
     {
@@ -120,7 +118,6 @@ export const AppNavigator = createStackNavigator(
       SearchCriteria: SearchCriteriaWrapper,
       TestFlex: TestFlex,
       LocateUser: UserLocation,
-      SignUpTP: SignUpThirdPart,
       SignUpTest: THTextInputForm,
     },
     {

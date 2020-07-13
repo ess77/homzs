@@ -134,7 +134,7 @@ const SignInField = (props) => {
               <Text style={THStyles.loginSubText}>Connecter vous pour décourvrir nos services.</Text>
                     
               <Field component={THRNPTextInputForm} value={email} 
-                     onChangeText={text => { setEmail(text); } } 
+                     onChangeText={text => setEmail(text) } 
                      keyboardType="email-address" label="Email" 
                      placeholder={htem.mailPlaceholderText} 
                      componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white'  }}

@@ -12,6 +12,12 @@ const  Colors = {
     whitePurpled: 'rgba(231,223,216,0.5)', //Blanc cassé Violété
     whiteMarooned: 'rgba(158,125,104,0.5)', //Blanc cassé Marron
 
+    //Profiles
+    BUYER: '#49e115',
+    SELLER: '#e19515',
+    MEDIATOR: '#e15515',
+    // PART_TIME: '#e14015',
+    PART_TIME: 'rgba(225,64,21,0.7)',
 
     //THbutton
     PRIMARY_COLOR: 'rgba(0,123,255,0.5)', //Bleue Pastel

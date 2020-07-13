@@ -16,8 +16,6 @@ export default class SignInScreen extends Component {
         // YellowBox.ignoreWarnings(['Setting a timer']);
         
     }
-    HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
-    CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');
     
     static  navigationOptions = ({ navigation }) => {
       const { params = {} } = navigation.state;
@@ -52,7 +50,7 @@ export default class SignInScreen extends Component {
 
     render() {
       return (
-        <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
+        <ImageBackground style={THStyles.imageBackground} source={THConstants.HomeScreenImageUri} >
             <SignInForm navigation={this.props.navigation} />
             <Copyright />
         </ImageBackground>

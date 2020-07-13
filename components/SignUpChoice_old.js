@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ImageBackground, Image, ScrollView, StyleSheet, StatusBar } from 'react-native';
+import { Text, View, ImageBackground, Image, ScrollView, StyleSheet } from 'react-native';
 import Menu, { MenuProvider, MenuTrigger, MenuOptions, MenuOption, renderers } from 'react-native-popup-menu';
 import Colors from '../constants/Colors';
 
@@ -10,7 +10,6 @@ import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
 import THBaseButtons from './THBaseButtons';
-import { Appbar, Chip } from 'react-native-paper';
 
 let unique = 0;
 const { Popover } = renderers;
@@ -20,6 +19,8 @@ export default class SignUpChoice extends Component {
       super(props);
       this.state = { log: [] };
     }
+    HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
+    CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');
 
     static  navigationOptions = ({ navigation }) => {
       const { params = {} } = navigation.state;
@@ -104,22 +105,60 @@ export default class SignUpChoice extends Component {
 
     render() {
       return (
+        <MenuProvider>
+          <View style={THStyles.screen}>
+            <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
+            <View style={THStyles.filterComponent}>
+            <View style={styles.topbar}>
+            <Menu name="signup_types" renderer={Popover}  onSelect={value => this.selectProfiles(value)} >
+              <MenuTrigger style={styles.trigger}>
+                <Text style={[styles.text, styles.triggerText]}>Inscription</Text>
+              </MenuTrigger>
+              <MenuOptions customStyles={{ optionText: [styles.text, styles.slideInOption],  }}  rendererProps={{placement: "bottom"}} style={{backgroundColor: Colors.whiteMarooned, borderRadius: 25}}>
+                <MenuOption value={1} text='Acheteur'  />
+                <MenuOption value={2} text='Vendeur' />
+                <MenuOption value={3} text='Intermediaire' />
+                  {this.service?<MenuOption value={4} text='Service' />: null}
+              </MenuOptions>
+            </Menu>
+            <View style={{flex:1}}></View>
+            <Menu name="tools" onSelect={value => this.selectOptionType(value)} onBackdropPress={() => this.addLog('menu will be closed by backdrop')} onOpen={() => this.addLog('menu is opening')} onClose={() => this.addLog('menu is closing')}>
+              <MenuTrigger onAlternativeAction={() => this.addLog('trigger longpressed')} style={styles.trigger}>
+                <Text style={[styles.text, styles.triggerText]}>Outils</Text>
+              </MenuTrigger>
+              <MenuOptions customStyles={{ optionText: [styles.textOptions, styles.slideInOption] , backgroundColor: Colors.whiteGreened }} style={{backgroundColor: Colors.whiteMarooned, borderRadius: 15}}>
+                <MenuOption value="profile" text='Profile' />
+                <MenuOption value="paramètres" disabled={true} text='Paramètres' />
+                <MenuOption value="payment" disableTouchable={true} text='Paiement' />
+                <MenuOption value="network" text='Notre Réseau' />
+                <View style={styles.divider}/>
+                <MenuOption value={{ help_chapter: 'aid_profile' }} text='Aides/Profile' />
+              </MenuOptions>
+            </Menu>
+          </View>
 
-
-        <View style={THStyles.filterComponentRNP}>
-            <StatusBar backgroundColor={ Colors.homeCorporate } barStyle={"default"} />
-            <Appbar.Header dark={true} style={THStyles.appbarHeader}>
-              <Appbar.Content title="TinderHouze" subtitle={'Déjà Chez-moi!'} onPress={() => {this.props.navigation.goBack()}}/>
-              <Appbar.BackAction icon="step-back" onPress={() => {this.props.navigation.goBack()}} />
-              <Appbar.Action icon="step-forward" onPress={() => {toggleHidePassword()}} />
-            </Appbar.Header>
-            <ImageBackground style={THStyles.imageBackground} source={THConstants.HomeScreenImageUri} >
-            <Chip icon="information" style={THStyles.textProfileBuyer} onPress={() => {this.props.navigation.navigate('SignUpBuyer')}} >Profil Acheteur : </Chip>
-            <Chip icon="information" style={THStyles.textProfileSeller} onPress={() => {this.props.navigation.navigate('SignUpSeller')}} >Profil Vendeur : </Chip>
-            <Chip icon="information" style={THStyles.textProfileAgent} onPress={() => {this.props.navigation.navigate('SignUpMediator')}} >Profil Commercial : </Chip>
-            <Chip icon="information" style={THStyles.textProfilePartTime} onPress={() => {this.props.navigation.navigate('SignUpPT')}} >Profil Collaborateur : </Chip>
+          <ScrollView style={styles.logView}>
+            {this.state.log.map((l, i) => {
+              console.log('SignUpChoice : render : ScrollView : ' + i);
+              const wrapperStyle = {backgroundColor: i % 2 ? '#fd654241' : '#fd654265'};
+              const textStyle = {color: l.highlighted ? 'red' : 'black'};
+              return (
+                <View style={[styles.logItem, wrapperStyle]} key={l.id}>
+                  <Text style={[styles.text, textStyle]}>{l.value}</Text>
+                  <View style={{flex:1}}></View>
+                  <Menu>
+                    <MenuTrigger text='edit' customStyles={{ triggerText: styles.text }} />
+                    <MenuOptions customStyles={{ optionText: styles.text }}>
+                      <MenuOption onSelect={() => this.toggleHighlight(l.id)} text={l.highlighted ? 'Unhighlight' : 'Highlight'} />
+                      <MenuOption onSelect={() => this.deleteLogItem(l.id)} text='Delete' />
+                    </MenuOptions>
+                  </Menu>
+                </View>
+              );
+              })}
+            </ScrollView>
             <View style={THStyles.imageContainerProfileChoice} >
-                <Image  source={THConstants.CentraleHomeScreenImageUri} style={THStyles.centralImage}></Image>
+                <Image  source={this.CentraleHomeScreenImageUri} style={THStyles.centralImage}></Image>
                 <Text style={THStyles.logoTitle}>TinderHouse</Text>
                 <Text style={THStyles.middleLeitmotive}>Vente Rapide  -  Achat Rapide</Text>
             </View>
@@ -130,10 +169,12 @@ export default class SignUpChoice extends Component {
                 </View>
               </View>
             </View>
-            </ImageBackground>
             <THBaseButtons style={THStyles.buttonContainer} fromTop='35' navigation={this.props.navigation} />
             <Copyright />
             </View>
+            </ImageBackground>
+          </View>
+          </MenuProvider>
         );
     }
 }

@@ -111,7 +111,7 @@ export default THStyles = StyleSheet.create({
     // marginTop: 750,
   },
   filterComponentRNP: {
-    // flex: 1,
+    flex: 1,
     backgroundColor: Colors.whiteTransp,
   },
   
@@ -332,6 +332,54 @@ export default THStyles = StyleSheet.create({
         fontWeight: '500',
         color: '#fff',
     },
+
+      //////////////
+     ///Profiles///
+    //////////////
+    textProfileBuyer: {
+        backgroundColor: Colors.BUYER,
+        width: 200,
+        padding: 10,
+        marginTop: 10,
+    },
+    textProfileBuyerSignUp: {
+        backgroundColor: Colors.BUYER,
+        width: 130,
+    },
+    textProfileSeller: {
+        backgroundColor: Colors.SELLER,
+        width: 200,
+        padding: 10,
+        marginTop: 5,
+    },
+    textProfileSellerSignUp: {
+      backgroundColor: Colors.SELLER,
+      width: 130,
+  },
+    textProfileAgent: {
+        backgroundColor: Colors.MEDIATOR,
+        width: 200,
+        padding: 10,
+        marginTop: 5,
+    },
+    textProfileAgentSignUp: {
+      backgroundColor: Colors.MEDIATOR,
+      width: 150,
+  },
+    textProfilePartTime: {
+        backgroundColor: Colors.PART_TIME,
+        width: 200,
+        padding: 10,
+        marginTop: 5,
+    },
+    textProfilePartTimeSignUp: {
+      backgroundColor: Colors.PART_TIME,
+      width: 160,
+  },
+
+   ////////////////
+  ///          ///
+ //////////////// 
     titleSearchType: {
         fontSize: 12,
         fontWeight: '500',
@@ -391,9 +439,9 @@ export default THStyles = StyleSheet.create({
     width: 375,
     paddingLeft: 25
   },
-    ///////////////
+    ///////////////////
    //THTextInputForm//
-  ///////////////
+  ///////////////////
 //container styles
   THIFmainContainer: {
     flexDirection: 'column',
