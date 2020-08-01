@@ -14,12 +14,10 @@ import UserLocation from '../components/UserLocation';
 import HomeScreenUser from '../components/HomeScreenUser';
 // import HomeScreenFacade from '../components/HomeScreenFacade';
 import HomeScreenFacade from '../components/HomeScreenFacade';
-import SignInScreenNDB from '../components/SignInScreenNDB';
 import UserConnectedPad from '../components/sessionManagement/UserConnectedPad';
 import THTextInputForm from '../components/THTextInputForm';
 import Colors from './Colors';
 import SearchCriteriaWrapper from '../components/SearchCriteriaWrapper';
-import SignInScreenRNP from '../components/SignInScreenRNP';
 import signInWithMask from '../components/signInWithMask';
 import SignInHidePassword from '../components/SignInHidePassword';
 import SignMdpOublieScreenLBC from '../components/SignMdpOublieScreen';
@@ -65,7 +63,7 @@ export const  TinderHousesScreen = (props) => {
 export const AppNavigator = createStackNavigator(
     {
       Home: {
-        screen: HomeScreenFacade2,
+        screen: HomeScreenFacade,
       },
       HomeUser: {
         screen: HomeScreenUser,
@@ -73,7 +71,6 @@ export const AppNavigator = createStackNavigator(
       TinderHouses: TinderHouses,
       DrawerNav: TinderHousesScreen,
       Favorite: FavoriteHousesScreen,
-      SignInNDB: SignInScreenNDB,
       SignIn: {
         screen: SignInScreen,
       },
@@ -91,16 +88,13 @@ export const AppNavigator = createStackNavigator(
   
   const AppDrawerNavigator = createDrawerNavigator(
     {
-      // Home: HomeScreenFacade,
-      Home: HomeScreenFacade2,
+      Home: HomeScreenFacade,
       HomeUser: HomeScreenUser,
       UserConnectedPad: UserConnectedPad,
       TinderHouses: TinderHouses,
       DrawerNav: TinderHousesScreen,
       Favorite: FavoriteHousesScreen,
       SignIn: SignInScreen,
-      SignInNDB: SignInScreenNDB,
-      SignInRNP: SignInScreenRNP,
       SignInMask: signInWithMask,
       SignInHidePassword: SignInHidePassword,
       SignUpChoice: SignUpChoice,
