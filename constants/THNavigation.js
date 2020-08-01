@@ -9,15 +9,12 @@ import SignUpBuyerWrapper from '../components/SignUpBuyerWrapper';
 import SignUpPartTimeWrapper from '../components/SignUpPartTimeWrapper';
 import SignUpSellerWrapper from '../components/SignUpSellerWrapper';
 import SignUpMediatorWrapper from '../components/SignUpMediatorWrapper';
-import TestFlex from '../components/TestFlex';
+import TestFlex from '../components/TestFlex.js';
 import UserLocation from '../components/UserLocation';
 import HomeScreenUser from '../components/HomeScreenUser';
 // import HomeScreenFacade from '../components/HomeScreenFacade';
-import HomeScreenFacade2 from '../components/HomeScreenFacade2';
-import TestFormScreen from '../components/TestFormScreen';
+import HomeScreenFacade from '../components/HomeScreenFacade';
 import SignInScreenNDB from '../components/SignInScreenNDB';
-import MyNewForm from '../components/MyNewForm';
-import SendPassword from '../components/SendPassword';
 import UserConnectedPad from '../components/sessionManagement/UserConnectedPad';
 import THTextInputForm from '../components/THTextInputForm';
 import Colors from './Colors';
@@ -83,11 +80,9 @@ export const AppNavigator = createStackNavigator(
       SignUpChoice: {
         screen: SignUpChoice,
       },
-      SendPass: SendPassword,
       TestFlex: TestFlex,
       LocateUser: UserLocation,
       SignUpPT: SignUpPartTimeWrapper,
-      TestForm: TestFormScreen,
       },
     {
       initialRouteName: 'Home',
@@ -104,7 +99,6 @@ export const AppNavigator = createStackNavigator(
       DrawerNav: TinderHousesScreen,
       Favorite: FavoriteHousesScreen,
       SignIn: SignInScreen,
-      MyNewForm: MyNewForm,
       SignInNDB: SignInScreenNDB,
       SignInRNP: SignInScreenRNP,
       SignInMask: signInWithMask,

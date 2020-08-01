@@ -169,7 +169,7 @@ export default THStyles = StyleSheet.create({
   ///////////////////
   appbarHeader: {
     backgroundColor: Colors.homeCorporate,
-    color: 'red'
+    // color: 'red'
   },
   mainComponent: {
     flex: 1,

@@ -22,7 +22,7 @@ const fieldExceeds30 = values => { if(values && values.length > 30) { return tru
   
 const notAlphabeticalOnly = values => { if(/^[\s-a-zA-Z]*$/i.test(values)) { return false } else { return true }};
 
-const notValidPassword = values => { if(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values)) { return false } else { return true }};
+const notValidPassword = values => { if(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g.test(values)) { return false } else { return true }};
 
 const mailNotValid = values => { if(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(values)) { return false } else { return true }};
 
@@ -107,7 +107,6 @@ const signInWithEmailAndPasswordHandler = (email, password) => {
 const SignInField = (props) => {
     // console.log('SignInForm : initialize state.');
     const [email, setEmail] = useState('');
-    const [visible, setVisible] = useState(false);
     const [password, setPassword] = useState('');
     const [hidePassword, setHidePassword] = useState(true);
 
@@ -137,7 +136,7 @@ const SignInField = (props) => {
                      onChangeText={text => setEmail(text) } 
                      keyboardType="email-address" label="Email" 
                      placeholder={htem.mailPlaceholderText} 
-                     componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white'  }}
+                     componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white', height: 50 }}
                      name="email" mode="outlined" />
 
               
@@ -145,17 +144,18 @@ const SignInField = (props) => {
                      onChangeText={text => setPassword(text)} 
                      keyboardType="default" label="Password" 
                      placeholder={htem.passwordPlaceholderText}
-                     componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white', borderWidth: 1, borderColor: 'white' }} 
+                     componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white', height: 50, borderWidth: 1, borderColor: 'rgba(249,244,248,0.0)' }} 
                      name="password" security={hidePassword} mode="outlined" />
                 {!!errorMessage && <Text style={THStyles.errorMessageText} visible={true} >Erreur : {errorMessage}</Text>}
               <View style={THStyles.buttonGroup2} style={{ display: 'flex', alignItems: 'center' }}>
                 <Button type="submit" style={{ marginTop: 15, backgroundColor:  Colors.homeCorporate, width: 398 }} icon="send" mode="contained" onPress={handleSubmit(submitval)}>Connexion</Button>
+                <Button style={{ marginTop: 15, backgroundColor:  Colors.homeCorporate, width: 200 }} icon="step-backward"  onPress={() => navigation.navigate('Home')}>Annuler</Button>
                 <TouchableOpacity activeOpacity={0.1} onPress={() => navigation.navigate('SignMdpOublie')} >
                   <Text style={{color:"blue", marginTop: 20, textDecorationLine: 'underline'}}>Mot de Passe oublié?</Text>
                 </TouchableOpacity>
               </View>
             </View>
-            <THBaseButtons style={THStyles.buttonContainer} fromTop='265' disabled={true}/>
+            <THBaseButtons style={THStyles.buttonContainer} fromTop='220' disabled={true}/>
           </ScrollView>
         </KeyboardAvoidingView>
       </View>

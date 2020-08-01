@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import THButton from './THButton';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default class THBaseButtons extends Component {
     constructor(props) {

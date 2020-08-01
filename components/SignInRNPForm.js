@@ -32,11 +32,11 @@ const signInWithEmailAndPasswordHandler = async (email, password) => {
     console.log('signInWithEmailAndPasswordHandler : Securely signing out!');
   } else {
     await authLocal.signInWithEmailAndPassword(email, password).then((result) => {
-      console.log('SignInForm : signInWithEmailAndPasswordHandler : authenticated : ' + result.user.email);
+      console.log('SignInRNP_Form : signInWithEmailAndPasswordHandler : authenticated : ' + result.user.email);
     })
       .catch(error => {
             //TODO : gestion UX des erreurs
-            // console.error('SignInForm : signInWithEmailAndPasswordHandler : Erreur lors du sign in par email et password. ',  error);
+            // console.error('SignInRNP_Form : signInWithEmailAndPasswordHandler : Erreur lors du sign in par email et password. ',  error);
             errorMessage = error;
     });
   }
@@ -45,7 +45,7 @@ const a = new  Array();
 const submitval = values => {
   errorMessage = '';
   const { email, password } = values;
-  console.log('SignInForm : submitval : Validation en cours! : ', values);
+  console.log('SignInRNP_Form : submitval : Validation en cours! : ', values);
   if(email && password) {
     return {email, password};
   } else {
@@ -57,13 +57,13 @@ const submitval = values => {
 const submitSuccess = validationOk => {
   errorMessage = undefined;
   const { email, password } = validationOk;
-  console.log('SignInForm : submitSuccess : ', validationOk);
+  console.log('SignInRNP_Form : submitSuccess : ', validationOk);
   // signInWithEmailAndPasswordHandler('rete@gmail.com', 'jam176');
   validationOk? signInWithEmailAndPasswordHandler(email, password) : signInWithEmailAndPasswordHandler(null, null );
 }
   
 const submitFail = errors => {
-  console.log('SignInForm : submitFail : Ne vous acharnez pas, ça ne marchera pas.\n', errors);
+  console.log('SignInRNP_Form : submitFail : Ne vous acharnez pas, ça ne marchera pas.\n', errors);
   errorMessage = helperTextErrorMessages.errorMessageAll;
   signInWithEmailAndPasswordHandler(null, null );
 }
@@ -105,10 +105,10 @@ export default class SignInRNP_NO_REDUX_Form extends ValidationComponent {
   validateUsername(username) {
     if(requiredValid(username) && alphabeticalOnlyValid(username) && nameMax20Valid(username)) {
       this.setState({ username: username.trim(), usernameMessage: ''});
-      console.log('SignInForm : validateUsername : ok');
+      console.log('SignInRNP_Form : validateUsername : ok');
     } else {
       this.setState({ username: username.trim(), usernameMessage: helperTextErrorMessages.usernameError});
-      console.log('SignInForm : validateUsername : error  : ');
+      console.log('SignInRNP_Form : validateUsername : error  : ');
     }
     // Call ValidationComponent validate method
     // this.validate({
@@ -119,10 +119,10 @@ export default class SignInRNP_NO_REDUX_Form extends ValidationComponent {
   validateEmail(email) {
     if(requiredValid(email) && mailValid(email)) {
       this.setState({ email: email.trim(), emailMessage: ''});
-      console.log('SignInForm : validateEmail : ok');
+      console.log('SignInRNP_Form : validateEmail : ok');
     } else {
       this.setState({ email: email.trim(), emailMessage: helperTextErrorMessages.emailHelperText});
-      console.log('SignInForm : validateEmail : error  : ');
+      console.log('SignInRNP_Form : validateEmail : error  : ');
     }
     // Call ValidationComponent validate method
     // this.validate({
@@ -132,10 +132,10 @@ export default class SignInRNP_NO_REDUX_Form extends ValidationComponent {
   validatePassword(password) {
     if(requiredValid(password) && passwordValid(password)) {
       this.setState({ password: password.trim(), passwordMessage: ''});
-      console.log('SignInForm : validatePassword : ok');
+      console.log('SignInRNP_Form : validatePassword : ok');
     } else {
       this.setState({ password: password.trim(), passwordMessage: helperTextErrorMessages.passwordHelperText});
-      console.log('SignInForm : validatePassword : error  : ');
+      console.log('SignInRNP_Form : validatePassword : error  : ');
     }
     // Call ValidationComponent validate method
     // this.validate({
@@ -144,7 +144,7 @@ export default class SignInRNP_NO_REDUX_Form extends ValidationComponent {
     };
     
     _onPressButton() {
-      console.log('SignInForm : _onPressButton :   : ');
+      console.log('SignInRNP_Form : _onPressButton :   : ');
     // Call ValidationComponent validate method
     const validForm = this.validate({
       username: {minlength:3, maxlength:20, required: true},
@@ -162,7 +162,7 @@ export default class SignInRNP_NO_REDUX_Form extends ValidationComponent {
   };
 
   render() {
-    console.log('SignInForm : render values : ' +  this.state.errorMsg + ' : ' + this.state.username + ' : ' + this.state.email + ' : ' + this.state.password + ' :$ ');
+    console.log('SignInRNP_Form : render values : ' +  this.state.errorMsg + ' : ' + this.state.username + ' : ' + this.state.email + ' : ' + this.state.password + ' :$ ');
     const { ...htem } = helperTextErrorMessages;
     return (
     <View style={THStyles.filterComponentRNP}>

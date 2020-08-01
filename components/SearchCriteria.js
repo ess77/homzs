@@ -7,7 +7,6 @@ import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
 import THBaseButtons from './THBaseButtons';
-import THTextInputForm from './THTextInputForm';
 import { SEARCH_CRITERIA_FORM } from '../constants/FormNames';
 import THCheckboxForm from './THCheckboxForm';
 import THRadioForm from './THRadioForm';

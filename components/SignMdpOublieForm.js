@@ -56,7 +56,7 @@ const warn = values => {
 const submitval = values => {
   const { email, password } = values;
   errorMessage = '';
-  console.log('SignInForm : submitval : Validation en cours... : ', values);
+  console.log('SignMdpOublieLBC : submitval : Validation en cours... : ', values);
   if(email && password) {
     return {email, password};
   } else {
@@ -67,13 +67,13 @@ const submitval = values => {
 const submitSignIn = validationOk => {
   errorMessage = '';
   const { email, password } = validationOk;
-  console.log('SignInForm : submitSignIn : ', email);
+  console.log('SignMdpOublieLBC : submitSignIn : ', email);
   // signInWithEmailAndPasswordHandler('rete@gmail.com', 'jam176');
   validationOk? signInWithEmailAndPasswordHandler(email, password) : signInWithEmailAndPasswordHandler(null, null);
 }
   
 const submitFail = errors => {
-  console.log('SignInForm : submitFail : Ne vous acharnez pas, ça ne marchera pas.\n', errors)
+  console.log('SignMdpOublieLBC : submitFail : Ne vous acharnez pas, ça ne marchera pas.\n', errors)
   if(Object.keys(errors).length > 0 ) errorMessage = helperTextErrorMessages.errorMessageAll;
   signInWithEmailAndPasswordHandler(null, null );
 }
@@ -85,11 +85,11 @@ const signInWithEmailAndPasswordHandler = (email, password) => {
     console.log('signInWithEmailAndPasswordHandler : Securely signing out!');
   } else {
     authLocal.signInWithEmailAndPassword(email, password).then((result) => {
-      console.log('SignInForm : signInWithEmailAndPasswordHandler : authenticated : ' + result.user.email);
+      console.log('SignMdpOublieLBC : signInWithEmailAndPasswordHandler : authenticated : ' + result.user.email);
     })
       .catch(error => {
             //TODO : gestion UX des erreurs
-            // console.error('SignInForm : signInWithEmailAndPasswordHandler : Erreur lors du sign in par email et password. ',  error);
+            // console.error('SignMdpOublieLBC : signInWithEmailAndPasswordHandler : Erreur lors du sign in par email et password. ',  error);
             errorMessage = error;
     });
   }
@@ -97,7 +97,7 @@ const signInWithEmailAndPasswordHandler = (email, password) => {
 
 
 const SignMdpOublieLBC = (props) => {
-    // console.log('SignInForm : initialize state.');
+    // console.log('SignMdpOublieLBC : initialize state.');
     // const { username, setUsername } = useState('');
     const [email, setEmail] = useState('');
     // const { errorMsg, seterrorMsg } = useState(errorMessage);
@@ -114,7 +114,7 @@ const SignMdpOublieLBC = (props) => {
 
     const toggleHidePassword = () => {
       setHidePassword(!hidePassword);
-      console.log('SignInForm : toggleHidePassword : ', hidePassword);
+      console.log('SignMdpOublieLBC : toggleHidePassword : ', hidePassword);
     }
     const { handleSubmit, navigation } = props;
     const { ...htem } = helperTextErrorMessages;

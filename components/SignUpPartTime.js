@@ -4,7 +4,7 @@ import { View, ScrollView, KeyboardAvoidingView, StatusBar } from 'react-native'
 import THStyles from '../constants/THStyles';
 import { SIGNUP_PART_TIME_FORM } from '../constants/FormNames';
 import THRNPTextInputForm from './THRNPTextInputForm';
-import { Text, Button, Appbar, Chip } from 'react-native-paper';
+import { Text, Button, Appbar, Chip, List } from 'react-native-paper';
 import { authLocal } from './sessionManagement/firebase';
 import Colors from '../constants/Colors';
 import { helperTextErrorMessages } from '../constants/HelperTextMessage';
@@ -18,10 +18,16 @@ let compteurPassage = 0;
 const required = (values) => { if(!values || !values.trim()) return true} ;
   
 const fieldExceeds30 = values => { if(values && values.length > 30) { return true } else { return false }};
+
+const fieldExceeds10 = values => { if(values && values.length > 10) { return true } else { return false }};
+
+const birthdateNotLegal = values => { if(values && values.length > 10) { return true } else { return false }};
   
 const notAlphabeticalOnly = values => { if(/^[\s-a-zA-Z]*$/i.test(values)) { return false } else { return true }};
 
-const notValidPassword = values => { if(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values)) { return false } else { return true }};
+const phoneNumberNotValid = values => { if(/^[\0-9]*$/i.test(values)) { return false } else { return true }};
+
+const notValidPassword = values => { if(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g.test(values)) { return false } else { return true }};
 
 const mailNotValid = values => { if(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(values)) { return false } else { return true }};
 
@@ -33,10 +39,70 @@ const nameComplexityNotValid = values => { if(values === 'coco' || values === 'f
 const validate = values => {
   errors = {};
   errorMessage = '';
+
+  /**
+   * Firstname Validation
+   */
+  if(required(values.firstname)) errors.firstname = helperTextErrorMessages.firstnameError;
+  else if(notAlphabeticalOnly(values.firstname)) errors.firstname = helperTextErrorMessages.firstnameHelperText;
+   else if(fieldExceeds30(values.firstname)) errors.firstname = helperTextErrorMessages.firstnameLengthError;
+
+  /**
+   * Lastname Validation
+   */
+  if(required(values.lastname)) errors.lastname = helperTextErrorMessages.lastnameError;
+   else if(notAlphabeticalOnly(values.lastname)) errors.lastname = helperTextErrorMessages.lastnameHelperText;
+   else if(fieldExceeds30(values.lastname)) errors.lastname = helperTextErrorMessages.lastnameLengthError;
+
+  /**
+   * Username Validation
+   */
+  if(required(values.username)) errors.username = helperTextErrorMessages.usernameError;
+   else if(notAlphabeticalOnly(values.username)) errors.username = helperTextErrorMessages.usernameHelperText;
+   else if(fieldExceeds30(values.username)) errors.username = helperTextErrorMessages.usernameLengthError;
+
+  /**
+   * Mail Validation
+   */
   if(required(values.email)) errors.email = helperTextErrorMessages.emailError;
    else if(mailNotValid(values.email)) errors.email = helperTextErrorMessages.mailHelperText;
    else if(fieldExceeds30(values.email)) errors.email = helperTextErrorMessages.emailLengthError;
 
+  /**
+   * Birthdate Validation
+   */
+  if(required(values.birthdate)) errors.birthdate = helperTextErrorMessages.birthdateError;
+   else if(birthdateNotLegal(values.birthdate)) errors.birthdate = helperTextErrorMessages.birthdateLegalHelperText;
+  //  else if(fieldExceeds30(values.email)) errors.email = helperTextErrorMessages.emailLengthError;
+
+  /**
+   * studyLevel Validation
+   */
+  if(required(values.studyLevel)) errors.studyLevel = helperTextErrorMessages.studyLevelError;
+
+  /**
+   * Last diploma Validation
+   */
+  if(required(values.lastDiploma)) errors.lastDiploma = helperTextErrorMessages.lastDiplomaError;
+   else if(notAlphabeticalOnly(values.lastDiploma)) errors.lastDiploma = helperTextErrorMessages.lastDiplomaHelperText;
+   else if(fieldExceeds30(values.lastDiploma)) errors.lastDiploma = helperTextErrorMessages.lastDiplomaHelperTextLengthError;
+  /**
+   * Mobile Validation
+   */
+  if(required(values.mobile)) errors.mobile = helperTextErrorMessages.mobileError;
+   else if(phoneNumberNotValid(values.mobile)) errors.mobile = helperTextErrorMessages.mobileHelperText;
+   else if(fieldExceeds10(values.mobile)) errors.mobile = helperTextErrorMessages.mobileLengthError;
+
+  /**
+   * Phone Validation
+   */
+  if(required(values.phone)) errors.phone = helperTextErrorMessages.phoneError;
+  else if(phoneNumberNotValid(values.phone)) errors.phone = helperTextErrorMessages.phoneHelperText;
+  else if(fieldExceeds10(values.phone)) errors.phone = helperTextErrorMessages.phoneLengthError;
+  
+  /**
+   * Password Validation
+   */
   if(required(values.password)) errors.password = helperTextErrorMessages.passwordError;
   //  else if(notValidPassword(values.password)) errors.password = helperTextErrorMessages.mailHelperText;
    else if(fieldExceeds30(values.password)) errors.password = helperTextErrorMessages.passwordLengthError;
@@ -45,6 +111,7 @@ const validate = values => {
 
   return errors;
 }
+
 
 const warn = values => {
   warns = {};
@@ -60,12 +127,12 @@ const submitFail = errors => {
   compteurPassage++;
   console.log('SubmitFail : ', compteurPassage);
   signInWithEmailAndPasswordHandler(null, null );
-  console.log('SignInForm : submitFail : Ne vous acharnez pas, ça ne marchera pas : ', errorMessage);
+  console.log('SignUpPartTime : submitFail : Ne vous acharnez pas, ça ne marchera pas : ', errorMessage);
 }
 
 const submitval = values => {
   const { email, password } = values;
-  console.log('SignInForm : submitval : Validation en cours... : ', values);
+  console.log('SignUpPartTime : submitval : Validation en cours... : ', values);
   compteurPassage++;
   console.log('SubmitVal : ', compteurPassage);
   if(email && password) {
@@ -79,48 +146,59 @@ const submitSignIn = validationOk => {
   // errorMessage = '';
   compteurPassage++;
   console.log('SubmitSignIn : ', compteurPassage);
-  const { email, password } = validationOk;
-  console.log('SignInForm : submitSignIn : ', email);
+  // const { email, password } = validationOk;
+  // console.log('SignUpPartTime : submitSignIn : ', email);
   // signInWithEmailAndPasswordHandler('rete@gmail.com', 'jam176');
-  validationOk? signInWithEmailAndPasswordHandler(email, password) : signInWithEmailAndPasswordHandler(null, null);
+  validationOk? signUpWithEmailAndPasswordHandler(validationOk) : signUpWithEmailAndPasswordHandler(null);
 }
   
-const signInWithEmailAndPasswordHandler = (email, password) => {
+const signUpWithEmailAndPasswordHandler = values => {
+  const { email, password, username } = values;
   if((!email) || (!password)) {
     //security signout, to protect privacy
     authLocal.signOut();
-    console.log('signInWithEmailAndPasswordHandler : Securely signing out!');
+    console.log('signUpWithEmailAndPasswordHandler : Securely signUp!');
   } else {
-    authLocal.signInWithEmailAndPassword(email, password).then((result) => {
-      console.log('SignInForm : signInWithEmailAndPasswordHandler : authenticated : ' + result.user.email);
+
+    authLocal.createUserWithEmailAndPassword(email, password)
+    .then(userCredentials => {
+        console.log('SignUpPartTime : signUpWithEmailAndPasswordHandler : authenticated : ' + email);
+        return userCredentials.user.updateProfile({
+            displayName: username
+        })
     })
-      .catch(error => {
-            //TODO : gestion UX des erreurs
-            console.error('SignInForm : signInWithEmailAndPasswordHandler : Erreur lors du sign in par email et password. ',  error);
-            errorMessage = error;
+    .catch(error => {
+        console.error('SignUpPartTime : signUpWithEmailAndPasswordHandler : Erreur lors du sign in par email et password. ',  error);
+        this.setState({ errorMessage: error.message });
     });
   }
 };
 
-
 const SignUpPartTime = (props) => {
-    // console.log('SignInForm : initialize state.');
+    // console.log('SignUpPartTime : initialize state.');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [username, setUsername] = useState('');
     const [birthdate, setBirthdate] = useState('');
     const [mobilePhone, setMobilePhone] = useState('');
-    const [rsacAgent, setRsacAgent] = useState('');
-    const [agenceSiret, setAgenceSiret] = useState('');
+    const [studyLevel, setStudyLevel] = useState('-');
+    const [lastDiploma, setLastDiploma] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [hidePassword, setHidePassword] = useState(true);
+    const [expanded, setExpanded] = useState(false);
 
     
     const toggleHidePassword = () => {
       setHidePassword(!hidePassword);
-      console.log('SignInForm : toggleHidePassword : ', hidePassword);
+      console.log('SignUpForm : toggleHidePassword : ', hidePassword);
+    }
+
+    const studyLevelSettings = (value) => {
+      if(value) setStudyLevel(value);
+      setExpanded(!expanded);
+      // console.log('SignUpForm : studyLevelSettings : ', studyLevel);
     }
     const { handleSubmit, navigation } = props;
     const { ...htem } = helperTextErrorMessages;
@@ -171,24 +249,35 @@ const SignUpPartTime = (props) => {
                      placeholder={htem.birthdatePlaceholderText} 
                      componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white'  }}
                      name="birthdate" mode="outlined" />
-              <Field component={THRNPTextInputForm} value={agenceSiret} 
-                     onChangeText={text => setAgenceSiret(text) } 
-                     keyboardType="default" label="Agence/SIRET" 
-                     placeholder={htem.agenceSiretHelperText} 
-                     componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white'  }}
-                     name="companySiret" mode="outlined" />
-              <Field component={THRNPTextInputForm} value={rsacAgent} 
-                     onChangeText={text => setRsacAgent(text) } 
-                     keyboardType="numeric" label="N° RSAC Agent" 
-                     placeholder={htem.rsacAgentHelperText} 
-                     componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white'  }}
-                     name="realtorRSAC" mode="outlined" />
+              <List.Section>
+                     <List.Accordion
+                       title={`Votre niveau d'étude : ${studyLevel}`}
+                       left={props => <List.Icon {...props} icon="send" />}
+                       expanded={expanded}
+                       onPress={studyLevelSettings}>
+                       <List.Item title="Bac + 1" onPress={() => studyLevelSettings('Bac + 1')}/>
+                       <List.Item title="Bac + 2" onPress={() => studyLevelSettings('Bac + 2')}/>
+                       <List.Item title="Bac + 3" onPress={() => studyLevelSettings('Bac + 3')}/>
+                       <List.Item title="Bac + 4" onPress={() => studyLevelSettings('Bac + 4')}/>
+                       <List.Item title="Bac + 5" onPress={() => studyLevelSettings('Bac + 5')}/>
+                       <List.Item title="Bac + 6" onPress={() => studyLevelSettings('Bac + 6')}/>
+                       <List.Item title="Bac + 7" onPress={() => studyLevelSettings('Bac + 7')}/>
+                     </List.Accordion>
+              </List.Section>
+
+
+              <Field component={THRNPTextInputForm} value={lastDiploma} 
+                    onChangeText={text => setLastDiploma(text) } 
+                    keyboardType="default" label="Dernier diplôme validé" 
+                    placeholder={htem.lastDiplomaHelperText} 
+                    componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white'  }}
+                    name="lastDiploma" mode="outlined" />
               <Field component={THRNPTextInputForm} value={mobilePhone} 
                      onChangeText={text => setMobilePhone(text) } 
                      keyboardType="numeric" label="Tél. Mobile" 
                      placeholder={htem.mobilePhonePlaceholderText} 
                      componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white'  }}
-                     name="mobilePhone" mode="outlined" />
+                     name="mobile" mode="outlined" />
               <Field component={THRNPTextInputForm} value={phone} 
                      onChangeText={text => setPhone(text) } 
                      keyboardType="numeric" label="Tél. Fixe" 

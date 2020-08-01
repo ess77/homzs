@@ -15,13 +15,18 @@ let warns = {};
 let compteurPassage = 0;
 
 
+
 const required = (values) => { if(!values || !values.trim()) return true} ;
   
 const fieldExceeds30 = values => { if(values && values.length > 30) { return true } else { return false }};
+
+const fieldExceeds10 = values => { if(values && values.length > 10) { return true } else { return false }};
   
 const notAlphabeticalOnly = values => { if(/^[\s-a-zA-Z]*$/i.test(values)) { return false } else { return true }};
 
-const notValidPassword = values => { if(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values)) { return false } else { return true }};
+const phoneNumberNotValid = values => { if(/^[\0-9]*$/i.test(values)) { return false } else { return true }};
+
+const notValidPassword = values => { if(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g.test(values)) { return false } else { return true }};
 
 const mailNotValid = values => { if(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(values)) { return false } else { return true }};
 
@@ -33,10 +38,52 @@ const nameComplexityNotValid = values => { if(values === 'coco' || values === 'f
 const validate = values => {
   errors = {};
   errorMessage = '';
+
+  /**
+   * Firstname Validation
+   */
+  if(required(values.firstname)) errors.firstname = helperTextErrorMessages.firstnameError;
+  else if(notAlphabeticalOnly(values.firstname)) errors.firstname = helperTextErrorMessages.firstnameHelperText;
+   else if(fieldExceeds30(values.firstname)) errors.firstname = helperTextErrorMessages.firstnameLengthError;
+
+  /**
+   * Lastname Validation
+   */
+  if(required(values.lastname)) errors.lastname = helperTextErrorMessages.lastnameError;
+   else if(notAlphabeticalOnly(values.lastname)) errors.lastname = helperTextErrorMessages.lastnameHelperText;
+   else if(fieldExceeds30(values.lastname)) errors.lastname = helperTextErrorMessages.lastnameLengthError;
+
+  /**
+   * Username Validation
+   */
+  if(required(values.username)) errors.username = helperTextErrorMessages.usernameError;
+   else if(notAlphabeticalOnly(values.username)) errors.username = helperTextErrorMessages.usernameHelperText;
+   else if(fieldExceeds30(values.username)) errors.username = helperTextErrorMessages.usernameLengthError;
+
+  /**
+   * Mail Validation
+   */
   if(required(values.email)) errors.email = helperTextErrorMessages.emailError;
    else if(mailNotValid(values.email)) errors.email = helperTextErrorMessages.mailHelperText;
    else if(fieldExceeds30(values.email)) errors.email = helperTextErrorMessages.emailLengthError;
 
+  /**
+   * Mobile Validation
+   */
+  if(required(values.mobile)) errors.mobile = helperTextErrorMessages.mobileError;
+   else if(phoneNumberNotValid(values.mobile)) errors.mobile = helperTextErrorMessages.mobileHelperText;
+   else if(fieldExceeds10(values.mobile)) errors.mobile = helperTextErrorMessages.mobileLengthError;
+
+  /**
+   * Phone Validation
+   */
+  if(required(values.phone)) errors.phone = helperTextErrorMessages.phoneError;
+  else if(phoneNumberNotValid(values.phone)) errors.phone = helperTextErrorMessages.phoneHelperText;
+  else if(fieldExceeds10(values.phone)) errors.phone = helperTextErrorMessages.phoneLengthError;
+  
+  /**
+   * Password Validation
+   */
   if(required(values.password)) errors.password = helperTextErrorMessages.passwordError;
   //  else if(notValidPassword(values.password)) errors.password = helperTextErrorMessages.mailHelperText;
    else if(fieldExceeds30(values.password)) errors.password = helperTextErrorMessages.passwordLengthError;
@@ -45,6 +92,7 @@ const validate = values => {
 
   return errors;
 }
+
 
 const warn = values => {
   warns = {};
@@ -59,13 +107,13 @@ const submitFail = errors => {
   if(Object.keys(errors).length > 0 ) errorMessage = helperTextErrorMessages.errorMessageAll;
   compteurPassage++;
   console.log('SubmitFail : ', compteurPassage);
-  signInWithEmailAndPasswordHandler(null, null );
-  console.log('SignInForm : submitFail : Ne vous acharnez pas, ça ne marchera pas : ', errorMessage);
+  signInWithEmailAndPasswordHandler(null);
+  console.log('SignUpSeller : submitFail : Ne vous acharnez pas, ça ne marchera pas : ', errorMessage);
 }
 
 const submitval = values => {
   const { email, password } = values;
-  console.log('SignInForm : submitval : Validation en cours... : ', values);
+  console.log('SignUpSeller : submitval : Validation en cours... : ', values);
   compteurPassage++;
   console.log('SubmitVal : ', compteurPassage);
   if(email && password) {
@@ -79,32 +127,38 @@ const submitSignIn = validationOk => {
   // errorMessage = '';
   compteurPassage++;
   console.log('SubmitSignIn : ', compteurPassage);
-  const { email, password } = validationOk;
-  console.log('SignInForm : submitSignIn : ', email);
+  // const { email, password } = validationOk;
+  // console.log('SignUpSeller : submitSignIn : ', email);
   // signInWithEmailAndPasswordHandler('rete@gmail.com', 'jam176');
-  validationOk? signInWithEmailAndPasswordHandler(email, password) : signInWithEmailAndPasswordHandler(null, null);
+  validationOk? signUpWithEmailAndPasswordHandler(validationOk) : signUpWithEmailAndPasswordHandler(null);
 }
   
-const signInWithEmailAndPasswordHandler = (email, password) => {
+const signUpWithEmailAndPasswordHandler = values => {
+  const { email, password, username } = values;
+  console.log('signUpWithEmailAndPasswordHandler : username : ', username);
   if((!email) || (!password)) {
     //security signout, to protect privacy
     authLocal.signOut();
-    console.log('signInWithEmailAndPasswordHandler : Securely signing out!');
+    console.log('signUpWithEmailAndPasswordHandler : Securely signUp!');
   } else {
-    authLocal.signInWithEmailAndPassword(email, password).then((result) => {
-      console.log('SignInForm : signInWithEmailAndPasswordHandler : authenticated : ' + result.user.email);
+
+    authLocal.createUserWithEmailAndPassword(email, password)
+    .then(userCredentials => {
+        console.log('SignUpSeller : signUpWithEmailAndPasswordHandler : authenticated : ' + email);
+        return userCredentials.user.updateProfile({
+            displayName: username
+        })
     })
-      .catch(error => {
-            //TODO : gestion UX des erreurs
-            console.error('SignInForm : signInWithEmailAndPasswordHandler : Erreur lors du sign in par email et password. ',  error);
-            errorMessage = error;
+    .catch(error => {
+        console.error('SignUpSeller : signUpWithEmailAndPasswordHandler : Erreur lors du sign in par email et password. ',  error);
+        this.setState({ errorMessage: error.message });
     });
   }
 };
 
 
 const SignUpSeller = (props) => {
-    // console.log('SignInForm : initialize state.');
+    // console.log('SignUpSeller : initialize state.');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [username, setUsername] = useState('');
@@ -117,7 +171,7 @@ const SignUpSeller = (props) => {
     
     const toggleHidePassword = () => {
       setHidePassword(!hidePassword);
-      console.log('SignInForm : toggleHidePassword : ', hidePassword);
+      console.log('SignUpSeller : toggleHidePassword : ', hidePassword);
     }
     const { handleSubmit, navigation } = props;
     const { ...htem } = helperTextErrorMessages;
@@ -196,8 +250,8 @@ const SignUpSeller = (props) => {
 
 export const SignUpSellerForm = reduxForm({
   form: SIGNUP_SELLER_FORM,
-  validate,
-  warn,
+  validate: validate,
+  warn: warn,
   onSubmitSuccess: submitSignIn,
   onSubmitFail: submitFail,
 })(SignUpSeller);
