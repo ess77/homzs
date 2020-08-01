@@ -20,7 +20,7 @@ const required = (values) => { if(!values || !values.trim()) return true} ;
   
 const fieldExceeds30 = values => { if(values && values.length > 30) { return true } else { return false }};
 
-const fieldExceeds10 = values => { if(values && values.length > 10) { return true } else { return false }};
+const fieldNotEq10 = values => { if(values && values.length !== 10) { return true } else { return false }};
 
 const fieldExceeds9 = values => { if(values && values.length > 9) { return true } else { return false }};
   
@@ -88,14 +88,14 @@ const validate = values => {
    */
   if(required(values.mobile)) errors.mobile = helperTextErrorMessages.mobileError;
    else if(numberOnlyNotValid(values.mobile)) errors.mobile = helperTextErrorMessages.mobileHelperText;
-   else if(fieldExceeds10(values.mobile)) errors.mobile = helperTextErrorMessages.mobileLengthError;
+   else if(fieldNotEq10(values.mobile)) errors.mobile = helperTextErrorMessages.mobileLengthError;
 
   /**
    * Phone Validation
    */
   if(required(values.phone)) errors.phone = helperTextErrorMessages.phoneError;
   else if(numberOnlyNotValid(values.phone)) errors.phone = helperTextErrorMessages.phoneHelperText;
-  else if(fieldExceeds10(values.phone)) errors.phone = helperTextErrorMessages.phoneLengthError;
+  else if(fieldNotEq10(values.phone)) errors.phone = helperTextErrorMessages.phoneLengthError;
   
   /**
    * Password Validation
