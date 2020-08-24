@@ -1,6 +1,8 @@
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import 'react-native-gesture-handler';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import TinderHouses from '../components/TinderHouses';
 import SignInScreen from '../components/SignInScreen';
 import FavoriteHousesScreen from '../components/FavoriteHousesScreen';
@@ -48,9 +50,6 @@ import SignMdpOublieScreenLBC from '../components/SignMdpOublieScreen';
 
 
 
-let screenDisplayed = 'Home';
-
-
 export const  TinderHousesScreen = (props) => {
 
     // return (
@@ -60,76 +59,62 @@ export const  TinderHousesScreen = (props) => {
     //   );
 }
 
-export const AppNavigator = createStackNavigator(
-    {
-      Home: {
-        screen: HomeScreenFacade,
-      },
-      HomeUser: {
-        screen: HomeScreenUser,
-      },
-      TinderHouses: TinderHouses,
-      DrawerNav: TinderHousesScreen,
-      Favorite: FavoriteHousesScreen,
-      SignIn: {
-        screen: SignInScreen,
-      },
-      SignUpChoice: {
-        screen: SignUpChoice,
-      },
-      TestFlex: TestFlex,
-      LocateUser: UserLocation,
-      SignUpPT: SignUpPartTimeWrapper,
-      },
-    {
-      initialRouteName: 'Home',
-    }
-  );
-  
-  const AppDrawerNavigator = createDrawerNavigator(
-    {
-      Home: HomeScreenFacade,
-      HomeUser: HomeScreenUser,
-      UserConnectedPad: UserConnectedPad,
-      TinderHouses: TinderHouses,
-      DrawerNav: TinderHousesScreen,
-      Favorite: FavoriteHousesScreen,
-      SignIn: SignInScreen,
-      SignInMask: signInWithMask,
-      SignInHidePassword: SignInHidePassword,
-      SignUpChoice: SignUpChoice,
-      SignUpBuyer: SignUpBuyerWrapper,
-      SignUpSeller: SignUpSellerWrapper,
-      SignUpMediator: SignUpMediatorWrapper,
-      SignUpPT: SignUpPartTimeWrapper,
-      SignMdpOublie: SignMdpOublieScreenLBC,
-      SearchCriteria: SearchCriteriaWrapper,
-      TestFlex: TestFlex,
-      LocateUser: UserLocation,
-      SignUpTest: THTextInputForm,
-    },
-    {
-      unmountInactiveRoutes: true,
-      initialRouteName: `${screenDisplayed}`,
-      defaultNavigationOptions: {
-        headerTitle: 'Connexion',
-        headerStyle: {
-          backgroundColor: Colors.header
-        }
-      }
-    }
-  );
-  
-const MainAppNavigation = createAppContainer(AppDrawerNavigator);
-// const AppContainer = createAppContainer(AppNavigator);
-export default MainAppNavigation;
+export const Stack = createStackNavigator();
+   
+  const Drawer = createDrawerNavigator()
+   
+    // {
+    //   unmountInactiveRoutes: true,
+    //   initialRouteName: `${screenDisplayed}`,
+    //   defaultNavigationOptions: {
+    //     headerTitle: 'Connexion',
+    //     headerStyle: {
+    //       backgroundColor: Colors.header
+    //     }
 
-// const MainAppNavigation = (props) => {
-  // screenDisplayed = props.screen;
-//   console.log('screenDisplayed : ' + screenDisplayed);
-//   return(
-//     <View>
-//     {createAppContainer(AppDrawerNavigator)}
-//     </View>);
+// function MainAppNavigation() {
+//   return (
+//     <NavigationContainer>
+//       <Stack.Navigator>
+//         <Stack.Screen name="Home" component={HomeScreenFacade} />
+//         <Stack.Screen name="HomeUser" component={HomeScreenUser} />
+//         <Stack.Screen name="TinderHouses" component={TinderHouses} />
+//         <Stack.Screen name="DrawerNav" component={TinderHousesScreen} />
+//         <Stack.Screen name="Favorite" component={FavoriteHousesScreen} />
+//         <Stack.Screen name="SignIn" component={SignInScreen} />
+//         <Stack.Screen name="SignUpChoices" component={SignUpChoice} />
+//         <Stack.Screen name="TestFlex" component={TestFlex} />
+//         <Stack.Screen name="LocateUser" component={UserLocation} />
+//         <Stack.Screen name="SignUpPT" component={SignUpPartTimeWrapper} />
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   );
 // }
-// export default MainAppNavigation;
+function MainAppNavigation() {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator>
+        <Drawer.Screen name="Home" component={HomeScreenFacade} />
+        <Drawer.Screen name="HomeUser" component={HomeScreenUser} />
+        <Drawer.Screen name="UserConnectedPad" component={UserConnectedPad} />
+        <Drawer.Screen name="TinderHouses" component={TinderHouses} />
+        <Drawer.Screen name="DrawerNav" component={TinderHousesScreen} />
+        <Drawer.Screen name="Favorite" component={FavoriteHousesScreen} />
+        <Drawer.Screen name="SignIn" component={SignInScreen} />
+        <Drawer.Screen name="SignInHidePassword" component={SignInHidePassword} />
+        <Drawer.Screen name="SignUpChoice" component={SignUpChoice} />
+        <Drawer.Screen name="SignUpBuyer" component={SignUpBuyerWrapper} />
+        <Drawer.Screen name="SignUpSeller" component={SignUpSellerWrapper} />
+        <Drawer.Screen name="SignUpMediator" component={SignUpMediatorWrapper} />
+        <Drawer.Screen name="SignUpPT" component={SignUpPartTimeWrapper} />
+        <Drawer.Screen name="SignMdpOublie" component={SignMdpOublieScreenLBC} />
+        <Drawer.Screen name="SearchCriteria" component={SearchCriteriaWrapper} />
+        <Drawer.Screen name="TestFlex" component={TestFlex} />
+        <Drawer.Screen name="LocateUser" component={UserLocation} />
+        <Drawer.Screen name="SignUpTest" component={THTextInputForm} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export default MainAppNavigation;
