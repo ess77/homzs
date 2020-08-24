@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import THButton from './THButton';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { log } from 'react-native-reanimated';
 
 export default class THBaseButtons extends Component {
     constructor(props) {
         super(props);
     }
     static  navigationOptions = ({ navigation }) => {
+        console.log('navigation : ', navigation);
         const { params = {} } = navigation.state;
         let headerTitle = 'Generic';
         let headerTitleStyle = {

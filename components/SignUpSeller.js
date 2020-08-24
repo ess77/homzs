@@ -220,7 +220,7 @@ const SignUpSeller = (props) => {
                      keyboardType="numeric" label="Tél. Mobile" 
                      placeholder={htem.mobilePhonePlaceholderText} 
                      componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white'  }}
-                     name="mobilePhone" mode="outlined" />
+                     name="mobile" mode="outlined" />
               <Field component={THRNPTextInputForm} value={phone} 
                      onChangeText={text => setPhone(text) } 
                      keyboardType="numeric" label="Tél. Fixe" 

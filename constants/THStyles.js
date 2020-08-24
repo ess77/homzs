@@ -189,6 +189,14 @@ export default THStyles = StyleSheet.create({
     // marginLeft: 20,
     alignItems: 'flex-start',
   },
+  criteriaPositionForm: {
+    // flex: 1,
+    // backgroundColor: 'rgba(69,90,100,.5)',
+    // backgroundColor: Colors.CANCEL_COLOR,
+    // marginLeft: 20,
+    alignItems: 'flex-start',
+    width: 200,
+  },
   middleLeitmotive: {
     fontSize: 15,
     marginTop: 30
@@ -381,7 +389,7 @@ export default THStyles = StyleSheet.create({
   ///          ///
  //////////////// 
     titleSearchType: {
-        fontSize: 12,
+        fontSize: 18,
         fontWeight: '500',
     },
     loginTitle: {
