@@ -131,7 +131,7 @@ export default class SignUpChoice extends Component {
               </View>
             </View>
             </ImageBackground>
-            <THBaseButtons style={THStyles.buttonContainer} fromTop='-70' navigation={this.props.navigation} />
+            <THBaseButtons style={THStyles.buttonContainer} fromTop='-70' navigation={this.props.navigation} disabled={true}/>
             <Copyright />
             </View>
         );

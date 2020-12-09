@@ -19,7 +19,7 @@ export default class HomeScreenUser extends Component {
       accessToken: {...this.props.userAuth.stsTokenManager},
     }
     this.state = {
-      navigation: null,
+      navigation: this.props.navigation,
       user: user,
     }
   }
@@ -72,6 +72,7 @@ export default class HomeScreenUser extends Component {
                     <Text style={THStyles.logoTitle}>TinderHouse</Text>
                     <Text style={THStyles.middleLeitmotive}>Vente Rapide  -  Achat Rapide</Text>
                 </View>
+                <THButton text="Recherche" onPress={() => {this.props.navigation.navigate('SearchCriteria')}} theme="homeBottom" outline size="small" disabled={this.props.disabled} />
                 <THBaseButtons style={THStyles.buttonContainer} fromTop='275' navigation={this.state.navigation} />
               </View>
               <Copyright />

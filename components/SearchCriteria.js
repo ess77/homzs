@@ -153,7 +153,7 @@ class SearchCriteria extends Component {
                 <THButton text="Valider" onPress={decomp.handleSubmit(submitval)} theme="validate" outline size="small"/>
             </View>
           </View>
-          <THBaseButtons style={THStyles.buttonContainer} fromTop='170' />
+          <THBaseButtons style={THStyles.buttonContainer} fromTop='270' disabled={true} />
         </View>
         <Copyright />
       </ImageBackground>
