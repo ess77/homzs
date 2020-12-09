@@ -4,7 +4,7 @@
     "slug": "HOMZS",
     "privacy": "public",
     "sdkVersion": "37.0.0",
-    "packagerOpts": { "sourceExts": [ "js", "json", "ts", "tsx", "jsx", "vue", "db"], "assetExts": ["db"], "config": "metro.config.js" },
+    "packagerOpts": { "sourceExts": [ "js", "json", "ts", "tsx", "jsx", "vue", "db"], "config": "metro.config.js" },
     "platforms": [
       "ios",
       "android",
