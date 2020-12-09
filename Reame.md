@@ -2,7 +2,7 @@
 ##  Elfort Systems & Services.
 
 
-Homzs is a [React Native ](https://reactnative.dev/) application built using [Node.JS](https://nodejs.org/fr/). You can build a package app and run it from the command line: npm start
+Homzs is a [React Native ](https://reactnative.dev/) application built using [Node.JS](https://nodejs.org/fr/), and [Expo](https://expo.io/) . You can build a package app and run it from the command line: npm start
 
 
 ```
