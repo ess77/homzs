@@ -11,7 +11,8 @@ Homzs is a [React Native ](https://reactnative.dev/) application built using [No
 
 Requirements : 
     - Node.js : 12.18.2^ (npm is included)
-    - Expo 37^
+    - SDK version 38^
+    - Expo 4.0.12^
     - Expo app installed on your phone (--> ®️Playstore)
 
 git clone https://github.com/klmop/homzs.git
