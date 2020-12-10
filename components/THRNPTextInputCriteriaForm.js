@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity, Image  } from 'react-native';
 import { TextInput  } from 'react-native-paper';
 
-export default class THRNPTextInputForm extends Component {
+export default class THRNPTextInputCriteriaForm extends Component {
   constructor() {
     super();
     this.state = { hidePassword: true };
@@ -23,9 +23,8 @@ export default class THRNPTextInputForm extends Component {
     render() {
         const { label, keyboardType, mode, componentStyle, value, placeholder,onChangeText, security, meta: {touched, error, warning}, input: {onChange, ...restInput} } = this.props;
         return (
-          <View style={styles.containerStyle}>
-          
-          {!security && <View style={styles.inputStyle}> 
+                    <View style={styles.containerStyle}>
+                        <View style={styles.inputStyle}> 
                           <TextInput
                             label={label}
                             style={componentStyle}
@@ -37,28 +36,9 @@ export default class THRNPTextInputForm extends Component {
                             keyboardType={keyboardType} 
                             secureTextEntry={!this.state.hidePassword} 
                             {...restInput} />
-                        </View>}
-          {security &&  <View style={styles.inputStyleSecurity}>
-                          <TextInput
-                            label={label}
-                            style={ componentStyle }
-                            mode={mode}
-                            placeholder={ placeholder }
-                            value={value}
-                            onChange={onChange}
-                            onChangeText={onChangeText}
-                            keyboardType={keyboardType} 
-                            secureTextEntry={this.state.hidePassword} 
-                            {...restInput}
-                            onMouseEnt={this.onBlur}
-                            underlineColorAndroid="transparent" />
-                          
-                            <TouchableOpacity activeOpacity={0.1} onPress={this.setPasswordVisibility} style={styles.touchableButtonView} >
-                              <Image source={ (this.state.hidePassword) ? require('../assets/images/eye_clear_green.png') : require('../assets/images/eye_hidden.png') } style={styles.buttonImage} />
-                            </TouchableOpacity>
-                        </View>}
-            {touched && ((error && <Text style={{color: 'red'}}>{error}</Text> ) || warning && <Text style={{color: 'orange'}}>{warning}</Text>)}
-            </View>
+                        </View>
+                  {touched && ((error && <Text style={{color: 'red'}}>{error}</Text> ) || warning && <Text style={{color: 'orange'}}>{warning}</Text>)}
+                  </View>
             )
           }
         }
@@ -73,7 +53,7 @@ const styles = StyleSheet.create({
   inputStyle: {
     flexDirection: 'column',
     // backgroundColor: 'purple',
-    width: 370,
+    width: 350,
   },
   inputStyleSecurity: {
     flexDirection: 'row',

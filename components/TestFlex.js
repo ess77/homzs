@@ -6,10 +6,10 @@ export default class TestFlex extends Component {
     return (
       // Try setting `flexDirection` to `column`.
       <View style={{flex: 1, flexDirection: 'row'}}>
-        <View style={{flex:2, backgroundColor: '#8b6550'}} />
-        <View style={{flex:1, backgroundColor: '#85573e'}} />
-        <View style={{flex:1, backgroundColor: '#96512b'}} />
-        <View style={{backgroundColor: '#96612b'}} />
+        <View style={{flex:2, backgroundColor: 'grey'}} />
+        <View style={{flex:1, backgroundColor: 'blue'}} />
+        <View style={{flex:1, backgroundColor: 'red'}} />
+        <View style={{flex:2, backgroundColor: 'yellow'}} />
       </View>
     );
   }

@@ -7,12 +7,11 @@ import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
 import THBaseButtons from './THBaseButtons';
-import THTextInputForm from './THTextInputForm';
 import { SEARCH_CRITERIA_FORM } from '../constants/FormNames';
 import THCheckboxForm from './THCheckboxForm';
 import THRadioForm from './THRadioForm';
 import THRadioAddressForm from './THRadioAddressForm';
-import THRNPTextInputForm from './THRNPTextInputForm';
+import THRNPTextInputCriteriaForm from './THRNPTextInputCriteriaForm';
 
 
 const required = values => { if(values === undefined) { return 'requis'; }} ;
@@ -26,6 +25,14 @@ const nameTooSimple = values => { // values = username
   if(values === 'coco' || values === 'fifi' || values === 'dede' || values === 'roro') { return 'Vous pouvez faire mieux que ça, n\'est ce pas!' }
 };
 
+const validate = values => {
+  const { event, ...rest } = values;
+  console.log('SearchCriteria : validate : Validation en cours : ', values);
+}
+const warn = values => {
+  const { event, ...rest } = values;
+  console.log('SearchCriteria : warn : warn en cours : ', values);
+}
 const submitval = values => {
   const { event, ...rest } = values;
   console.log('SearchCriteria : submitval : Validation en cours : ', values);
@@ -41,16 +48,19 @@ const submitFail = errors => {
   
 }
 
-const checksBuySell = [{index: 'buy', label:'Achat', checked: false},
-                       {index: 'rent', label:'Location', checked: false}
+const checksBuySell = [
+                        {index: 'buy', label:'Achat', checked: false},
+                        {index: 'rent', label:'Location', checked: false}
                       ];
-const checksBuilding = [{index: 'appt', label:'Appartement', checked: false},
-                        {index: 'house', label:'Maison', checked: false},
-                        {index: 'build', label:'Immeuble', checked: false},
-                        {index: 'other', label:'Autre', checked: false}
+  const checksBuilding = [
+                          {index: 'appt', label:'Appartement', checked: false},
+                          {index: 'house', label:'Maison', checked: false},
+                          {index: 'build', label:'Immeuble', checked: false},
+                          {index: 'other', label:'Autre', checked: false}
                     ];
-const checksSearchArea = [{index: 'aroundme', label:'Autour de ma position', checked: false},
-                        {index: 'addr', label:'address', checked: false}
+const checksSearchArea = [
+                          {index: 'aroundme', label:'Autour de ma position', checked: false},
+                          {index: 'addr', label:'addresse', checked: false}
                       ];
 
 class SearchCriteria extends Component {
@@ -130,12 +140,12 @@ class SearchCriteria extends Component {
               <Field name="buildings" checks={checksBuilding} setLabel="Pick Building Type" component={THCheckboxForm} onChangeChecked={(selected) => this.checkToggle(selected)} />
               </View>
               <Text style={THStyles.titleSearchType}>Lieux : </Text>
-              <View style={THStyles.criteriaForm}>
+              <View style={THStyles.criteriaPositionForm}>
               <Field name="areas" radios={checksSearchArea} setLabel="Pick Area Search " component={THRadioAddressForm} onChangeChecked={(value) => this.addressToggle(value)}/>
-              { this.state.addressChecked? (<View style={THStyles.criteriaForm}>
-                <Field keyboardType="default" label="Pays" component={THRNPTextInputForm} name="country" validate={[required, nameMax20]} />
-                <Field keyboardType="default" label="Ville/CP" security={true} component={THRNPTextInputForm} name="citypc" validate={[required]} />
-                <Field keyboardType="default" label="N° et Rue" security={true} component={THRNPTextInputForm} name="streetNumber" validate={[required]} />
+              { this.state.addressChecked? (<View>
+                <Field keyboardType="default" label="Pays" component={THRNPTextInputCriteriaForm} name="country" validate={[required, nameMax20]} />
+                <Field keyboardType="default" label="Ville/CP" component={THRNPTextInputCriteriaForm} name="citypc" validate={[required]} />
+                <Field keyboardType="default" label="N° et Rue" component={THRNPTextInputCriteriaForm} name="streetNumber" validate={[required]} />
               </View>): null}
             </View>
             <View style={THStyles.buttonGroup2}>
@@ -143,7 +153,7 @@ class SearchCriteria extends Component {
                 <THButton text="Valider" onPress={decomp.handleSubmit(submitval)} theme="validate" outline size="small"/>
             </View>
           </View>
-          <THBaseButtons style={THStyles.buttonContainer} fromTop='170' />
+          <THBaseButtons style={THStyles.buttonContainer} fromTop='270' disabled={true} />
         </View>
         <Copyright />
       </ImageBackground>
@@ -154,6 +164,8 @@ class SearchCriteria extends Component {
 
 export const SearchCriteriaForm = reduxForm({
 form: SEARCH_CRITERIA_FORM,
+validate,
+warn,
 onSubmit: submitval,
 onSubmitSuccess: submitSucess,
 onSubmitFail : submitFail,

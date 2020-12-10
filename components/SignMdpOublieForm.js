@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { View, ScrollView, KeyboardAvoidingView, StatusBar, TouchableOpacity } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, StatusBar } from 'react-native';
 import THStyles from '../constants/THStyles';
-import { CONTACT_FORM } from '../constants/FormNames';
+import { CONTACT_FORM_MDP_LBC } from '../constants/FormNames';
 import THRNPTextInputForm from './THRNPTextInputForm';
 import { Text, Button, Appbar } from 'react-native-paper';
 import THBaseButtons from './THBaseButtons';
@@ -13,7 +13,6 @@ import { helperTextErrorMessages } from '../constants/HelperTextMessage';
 let errorMessage = '';
 let errors = {};
 let warns = {};
-let compteurPassage = 0;
 
 
 const required = (values) => { if(!values || !values.trim()) return true} ;
@@ -22,7 +21,7 @@ const fieldExceeds30 = values => { if(values && values.length > 30) { return tru
   
 const notAlphabeticalOnly = values => { if(/^[\s-a-zA-Z]*$/i.test(values)) { return false } else { return true }};
 
-const notValidPassword = values => { if(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g.test(values)) { return false } else { return true }};
+const notValidPassword = values => { if(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values)) { return false } else { return true }};
 
 const mailNotValid = values => { if(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(values)) { return false } else { return true }};
 
@@ -41,8 +40,8 @@ const validate = values => {
   if(required(values.password)) errors.password = helperTextErrorMessages.passwordError;
   //  else if(notValidPassword(values.password)) errors.password = helperTextErrorMessages.mailHelperText;
    else if(fieldExceeds30(values.password)) errors.password = helperTextErrorMessages.passwordLengthError;
-  compteurPassage++;
-  console.log('Validate : ', compteurPassage);
+ 
+  // console.log('errors : ', errors);
 
   return errors;
 }
@@ -50,25 +49,14 @@ const validate = values => {
 const warn = values => {
   warns = {};
   // console.log('warn : values : ', values);
-  compteurPassage++;
-  console.log('Warn : ', compteurPassage);
   if(nameComplexityNotValid(values.email)) warns.email = helperTextErrorMessages.emailError;
   return warns;
 }
 
-const submitFail = errors => {
-  if(Object.keys(errors).length > 0 ) errorMessage = helperTextErrorMessages.errorMessageAll;
-  compteurPassage++;
-  console.log('SubmitFail : ', compteurPassage);
-  signInWithEmailAndPasswordHandler(null, null );
-  console.log('SignInForm : submitFail : Ne vous acharnez pas, ça ne marchera pas : ', errorMessage);
-}
-
 const submitval = values => {
   const { email, password } = values;
-  console.log('SignInForm : submitval : Validation en cours... : ', values);
-  compteurPassage++;
-  console.log('SubmitVal : ', compteurPassage);
+  errorMessage = '';
+  console.log('SignMdpOublieLBC : submitval : Validation en cours... : ', values);
   if(email && password) {
     return {email, password};
   } else {
@@ -77,15 +65,19 @@ const submitval = values => {
 }
 
 const submitSignIn = validationOk => {
-  // errorMessage = '';
-  compteurPassage++;
-  console.log('SubmitSignIn : ', compteurPassage);
+  errorMessage = '';
   const { email, password } = validationOk;
-  console.log('SignInForm : submitSignIn : ', email);
+  console.log('SignMdpOublieLBC : submitSignIn : ', email);
   // signInWithEmailAndPasswordHandler('rete@gmail.com', 'jam176');
   validationOk? signInWithEmailAndPasswordHandler(email, password) : signInWithEmailAndPasswordHandler(null, null);
 }
   
+const submitFail = errors => {
+  console.log('SignMdpOublieLBC : submitFail : Ne vous acharnez pas, ça ne marchera pas.\n', errors)
+  if(Object.keys(errors).length > 0 ) errorMessage = helperTextErrorMessages.errorMessageAll;
+  signInWithEmailAndPasswordHandler(null, null );
+}
+
 const signInWithEmailAndPasswordHandler = (email, password) => {
   if((!email) || (!password)) {
     //security signout, to protect privacy
@@ -93,31 +85,39 @@ const signInWithEmailAndPasswordHandler = (email, password) => {
     console.log('signInWithEmailAndPasswordHandler : Securely signing out!');
   } else {
     authLocal.signInWithEmailAndPassword(email, password).then((result) => {
-      console.log('SignInForm : signInWithEmailAndPasswordHandler : authenticated : ' + result.user.email);
+      console.log('SignMdpOublieLBC : signInWithEmailAndPasswordHandler : authenticated : ' + result.user.email);
     })
       .catch(error => {
             //TODO : gestion UX des erreurs
-            console.error('SignInForm : signInWithEmailAndPasswordHandler : Erreur lors du sign in par email et password. ',  error);
+            // console.error('SignMdpOublieLBC : signInWithEmailAndPasswordHandler : Erreur lors du sign in par email et password. ',  error);
             errorMessage = error;
     });
   }
 };
 
 
-const SignInField = (props) => {
-    // console.log('SignInForm : initialize state.');
+const SignMdpOublieLBC = (props) => {
+    // console.log('SignMdpOublieLBC : initialize state.');
+    // const { username, setUsername } = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    // const { errorMsg, seterrorMsg } = useState(errorMessage);
+    // const { usernameMessage, setUsernameMessage } = useState(undefined);
+    // const { emailMessage, setEmailMessage } = useState(null);
     const [hidePassword, setHidePassword] = useState(true);
+    // const { passwordMessage, setPasswordMessage } = useState(false);
+    // const { showInfo, setShowInfo } = useState(false);
 
-    
+    const resetErrorMsg = () => {
+      console.log('resetErrorMsg');
+      errorMessage = '';
+    }
+
     const toggleHidePassword = () => {
       setHidePassword(!hidePassword);
-      console.log('SignInForm : toggleHidePassword : ', hidePassword);
+      console.log('SignMdpOublieLBC : toggleHidePassword : ', hidePassword);
     }
     const { handleSubmit, navigation } = props;
     const { ...htem } = helperTextErrorMessages;
-    
     return (
       <View style={THStyles.filterComponentRNP}>
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-300}>
@@ -129,45 +129,34 @@ const SignInField = (props) => {
               <Appbar.Action icon="step-forward" onPress={() => {toggleHidePassword()}} />
             </Appbar.Header>
             <View style={{marginTop: 15}}>
-              <Text style={THStyles.loginTitle}>Bonjour !</Text>
-              <Text style={THStyles.loginSubText}>Connecter vous pour décourvrir nos services.</Text>
+              <Text style={THStyles.loginTitle}>Réinitialisation de Mot de Passe :</Text>
+              <Text style={THStyles.loginSubText}>Veuillez renseigner votre mail.</Text>
                     
               <Field component={THRNPTextInputForm} value={email} 
-                     onChangeText={text => setEmail(text) } 
+                     onChangeText={text => {resetErrorMsg(); setEmail(text)} } 
                      keyboardType="email-address" label="Email" 
                      placeholder={htem.mailPlaceholderText} 
-                     componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white', height: 50 }}
+                     componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white'  }}
                      name="email" mode="outlined" />
 
               
-              <Field component={THRNPTextInputForm} value={password} 
-                     onChangeText={text => setPassword(text)} 
-                     keyboardType="default" label="Password" 
-                     placeholder={htem.passwordPlaceholderText}
-                     componentStyle={{ marginTop: 15, width: 370, backgroundColor: 'white', height: 50, borderWidth: 1, borderColor: 'rgba(249,244,248,0.0)' }} 
-                     name="password" security={hidePassword} mode="outlined" />
-                {!!errorMessage && <Text style={THStyles.errorMessageText} visible={true} >Erreur : {errorMessage}</Text>}
+                {!!errorMessage && <Text style={THStyles.errorMessageText}>Erreur : {errorMessage}</Text>}
               <View style={THStyles.buttonGroup2} style={{ display: 'flex', alignItems: 'center' }}>
-                <Button type="submit" style={{ marginTop: 15, backgroundColor:  Colors.homeCorporate, width: 398 }} icon="send" mode="contained" onPress={handleSubmit(submitval)}>Connexion</Button>
-                <Button style={{ marginTop: 15, backgroundColor:  Colors.homeCorporate, width: 200 }} icon="step-backward"  onPress={() => navigation.navigate('Home')}>Annuler</Button>
-                <TouchableOpacity activeOpacity={0.1} onPress={() => navigation.navigate('SignMdpOublie')} >
-                  <Text style={{color:"blue", marginTop: 20, textDecorationLine: 'underline'}}>Mot de Passe oublié?</Text>
-                </TouchableOpacity>
+                <Button type="submit" style={{ marginTop: 15, backgroundColor:  Colors.homeCorporate, color: 'red', width: 398 }} icon="lock-reset" mode="contained" onPress={handleSubmit(submitval)}>Réinitialiser</Button>
+                <Button style={{ marginTop: 15, backgroundColor:  Colors.homeCorporate, width: 200 }} icon="step-backward"  onPress={() => navigation.navigate('SignIn')}>Retour</Button>
               </View>
             </View>
-            <THBaseButtons style={THStyles.buttonContainer} fromTop='220' disabled={true}/>
+            <THBaseButtons style={THStyles.buttonContainer} fromTop='320' disabled={true}/>
           </ScrollView>
         </KeyboardAvoidingView>
       </View>
     );
 };
 
-export const SignInForm = reduxForm({
-  form: CONTACT_FORM,
+export const SignMdpOublieLBCForm = reduxForm({
+  form: CONTACT_FORM_MDP_LBC,
   validate,
   warn,
   onSubmitSuccess: submitSignIn,
   onSubmitFail: submitFail,
-})(SignInField);
-
-
+})(SignMdpOublieLBC);

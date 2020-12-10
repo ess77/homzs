@@ -1,16 +1,26 @@
 {
   "expo": {
-    "name": "The App to Innovate Buy/Sell on the Home Market",
+    "name": "The App to Innovate Buy/Sell from the Home Market",
     "slug": "HOMZS",
     "privacy": "public",
-    "sdkVersion": "37.0.0",
-    "packagerOpts": { "sourceExts": [ "js", "json", "ts", "tsx", "jsx", "vue", "db"], "config": "metro.config.js" },
+    "sdkVersion": "38.0.0",
+    "packagerOpts": {
+      "sourceExts": [
+        "js",
+        "json",
+        "ts",
+        "tsx",
+        "jsx",
+        "vue",
+        "db"
+      ],
+      "config": "metro.config.js"
+    },
     "platforms": [
       "ios",
       "android",
       "web"
     ],
-    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -25,8 +35,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "2"
     },
-    "description": "https://expo.io/@molpet17/Tinder_Houzze"
+    "description": "https://expo.io/@molpet17/Tinder_Houzze",
+    "android": {
+      "versionCode": 2
+    }
   }
 }

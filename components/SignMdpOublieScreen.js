@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { ImageBackground, YellowBox } from 'react-native';
+import { ImageBackground } from 'react-native';
 import Colors from '../constants/Colors';
 import THButton from './THButton';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
 import Copyright from './Copyright';
-import SignInRNPForm from './SignInRNPForm';
+import { SignMdpOublieLBCForm } from './SignMdpOublieForm';
   
 
-export default class SignInScreenRNP extends Component {
+export default class SignMdpOublieScreenLBC extends Component {
     constructor(props) {
       super(props);
       
         //Suppress warnings for timer/performance bottleneck
-        YellowBox.ignoreWarnings(['Setting a timer']);
+        // YellowBox.ignoreWarnings(['Setting a timer']);
         
     }
     HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
@@ -52,8 +52,8 @@ export default class SignInScreenRNP extends Component {
 
     render() {
       return (
-        <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
-            <SignInRNPForm navigation={this.props.navigation} />
+        <ImageBackground style={THStyles.imageBackground}  >
+            <SignMdpOublieLBCForm navigation={this.props.navigation} />
             <Copyright />
         </ImageBackground>
         );

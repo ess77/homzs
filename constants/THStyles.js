@@ -13,8 +13,8 @@ export default THStyles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-around',
+    alignItems: 'center',
     width: '100%',
   },
   buttonContainerSignIn: {
@@ -105,12 +105,21 @@ export default THStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.whitePurpled,
   },
+  filterComponentSignInForm: {
+    // flex: 1,
+    // backgroundColor: Colors.whitePurpled,
+    // marginTop: 750,
+  },
+  filterComponentRNP: {
+    flex: 1,
+    backgroundColor: Colors.whiteTransp,
+  },
   
   imageBackground: {
     flex: 1, 
     height: '100%',
     width: '100%', 
-    resizeMode: 'cover',
+    // resizeMode: 'cover',
   },
   imageContainer: {
     display: 'flex', /* default value */
@@ -155,6 +164,13 @@ export default THStyles = StyleSheet.create({
     fontSize: 32,
     marginTop: -20,
   },
+    ///////////////////
+   //Main App Styles//
+  ///////////////////
+  appbarHeader: {
+    backgroundColor: Colors.homeCorporate,
+    // color: 'red'
+  },
   mainComponent: {
     flex: 1,
     // backgroundColor: 'rgba(69,90,100,.5)',
@@ -172,6 +188,14 @@ export default THStyles = StyleSheet.create({
     // backgroundColor: Colors.CANCEL_COLOR,
     // marginLeft: 20,
     alignItems: 'flex-start',
+  },
+  criteriaPositionForm: {
+    // flex: 1,
+    // backgroundColor: 'rgba(69,90,100,.5)',
+    // backgroundColor: Colors.CANCEL_COLOR,
+    // marginLeft: 20,
+    alignItems: 'flex-start',
+    width: 200,
   },
   middleLeitmotive: {
     fontSize: 15,
@@ -224,11 +248,6 @@ export default THStyles = StyleSheet.create({
   },
   userSignInField: {
     color: Colors.whitePurpled,
-  }, 
-  userSignInForm: {
-    flex: 1,
-    marginTop: 120,
-    // marginTop: {userSignInFormMarginTop},
   },
   
     ////////////
@@ -321,11 +340,64 @@ export default THStyles = StyleSheet.create({
         fontWeight: '500',
         color: '#fff',
     },
+
+      //////////////
+     ///Profiles///
+    //////////////
+    textProfileBuyer: {
+        backgroundColor: Colors.BUYER,
+        width: 200,
+        padding: 10,
+        marginTop: 10,
+    },
+    textProfileBuyerSignUp: {
+        backgroundColor: Colors.BUYER,
+        width: 130,
+    },
+    textProfileSeller: {
+        backgroundColor: Colors.SELLER,
+        width: 200,
+        padding: 10,
+        marginTop: 5,
+    },
+    textProfileSellerSignUp: {
+      backgroundColor: Colors.SELLER,
+      width: 130,
+  },
+    textProfileAgent: {
+        backgroundColor: Colors.MEDIATOR,
+        width: 200,
+        padding: 10,
+        marginTop: 5,
+    },
+    textProfileAgentSignUp: {
+      backgroundColor: Colors.MEDIATOR,
+      width: 150,
+  },
+    textProfilePartTime: {
+        backgroundColor: Colors.PART_TIME,
+        width: 200,
+        padding: 10,
+        marginTop: 5,
+    },
+    textProfilePartTimeSignUp: {
+      backgroundColor: Colors.PART_TIME,
+      width: 160,
+  },
+
+   ////////////////
+  ///          ///
+ //////////////// 
     titleSearchType: {
-        fontSize: 12,
+        fontSize: 18,
         fontWeight: '500',
     },
     loginTitle: {
+        fontSize: 25,
+        fontWeight: '500',
+        marginLeft: 20
+    },
+    loginSubText: {
         fontSize: 18,
         fontWeight: '500',
         marginLeft: 20
@@ -375,9 +447,9 @@ export default THStyles = StyleSheet.create({
     width: 375,
     paddingLeft: 25
   },
-    ///////////////
+    ///////////////////
    //THTextInputForm//
-  ///////////////
+  ///////////////////
 //container styles
   THIFmainContainer: {
     flexDirection: 'column',
@@ -391,23 +463,24 @@ export default THStyles = StyleSheet.create({
     fontSize: 15,
     paddingVertical: 5,
     paddingHorizontal: 10,
-    borderWidth: 1,
-    borderRadius: 30,
+    // borderWidth: 1,
+    borderBottomWidth: 1,
+    // borderRadius: 30,
     marginHorizontal: 10,
     marginVertical: 10,
-    width: 250,
-    backgroundColor: Colors.TH_HOME_COLOR,
+    width: 350,
+    // backgroundColor: Colors.TH_HOME_COLOR,
     borderColor: Colors.TH_HOME_COLOR,
   },
   THIFlabelContainer: {
     fontSize: 15,
     paddingVertical: 5,
-    borderWidth: 1,
-    borderRadius: 30,
+    // borderWidth: 1,
+    // borderRadius: 30,
     marginHorizontal: 20,
     marginVertical: 10,
     width: 100,
-    backgroundColor: Colors.TH_HOME_COLOR,
+    // backgroundColor: Colors.TH_HOME_COLOR,
     borderColor: Colors.TH_HOME_COLOR,
   },
 });

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, ImageBackground, Text, TextInput, YellowBox } from 'react-native';
+import { ImageBackground, StatusBar } from 'react-native';
 import Colors from '../constants/Colors';
 import THButton from './THButton';
 import THConstants from '../constants/THConstants';
 import THStyles from '../constants/THStyles';
-import { SignInForm } from './SignInForm';
 import Copyright from './Copyright';
+import { SignInForm } from './SignInForm';
   
 
 export default class SignInScreen extends Component {
@@ -13,11 +13,9 @@ export default class SignInScreen extends Component {
       super(props);
       
         //Suppress warnings for timer/performance bottleneck
-        YellowBox.ignoreWarnings(['Setting a timer']);
+        // YellowBox.ignoreWarnings(['Setting a timer']);
         
     }
-    HomeScreenImageUri =  require('../assets/tinderhouse/appt-Sandillon-6p.jpg');
-    CentraleHomeScreenImageUri =  require('../assets/tinderhouse/pav_Montargis_Sandillon-5p.jpg');
     
     static  navigationOptions = ({ navigation }) => {
       const { params = {} } = navigation.state;
@@ -52,7 +50,7 @@ export default class SignInScreen extends Component {
 
     render() {
       return (
-        <ImageBackground style={THStyles.imageBackground} source={this.HomeScreenImageUri} >
+        <ImageBackground style={THStyles.imageBackground} source={THConstants.HomeScreenImageUri} >
             <SignInForm navigation={this.props.navigation} />
             <Copyright />
         </ImageBackground>
